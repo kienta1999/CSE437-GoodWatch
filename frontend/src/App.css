@@ -51,7 +51,7 @@ input[type="password"] {
   font-size: 16px;
 }
 
-.firebase_btn {
+.main_button {
   border: none;
   outline: none;
   height: 50px;
@@ -60,7 +60,7 @@ input[type="password"] {
   width: 100%;
 }
 
-.firebase_btn:hover {
+.main_button:hover {
   cursor: pointer;
   background-color: grey;
   color: white;
@@ -93,9 +93,9 @@ input[type="password"] {
   padding: 10px;
 }
 
-#register_box {
-  display: none;
-}
+/* #register_box {
+    display: none;
+} */
 
 .active {
   background-color: #eee;

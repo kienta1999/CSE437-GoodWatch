@@ -1,5 +1,3 @@
-import Register from "./Register";
-
 function Login () {
     return (
         <div className="main">
@@ -15,11 +13,10 @@ function Login () {
                     <input type="text" name="username" placeholder="Username" required />
                     <p>Password</p>
                     <input type="password" name="password" placeholder="Password" required />
-                    <button class="firebase_btn" id="login_btn">Login</button>
+                    <button class="main_button" id="login_btn">Login</button>
                     <br /><br /><br />
                 </form>
             </div>
-            <Register />
         </div>
     );
 }
