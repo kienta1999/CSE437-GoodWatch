@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend api for goodwatch ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kienta1999/CSE437-GoodWatch.git"
+  },
+  "keywords": [
+    "CSE437"
+  ],
+  "author": "Kien Ta, Anh Le, Joe Pan, Priyanka Iyer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kienta1999/CSE437-GoodWatch/issues"
+  },
+  "homepage": "https://github.com/kienta1999/CSE437-GoodWatch#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
