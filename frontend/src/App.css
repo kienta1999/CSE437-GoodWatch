@@ -1,38 +1,99 @@
-.App {
-  text-align: center;
+.bg_image{
+    /* background-image: url("https://wallpaperaccess.com/full/3230166.jpg"); */
+    height: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.main {
+    width: 320px;
+    background: #000;
+    opacity: 0.5;
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding: 20px 30px;
+    text-decoration: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+#login_header, #register_header{
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 30px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.main p{
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
 }
 
-.App-link {
-  color: #61dafb;
+.main input{
+    width: 100%;
+    margin-bottom: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.main input[type="text"], input[type="email"], input[type="password"]{
+    border: none;
+    border-bottom: 1px solid white;
+    background: transparent;
+    outline: none;
+    height: 50px;
+    color: white;
+    font-size: 16px;
+}
+
+.firebase_btn{
+    border: none;
+    outline: none;
+    height: 50px;
+    font-size: 18px;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.firebase_btn:hover{
+    cursor: pointer;
+    background-color:grey;
+    color: white;
+}
+
+#tab_btn{
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.main a {
+    text-decoration: none;
+}
+
+.login_tab, .register_tab {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    background-color: #37474f;
+    text-align: center;
+    color: #fff;
+    font-size: 15px;
+    padding: 10px;
+}
+
+#register_box {
+    display: none;
+}
+
+.active {
+    background-color: #eee;
+    color: #000;
 }
