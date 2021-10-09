@@ -4,7 +4,7 @@ const getMoviesFromQuery = async (query, page) => {
   const url = `${root}&s=${query}&type=movie&page=${page}`;
   const res = await axios.get(url);
   if (res.status === 200) {
-    return res.data.Search;
+    return res.data;
   }
   return null;
 };
