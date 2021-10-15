@@ -1,7 +1,7 @@
-import NavigationBar from "./NavigationBar.jsx";
+import NavigationBar from "../NavigationBar.jsx";
 import { useRef, useState, useEffect } from "react";
-import getMoviesFromQuery from "../data/movie.js";
-import MovieList from "../components/MovieList.jsx";
+import getMoviesFromQuery from "../../data/movie.js";
+import MovieList from "../MovieList.jsx";
 import ReactPaginate from "react-paginate";
 const Home = () => {
   const query = useRef(null);
