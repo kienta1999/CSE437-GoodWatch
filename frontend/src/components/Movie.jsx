@@ -1,6 +1,6 @@
 const Movie = ({ movie }) => {
   console.log(movie);
-  const url = `/movies/${movie.imdbID}`;
+  const url = `/movie/${movie.imdbID}`;
   return (
     <a href={url}>
       <img src={movie.Poster} alt={movie.Title} width="70%" height="70%" />
