@@ -31,7 +31,7 @@ const MoviePage = () => {
         <strong>Votes:</strong> {data.imdbVotes}
       </p>
       <p>
-        <strong>Plot:</strong>
+        <strong>Plot: </strong>
         {data.Plot}
       </p>
     </div>
