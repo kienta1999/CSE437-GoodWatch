@@ -5,10 +5,12 @@ import { getMovieData } from "../../data/movie.js";
 const MoviePage = () => {
   const { movieid } = useParams();
   const [data, setData] = useState(null);
-  useEffect(async () => {
-    const result = await getMovieData(movieid);
-    if (result) setData(result);
-  }, []);
+  useEffect(() => {
+    (async () => {
+      const result = await getMovieData(movieid);
+      if (result) setData(result);
+    })();
+  }, [movieid]);
   return data ? (
     <div>
       <img src={data.Poster} alt={data.Title} />

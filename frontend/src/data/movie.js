@@ -1,7 +1,7 @@
 import axios from "axios";
-const root = "http://www.omdbapi.com/?apikey=27d0bda1";
+import keys from "../keys.js";
 const getMoviesFromQuery = async (query, page) => {
-  const url = `${root}&s=${query}&page=${page}`;
+  const url = `${keys.omdbHost}&s=${query}&page=${page}`;
   const res = await axios.get(url);
   if (res.status === 200) {
     return res.data;
@@ -10,7 +10,7 @@ const getMoviesFromQuery = async (query, page) => {
 };
 
 const getMovieData = async (movieid) => {
-  const url = `${root}&i=${movieid}`;
+  const url = `${keys.omdbHost}&i=${movieid}`;
   const res = await axios.get(url);
   if (res.status === 200) {
     return res.data;

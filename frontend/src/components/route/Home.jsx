@@ -9,11 +9,13 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [movies, setMovies] = useState(null);
-  useEffect(async () => {
-    if (queryState !== null) {
-      let res = await getMoviesFromQuery(queryState, page);
-      setMovies(res.Search);
-    }
+  useEffect(() => {
+    (async () => {
+      if (queryState !== null) {
+        let res = await getMoviesFromQuery(queryState, page);
+        setMovies(res.Search);
+      }
+    })();
   }, [page]);
   const handleSubmit = async (event) => {
     event.preventDefault();
