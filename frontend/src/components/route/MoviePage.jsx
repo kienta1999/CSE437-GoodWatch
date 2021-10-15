@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getMovieData } from "../../data/movie.js";
+import NavigationBar from "../NavigationBar.jsx";
 
 const MoviePage = () => {
   const { movieid } = useParams();
@@ -11,7 +12,7 @@ const MoviePage = () => {
       if (result) setData(result);
     })();
   }, [movieid]);
-  return data ? (
+  const body = data ? (
     <div>
       <img src={data.Poster} alt={data.Title} />
       <p>
@@ -36,6 +37,12 @@ const MoviePage = () => {
     </div>
   ) : (
     <div>Loading...</div>
+  );
+  return (
+    <div>
+      <NavigationBar />
+      {body}
+    </div>
   );
 };
 

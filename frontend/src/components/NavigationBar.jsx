@@ -1,5 +1,10 @@
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 const NavigationBar = ({ handleSubmit, query }) => {
+  const form = handleSubmit && (
+    <form onSubmit={handleSubmit}>
+      <input type="text" ref={query} />
+    </form>
+  );
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -20,9 +25,7 @@ const NavigationBar = ({ handleSubmit, query }) => {
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
-        <form onSubmit={handleSubmit}>
-          <input type="text" ref={query} />
-        </form>
+        {form}
       </Container>
     </Navbar>
   );
