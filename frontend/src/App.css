@@ -1,9 +1,15 @@
 body {
-  background-image: url("./background.jpeg");
-  height: 100%;
-  background-size: cover;
-  background-color: antiquewhite;
+    background-image: url("./background.jpeg");
+    height: 100%;
+    width: 100%;
+    /* background-position: center; */
+    /* background-repeat: no-repeat; */
+    background-size: cover;
 }
+
+/* body {
+    background-color: antiquewhite;
+} */
 
 .main {
   width: 320px;
