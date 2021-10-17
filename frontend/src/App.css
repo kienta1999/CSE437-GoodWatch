@@ -1,5 +1,5 @@
-.bg_image {
-  /* background-image: url("https://wallpaperaccess.com/full/3230166.jpg"); */
+body {
+  background-image: url("https://i.pinimg.com/736x/cf/7c/8f/cf7c8f12f8ed72713bf7648fd28c3a2a.jpg");
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -51,7 +51,7 @@ input[type="password"] {
   font-size: 16px;
 }
 
-.firebase_btn {
+.main_button {
   border: none;
   outline: none;
   height: 50px;
@@ -60,7 +60,7 @@ input[type="password"] {
   width: 100%;
 }
 
-.firebase_btn:hover {
+.main_button:hover {
   cursor: pointer;
   background-color: grey;
   color: white;
@@ -91,10 +91,6 @@ input[type="password"] {
   color: #fff;
   font-size: 15px;
   padding: 10px;
-}
-
-#register_box {
-  display: none;
 }
 
 .active {
