@@ -2,8 +2,8 @@ function Register () {
     return (
         <div className="main">
             <div id="tab_btn">
-                <a href="#" class="login_tab">Login</a>
-                <a href="#" class="register_tab active" id="register_tab_id">Register</a>
+                <a href="/login" class="login_tab">Login</a>
+                <a href="/register" class="register_tab active" id="register_tab_id">Register</a>
             </div>
             <br />
             <div id="register_box">

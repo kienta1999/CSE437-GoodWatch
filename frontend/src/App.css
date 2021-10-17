@@ -93,10 +93,6 @@ input[type="password"] {
   padding: 10px;
 }
 
-/* #register_box {
-    display: none;
-} */
-
 .active {
   background-color: #eee;
   color: #000;

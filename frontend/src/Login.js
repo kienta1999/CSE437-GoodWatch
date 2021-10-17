@@ -2,8 +2,8 @@ function Login () {
     return (
         <div className="main">
             <div id="tab_btn">
-                <a href="#" class="login_tab active">Login</a>
-                <a href="#" class="register_tab" id="register_tab_id">Register</a>
+                <a href="/login" class="login_tab active">Login</a>
+                <a href="/register" class="register_tab" id="register_tab_id">Register</a>
             </div>
             <br />
             <div id="login_box">
