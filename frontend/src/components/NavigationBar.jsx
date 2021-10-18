@@ -24,8 +24,10 @@ const NavigationBar = ({ handleSubmit, query }) => {
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
+          
         </Navbar.Collapse>
         {form}
+        
       </Container>
     </Navbar>
   );
