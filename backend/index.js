@@ -1,15 +1,31 @@
 const express = require("express");
-const mysql = require('mysql');
-const app = express();
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const moment = require('moment');
+const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
+const cookieParser = require('cookie-parser');
+var session = require('express-session');
+
+const app = express();
 const port = 3001;
 const saltRounds = 10;
-app.use(cors());
-app.use(bodyParser.urlencoded({extended : true}));
-app.use(bodyParser.json());
+app.use(cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST"],
+    credentials: true
+}));
+app.use(cookieParser());
+
+app.use(session({
+    key: 'userId',
+    secret: 'goodwatch',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: true }
+}))
+
+app.use(express.urlencoded({extended : true}));
+app.use(express.json());
 
 const db = mysql.createConnection({
     host: "goodwatch-database.cmajrbcw78hz.us-east-2.rds.amazonaws.com",
@@ -76,20 +92,11 @@ app.post("/login", (req, res) => {
             if (user.length > 0) {
                 bcrypt.compare(password, user[0].password, function(err, result) {
                     if(result){
-                        // req.session.user = user;
-                        // console.log("User", req.session.user);
                         db.query("UPDATE user SET last_login = CURRENT_TIMESTAMP WHERE username = ?", [username]);
-                        // clientToken = jwt.sign({ username }, process.env.JWT_SECRET_TOKEN, {
-                        //     expiresIn: process.env.JWT_EXPIRE_IN
-                        // });
-                        
-                        // const cookieOptions = {
-                        //     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
-                        //     httpOnly: true
-                        // }
 
-                        // res.cookie('jwt', clientToken, cookieOptions);
-                        // res.status(200).redirect('/');
+                        req.session.user = user;
+                        console.log("User", req.session.user);
+
                         res.json({ status : 200, message: "User logged in", user : user[0]});
                     }
                     else{

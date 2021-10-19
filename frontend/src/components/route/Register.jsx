@@ -1,5 +1,6 @@
 import { useState } from "react";
 import register from "../../data/register";
+import background from '../../background.jpeg';
 
 function Register () {
     const [firstName, setFirstName] = useState("");
@@ -8,13 +9,17 @@ function Register () {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
 
-    const handleRegisterUser = () => {
-        register(firstName, lastName, username, password, email);
+    const [registerMsg, setRegisterMsg] = useState("");
+
+    const handleRegisterUser = async () => {
+        const res = await register(firstName, lastName, username, password, email);
+        console.log(res);
+        setRegisterMsg(res.message);
     }
 
     return (
-        <div className="bg_image">
-            <div className="bg_image"></div>
+        <div>
+            <img src={background} alt="" className="bg_image"/>
             <div className="main">
                 <div id="tab_btn">
                     <a href="/login" className="login_tab">Login</a>
@@ -58,7 +63,8 @@ function Register () {
                         placeholder="First Name"
                     />
                     <button onClick={handleRegisterUser} className="main_button" id="signup_btn">Sign Up</button>
-                    <br />
+                    <br /><br />
+                    <p className="message">{registerMsg}</p>
                 </div>
             </div>
         </div>

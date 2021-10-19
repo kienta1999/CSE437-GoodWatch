@@ -2,23 +2,27 @@ import axios from "axios";
 import keys from "../keys.js";
 let loginMsg = ""
 
-const register = async (username, password) => {
+axios.defaults.withCredentials = true;
+
+const login = async (username, password, history) => {
     const url = `${keys.apiHost}/login`;
-    axios.post(url, {
-        username: username,
-        password: password,
-    }).then((res) => {
+
+    try {
+        const res = await axios.post(url, {
+            username: username,
+            password: password,
+        })
         if(parseInt(res.data.status) <= 299){
             loginMsg = "Login Succesfully";
+            history.push("/");
         }
         else{
             loginMsg = res.data.message;
         }
-        res.data["login_status"] = loginMsg;
         return res.data;
-    }).catch((error) => {
-        console.log(error);
-    })
+    } catch (err) {
+        console.error(err);
+    }
 };
 
-export default register;
+export default login;
