@@ -2,7 +2,7 @@ import axios from "axios";
 import keys from "../keys.js";
 let registerMsg = ""
 
-const register = async (firstName, lastName, username, password, email) => {
+const register = async (firstName, lastName, username, password, email, history) => {
     const url = `${keys.apiHost}/register`;
 
     try {

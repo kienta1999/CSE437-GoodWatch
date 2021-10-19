@@ -2,7 +2,7 @@ import { useState } from "react";
 import register from "../../data/register";
 import background from '../../background.jpeg';
 
-function Register () {
+function Register (props) {
     const [firstName, setFirstName] = useState("");
     const [lastName, setlastName] = useState("");
     const [username, setUsername] = useState("");
@@ -13,7 +13,7 @@ function Register () {
 
     const handleRegisterUser = async () => {
         try {
-            const res = await register(firstName, lastName, username, password, email);
+            const res = await register(firstName, lastName, username, password, email, props.history);
             setRegisterMsg(res.data.message);
         } catch (error) {
             console.log(error);
