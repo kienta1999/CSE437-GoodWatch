@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getMovieData } from "../../data/movie.js";
 import NavigationBar from "../NavigationBar.jsx";
+import { Container } from "react-bootstrap";
 
 const MoviePage = () => {
   const { movieid } = useParams();
@@ -13,7 +14,7 @@ const MoviePage = () => {
     })();
   }, [movieid]);
   const body = data ? (
-    <div>
+    <Container>
       <img src={data.Poster} alt={data.Title} />
       <p>
         {data.Title}, {data.Year}
@@ -34,7 +35,7 @@ const MoviePage = () => {
         <strong>Plot: </strong>
         {data.Plot}
       </p>
-    </div>
+    </Container>
   ) : (
     <div>Loading...</div>
   );
