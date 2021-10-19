@@ -9,10 +9,12 @@ function Login (props) {
     const [loginMsg, setLoginMsg] = useState("");
 
     const handleLoginUser = async () => {
-        const res = await login(username, password, props.history);
-
-        console.log(res);
-        setLoginMsg(res.message);
+        try {
+            const res = await login(username, password, props.history);
+            setLoginMsg(res.data.message);
+        } catch (error) {
+            console.log(error.data.message);
+        }
     }
 
     return (

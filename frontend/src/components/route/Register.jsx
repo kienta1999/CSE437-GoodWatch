@@ -12,9 +12,12 @@ function Register () {
     const [registerMsg, setRegisterMsg] = useState("");
 
     const handleRegisterUser = async () => {
-        const res = await register(firstName, lastName, username, password, email);
-        console.log(res);
-        setRegisterMsg(res.message);
+        try {
+            const res = await register(firstName, lastName, username, password, email);
+            setRegisterMsg(res.data.message);
+        } catch (error) {
+            console.log(error.data.message);
+        }
     }
 
     return (

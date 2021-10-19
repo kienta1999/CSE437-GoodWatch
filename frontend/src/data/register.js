@@ -4,7 +4,6 @@ let registerMsg = ""
 
 const register = async (firstName, lastName, username, password, email) => {
     const url = `${keys.apiHost}/register`;
-    console.log(firstName, lastName, username, password, email);
 
     try {
         const res = await axios.post(url, {
@@ -14,15 +13,13 @@ const register = async (firstName, lastName, username, password, email) => {
             password: password,
             email: email,
         })
-        if(parseInt(res.data.status) <= 299){
+
+        if(parseInt(res.status) <= 299){
             registerMsg = "Register Succesfully";
         }
-        else{
-            registerMsg = "Register Unsuccesfully - " + res.data.message;
-        }
-        return res.data;
+        return res;
     } catch (err) {
-        console.error(err);
+        return err.response;
     }
 };
 

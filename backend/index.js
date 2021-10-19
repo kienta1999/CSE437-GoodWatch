@@ -61,18 +61,18 @@ app.post("/register", (req, res) => {
     db.query('SELECT * FROM user WHERE username = ?', [username], function(error, results) {
         if(error) throw error;
         if (results.length > 0) {
-            res.json({ status : 404, message: "Duplicate User"});
+            res.status(404).json({ message: "Duplicate User"});
         } 
         else {
             bcrypt.hash(password, saltRounds, function(err, hash) {
                 db.query("INSERT INTO user (`first_name`, `last_name`, `username`, `password`, `email`, `last_login`) VALUES (?,?,?,?,?,?)",[firstName, lastName, username, hash, email, moment.utc().format("YYYY-MM-DD HH:mm:ss")]);
-                res.json({ status : 200, message: "User Registered", user : {
+                res.status(200).json({ message: "User Registered", user : {
                     firstName : firstName,
                     lastName : lastName,
                     username : username,
                     password : password,
                     email : email,
-                }});
+                }})
             });
         }
     });
@@ -97,19 +97,19 @@ app.post("/login", (req, res) => {
                         req.session.user = user;
                         console.log("User", req.session.user);
 
-                        res.json({ status : 200, message: "User logged in", user : user[0]});
+                        res.status(200).json({ message: "User logged in", user : user[0]})
                     }
                     else{
-                        res.json({ status : 404, message: "Incorrect Password"});
+                        res.status(404).json({ message: "Incorrect Password"});
                     }
                 });
             } 
             else {
-                res.json({ status : 404, message: "Incorrect Username"});
+                res.status(404).json({ message: "Incorrect Username"});
             }           
         });
     } 
     else {
-        res.json({ status : 404, message: "Invalid"});
+        res.status(404).json({ message: "Invalid"});
     }
 });

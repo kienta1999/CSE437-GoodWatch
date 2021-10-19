@@ -1,6 +1,5 @@
 import axios from "axios";
 import keys from "../keys.js";
-let loginMsg = ""
 
 axios.defaults.withCredentials = true;
 
@@ -12,16 +11,10 @@ const login = async (username, password, history) => {
             username: username,
             password: password,
         })
-        if(parseInt(res.data.status) <= 299){
-            loginMsg = "Login Succesfully";
-            history.push("/");
-        }
-        else{
-            loginMsg = res.data.message;
-        }
-        return res.data;
+        history.push("/");
+        return res;
     } catch (err) {
-        console.error(err);
+        return err.response;
     }
 };
 
