@@ -16,6 +16,7 @@ const register = async (firstName, lastName, username, password, email) => {
 
         if(parseInt(res.status) <= 299){
             registerMsg = "Register Succesfully";
+            history.push("/");
         }
         return res;
     } catch (err) {

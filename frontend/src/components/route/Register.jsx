@@ -16,7 +16,7 @@ function Register () {
             const res = await register(firstName, lastName, username, password, email);
             setRegisterMsg(res.data.message);
         } catch (error) {
-            console.log(error.data.message);
+            console.log(error);
         }
     }
 
