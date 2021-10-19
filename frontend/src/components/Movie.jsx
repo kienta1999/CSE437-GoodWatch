@@ -3,7 +3,7 @@ const Movie = ({ movie }) => {
   const url = `/movie/${movie.imdbID}`;
   return (
     <a href={url}>
-      <img src={movie.Poster} alt={movie.Title} width="70%" height="70%" />
+      <img src={movie.Poster} alt={movie.Title} width="150px" />
       <p
         width="10%"
         height="10%"
