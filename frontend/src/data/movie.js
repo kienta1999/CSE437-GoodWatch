@@ -18,5 +18,7 @@ const getMovieData = async (movieid) => {
   return null;
 };
 
+
+
 export default getMoviesFromQuery;
 export { getMovieData };

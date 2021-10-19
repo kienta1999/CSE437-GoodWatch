@@ -1,4 +1,3 @@
-import MovieCarousel from "./components/MovieCarousel";
 import Register from "./Register";
 
 function Login () {
