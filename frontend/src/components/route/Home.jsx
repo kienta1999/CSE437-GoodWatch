@@ -40,7 +40,7 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`https://imdb-api.com/en/API/MostPopularMovies/${keys.otherKey}`);
+      const res = await fetch("https://imdb-api.com/en/API/MostPopularMovies/k_shf5m9p8");
       const data = await res.json();
       let pops = data.items.slice(0,9);
 
@@ -62,7 +62,7 @@ const Home = () => {
 
    useEffect(() => {
      (async () => {
-       const res = await fetch(`https://imdb-api.com/en/API/Top250Movies/${keys.otherKey}`);
+       const res = await fetch("https://imdb-api.com/en/API/Top250Movies/k_shf5m9p8");
        const data = await res.json();
        let favs = data.items.slice(0,5)
 
@@ -87,7 +87,7 @@ const Home = () => {
 
    useEffect(() => {
      (async () => {
-       const res = await fetch(`https://imdb-api.com/en/API/InTheaters/${keys.otherKey}`);
+       const res = await fetch("https://imdb-api.com/en/API/InTheaters/k_shf5m9p8");
        const data = await res.json();
        let lats = data.items.slice(0,3)
        console.log(lats)
