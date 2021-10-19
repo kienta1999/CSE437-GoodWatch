@@ -3,7 +3,7 @@ const NavigationBar = ({ handleSubmit, query }) => {
   // const profileUrl = `/profile/${movie.imdbID}`;
   const form = handleSubmit && (
     <form onSubmit={handleSubmit}>
-      <input type="text" ref={query} />
+      <input type="text" placeholder="Search" ref={query} />
     </form>
   );
   return (
