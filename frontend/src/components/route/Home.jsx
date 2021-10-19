@@ -5,6 +5,7 @@ import getMoviePoster from "../../data/image.js";
 import MovieList from "../MovieList.jsx";
 import ReactPaginate from "react-paginate";
 import MyList from "../MyList.jsx";
+import keys from "../../keys.js";
 
 import { Container, Col, Row, Carousel } from "react-bootstrap";
 
@@ -39,7 +40,7 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch("https://imdb-api.com/en/API/MostPopularMovies/k_ybmpvbj3");
+      const res = await fetch(`https://imdb-api.com/en/API/MostPopularMovies/${keys.otherKey}`);
       const data = await res.json();
       let pops = data.items.slice(0,9);
 
@@ -61,7 +62,7 @@ const Home = () => {
 
    useEffect(() => {
      (async () => {
-       const res = await fetch("https://imdb-api.com/en/API/Top250Movies/k_ybmpvbj3");
+       const res = await fetch(`https://imdb-api.com/en/API/Top250Movies/${keys.otherKey}`);
        const data = await res.json();
        let favs = data.items.slice(0,5)
 
@@ -86,7 +87,7 @@ const Home = () => {
 
    useEffect(() => {
      (async () => {
-       const res = await fetch("https://imdb-api.com/en/API/InTheaters/k_ybmpvbj3");
+       const res = await fetch(`https://imdb-api.com/en/API/InTheaters/${keys.otherKey}`);
        const data = await res.json();
        let lats = data.items.slice(0,3)
        console.log(lats)
