@@ -123,6 +123,11 @@ const Home = () => {
       {!movies && (
         <Container>
           <Row>
+            <strong>Welcome to GoodWatch!</strong> 
+            <p>Search for your favorite and soon-to-be favorite movies and TV shows and add them to custom lists. Browse new shows and add them to your "Want to Watch" 
+              list or updated your "Watched" list by adding a movie you recently saw! Never forget the movies and shows you've watched ever again--if a friend asks for movie recommendations, you'll know where to go!</p>
+          </Row>
+          <Row>
             <Col xs={8}>
               <Carousel>
                 <Carousel.Item>
@@ -155,12 +160,9 @@ const Home = () => {
               </Carousel>
             </Col>
             <Col>
-              <Container>
-                <h4>
-                    POPULAR
+                <h4>POPULAR
                     <hr></hr>
                 </h4>
-              </Container>
               <Row>
                 <Col>
                   <a href={`/movie/${popularID[0]}`}>
@@ -201,11 +203,11 @@ const Home = () => {
           <Row>
             <Col xs={8}>
               <Container>
-                  <br/>
-                  <h4>
-                      FAN FAVORITES
-                      <hr></hr>
-                  </h4>
+                    <br/>
+                    <h4>
+                        FAN FAVORITES
+                        <hr></hr>
+                    </h4>
                   <Row>
                       <Col>
                         <a href={`/movie/${favoriteID[0]}`}>
