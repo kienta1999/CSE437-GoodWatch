@@ -9,11 +9,7 @@ var session = require('express-session');
 const app = express();
 const port = 3001;
 const saltRounds = 10;
-app.use(cors({
-    origin: ["http://localhost:3000"],
-    methods: ["GET", "POST"],
-    credentials: true
-}));
+app.use(cors());
 app.use(cookieParser());
 
 app.use(session({
