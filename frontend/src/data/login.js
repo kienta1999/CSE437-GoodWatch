@@ -9,7 +9,10 @@ const login = async (username, password, history) => {
             username: username,
             password: password,
         })
-        history.push("/");
+        console.log("Middleware Login res", res)
+        // if(parseInt(res.status) <= 299){
+        //     history.push("/");
+        // }
         return res;
     } catch (err) {
         return err.response;

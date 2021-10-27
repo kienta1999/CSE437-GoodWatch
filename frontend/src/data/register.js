@@ -14,10 +14,10 @@ const register = async (firstName, lastName, username, password, email, history)
             email: email,
         })
 
-        if(parseInt(res.status) <= 299){
-            registerMsg = "Register Succesfully";
-            history.push("/");
-        }
+        // if(parseInt(res.status) <= 299){
+        //     history.push("/");
+        // }
+        console.log("Middleware Register res", res)
         return res;
     } catch (err) {
         return err.response;

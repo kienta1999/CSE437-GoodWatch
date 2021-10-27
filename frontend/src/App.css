@@ -109,3 +109,13 @@ input[type="password"] {
 .message {
     color: red;
 }
+
+.nav_button {
+  border: none;
+  outline: none;
+  height: 50px;
+  font-size: 18px;
+  border-radius: 20px;
+  width: 100px;
+  margin: auto 10px;
+}

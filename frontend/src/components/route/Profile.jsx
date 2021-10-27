@@ -3,10 +3,29 @@ import { useParams } from "react-router-dom";
 // import { getMovieData } from "../../data/movie.js";
 import NavigationBar from "../NavigationBar.jsx";
 import MyList from "../MyList.jsx";
+import jwtDecode from 'jwt-decode'
 
 import { Container, Col, Row, Carousel } from "react-bootstrap";
 
-const Profile = () => {
+const Profile = (props) => {
+    const [currUser, setUser] = useState(props.userInfo);
+
+    useEffect(() => {
+      var token = localStorage.getItem('token')
+      var user = {}
+      if (token) {
+        user = jwtDecode(token)
+      }
+      var newState = {
+        authToken: token,
+        user: user
+      }
+      setUser(newState);
+      console.log("Profile getting token", token)
+      console.log("Profile getting user", user)
+      console.log("new State", currUser)
+    }, []);
+
     // const { movieid } = useParams();
     // const [data, setData] = useState(null);
     // useEffect(() => {
@@ -43,7 +62,10 @@ const Profile = () => {
     // );
     return (
       <div>
-        <NavigationBar />
+        <NavigationBar history={props.history} userInfo={currUser}/>
+        {currUser.user._id && (
+          <p>hi {currUser.user.username}</p>
+        )}
         <MyList />
       </div>
     );

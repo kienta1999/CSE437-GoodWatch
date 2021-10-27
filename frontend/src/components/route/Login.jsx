@@ -5,15 +5,24 @@ import background from '../../background.jpeg';
 function Login (props) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
     const [loginMsg, setLoginMsg] = useState("");
 
     const handleLoginUser = async () => {
         try {
             const res = await login(username, password, props.history);
             setLoginMsg(res.data.message);
+            console.log(res.data.user.id)
+            console.log(res.data.authtoken)
+
+            // store token in localStorage
+            localStorage.setItem('token', res.data.authtoken)
+            console.log(localStorage)
+
+            if(parseInt(res.status) <= 299){
+                props.history.push("/");
+            }
         } catch (error) {
-            console.log(error.data.message);
+            console.log(error);
         }
     }
 

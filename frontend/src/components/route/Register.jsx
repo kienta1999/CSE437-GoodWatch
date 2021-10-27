@@ -15,6 +15,16 @@ function Register (props) {
         try {
             const res = await register(firstName, lastName, username, password, email, props.history);
             setRegisterMsg(res.data.message);
+            console.log(res.data.user.id)
+            console.log(res.data.authtoken)
+
+            // store token in localStorage
+            localStorage.setItem('token', res.data.authtoken)
+            console.log(localStorage)
+
+            if(parseInt(res.status) <= 299){
+                props.history.push("/");
+            }
         } catch (error) {
             console.log(error);
         }

@@ -6,15 +6,34 @@ import MovieList from "../MovieList.jsx";
 import ReactPaginate from "react-paginate";
 import MyList from "../MyList.jsx";
 import keys from "../../keys.js";
+import jwtDecode from 'jwt-decode'
 
 import { Container, Col, Row, Carousel } from "react-bootstrap";
 
-const Home = () => {
+const Home = (props) => {
   const query = useRef(null);
   const [queryState, setQueryState] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [movies, setMovies] = useState(null);
+  const [currUser, setUser] = useState(props.userInfo);
+
+  useEffect(() => {
+    var token = localStorage.getItem('token')
+    var user = {}
+    if (token) {
+      user = jwtDecode(token)
+    }
+    var newState = {
+      authToken: token,
+      user: user
+    }
+    setUser(newState);
+    console.log("Home getting token", token)
+    console.log("Home getting user", user)
+    console.log("new State", currUser)
+  }, []);
+
   useEffect(() => {
     (async () => {
       if (queryState !== null) {
@@ -23,6 +42,8 @@ const Home = () => {
       }
     })();
   }, [page]);
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setQueryState(query.current.value);
@@ -119,7 +140,7 @@ const Home = () => {
 
   return (
     <div>
-      <NavigationBar handleSubmit={handleSubmit} query={query} />
+      <NavigationBar history={props.history} userInfo={currUser} handleSubmit={handleSubmit} query={query} />
       <br/>
       {!movies && (
         <Container>
