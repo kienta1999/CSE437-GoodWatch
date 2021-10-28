@@ -4,8 +4,13 @@ import keys from "../keys.js";
 const logout = async (history) => {
     const url = `${keys.apiHost}/logout`;
 
+    let axiosConfig = {
+        withCredentials: true,
+        headers: {"Content-Type":"application/json"}
+    }
+
     try {
-        const res = await axios.get(url, {})
+        const res = await axios.post(url, {}, axiosConfig)
      
         if(parseInt(res.status) <= 299){
             console.log(res)

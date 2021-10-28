@@ -11,7 +11,13 @@ const secret = 'fshkhfksjkjsfkjd';
 const app = express();
 const port = 3001;
 const saltRounds = 10;
-app.use(cors());
+
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true
+}
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 // app.use(session({
@@ -54,6 +60,7 @@ function withToken(req, res, next) {
     //const authHeader = req.headers['authorization']
     // const token = req.body.token;
     const token = req.cookies.access_token;
+    console.log(req.cookies)
     console.log("token", token)
     if (token == null) {
         return res.sendStatus(401)
@@ -106,10 +113,14 @@ app.post("/register", (req, res) => {
                             secret, {expiresIn: '1d'}
                         );
                         //assign token
+                        res.header('Content-Type', 'application/json;charset=UTF-8')
+                        res.header('Access-Control-Allow-Credentials', true)
                         res.header("authtoken", jwtoken)
                         .cookie("access_token", jwtoken, {
                             httpOnly: true,
-                            secure: process.env.NODE_ENV === "production",
+                            // secure: process.env.NODE_ENV === "production",
+                            secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+                            sameSite: 'none'
                         }).status(200).json({
                             type: "Success",
                             message: "User registered",
@@ -152,10 +163,14 @@ app.post("/login", (req, res) => {
                             secret, {expiresIn: '1d'}
                         );
                         //assign token
+                        res.header('Content-Type', 'application/json;charset=UTF-8')
+                        res.header('Access-Control-Allow-Credentials', true)
                         res.header("authtoken", jwtoken)
                         .cookie("access_token", jwtoken, {
                             httpOnly: true,
-                            secure: process.env.NODE_ENV === "production",
+                            // secure: process.env.NODE_ENV === "production",
+                            secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+                            sameSite: 'none'
                         }).status(200).json({
                             type: "Success",
                             message: "User logged in",
@@ -182,8 +197,7 @@ app.post("/login", (req, res) => {
 });
 
 //---------------------------- Logout ----------------------------
-app.get('/logout',withToken,(req,res)=> {
-    // req.session.destroy((err)=>{})
+app.post('/logout', withToken, (req,res)=> {
     return res
     .clearCookie("access_token")
     .status(200)
