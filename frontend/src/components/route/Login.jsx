@@ -19,9 +19,9 @@ function Login (props) {
             if (res.data.authtoken) {
               user = jwtDecode(res.data.authtoken)
             }
-            localStorage.setItem('user', user)
-            console.log(localStorage)
-
+            // localStorage.setItem('user', user)
+            // console.log(localStorage)
+            props.setUser(user)
             if(parseInt(res.status) <= 299){
                 props.history.push("/");
             }

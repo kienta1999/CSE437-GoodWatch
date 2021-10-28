@@ -8,17 +8,6 @@ import jwtDecode from 'jwt-decode'
 import { Container, Col, Row, Carousel } from "react-bootstrap";
 
 const Profile = (props) => {
-    const [currUser, setUser] = useState(props.userInfo);
-
-    useEffect(() => {
-      var user = localStorage.getItem('user')
-      console.log("Profile getting user", user)
-      console.log("new State", currUser)
-      if (!user) {
-        props.history.push("/");
-      } 
-      setUser(user);
-    }, []);
 
     // const { movieid } = useParams();
     // const [data, setData] = useState(null);
@@ -56,9 +45,9 @@ const Profile = (props) => {
     // );
     return (
       <div>
-        <NavigationBar history={props.history} userInfo={currUser}/>
-        {currUser._id && (
-          <p>hi {currUser.username}</p>
+        <NavigationBar history={props.history} setUser={props.setUser} userInfo={props.userInfo}/>
+        {props.userInfo && (
+          <p>hi {props.userInfo.username}</p>
         )}
         <MyList />
       </div>

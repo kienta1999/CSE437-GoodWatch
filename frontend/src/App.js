@@ -11,14 +11,14 @@ import jwtDecode from 'jwt-decode'
 import getUser from "./data/otherRequests";
 
 function App() {
-  const [currUser, setUser] = useState({user: {}});
+  const [currUser, setUser] = useState(null);
 
-  useEffect(() => {
-    var user = localStorage.getItem('user')
-    setUser(user);
-    console.log("App.js getting user", user)
-    console.log("new State", currUser)
-  }, []);
+  // useEffect(() => {
+  //   var user = localStorage.getItem('user')
+  //   setUser(user);
+  //   console.log("App.js getting user", user)
+  //   console.log("new State", currUser)
+  // }, []);
 
   useEffect(() => {
     (async () => {
@@ -26,11 +26,15 @@ function App() {
       console.log("APP GET USER RES", res)
       var user = {}
       if (res.data.user) {
-        localStorage.setItem('user', res.data.user)
+        // localStorage.setItem('user', res.data.user)
         user = res.data.user
-        console.log(localStorage)
+        // console.log(localStorage)
+      }
+      else {
+        user = null
       }
       setUser(user);
+      console.log("new State", currUser)
     })();
   }, []);
 
@@ -44,7 +48,12 @@ function App() {
           <Login {...props} setUser={setUser} userInfo={currUser} />
           )}
         />
-        <Route path="/register" exact component={Register} />
+        <Route path="/register" 
+        exact 
+        render={props=> (
+          <Register {...props} setUser={setUser} userInfo={currUser} />
+          )}
+        />
         <Route 
         path="/profile" 
         exact 

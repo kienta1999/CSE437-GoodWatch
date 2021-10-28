@@ -3,34 +3,18 @@ import logout from "../data/logout";
 import jwtDecode from 'jwt-decode'
 import { useRef, useState, useEffect } from "react";
 
-const NavigationBar = ({ history, userInfo, handleSubmit, query }) => {
+const NavigationBar = ({ history, setUser, userInfo, handleSubmit, query }) => {
   // const profileUrl = `/profile/${movie.imdbID}`;
-  const [currUser, setUser] = useState(userInfo);
-
-  useEffect(() => {
-    // var token = localStorage.getItem('token')
-    // var user = {}
-    // if (token) {
-    //   user = jwtDecode(token)
-    // }
-    // var newState = {
-    //   authToken: token,
-    //   user: user
-    // }
-    var user = localStorage.getItem('user')
-    setUser(user);
-    console.log("Nav getting user", user)
-    console.log("new State", currUser)
-  }, []);
 
   const handleLogout = async () => {
     try {
         const res = await logout(history);
+        setUser(null)
         if(parseInt(res.status) <= 299){
           history.push("/login");
         }
     } catch (error) {
-        console.log(error.data.message);
+        console.log(error);
     }
   }
 
@@ -50,7 +34,7 @@ const NavigationBar = ({ history, userInfo, handleSubmit, query }) => {
             <Nav.Link href="#link">Link</Nav.Link> */}
             <NavDropdown title="Menu" id="basic-nav-dropdown">
               <NavDropdown.Item href="/">Home</NavDropdown.Item>
-              {currUser && (
+              {userInfo && (
               <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
               )}
               {/* <NavDropdown.Item href="#action/3.3">Movie List</NavDropdown.Item> */}
@@ -61,10 +45,10 @@ const NavigationBar = ({ history, userInfo, handleSubmit, query }) => {
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
-        {currUser &&(
+        {userInfo &&(
               <button onClick={handleLogout} className="nav_button" id="logout_btn">Log Out</button>
         )} 
-        {!currUser && (
+        {!userInfo && (
               <a href="/login" className="nav_button" id="logout_btn">Log In</a>
         )} 
         {form}

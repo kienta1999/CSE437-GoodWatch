@@ -24,9 +24,11 @@ const Home = (props) => {
     // if (token) {
     //   user = jwtDecode(token)
     // }
-    var user = localStorage.getItem('user')
-    setUser(user);
-    console.log("Home getting user", user)
+    // var user = localStorage.getItem('user')
+    // setUser(user);
+    // console.log("Home getting user", user)
+    console.log(props.userInfo)
+    setUser(props.userInfo)
     console.log("new State", currUser)
   }, []);
 
@@ -136,7 +138,7 @@ const Home = (props) => {
 
   return (
     <div>
-      <NavigationBar history={props.history} userInfo={currUser} handleSubmit={handleSubmit} query={query} />
+      <NavigationBar history={props.history} setUser={props.setUser} userInfo={props.userInfo} handleSubmit={handleSubmit} query={query} />
       <br/>
       {!movies && (
         <Container>
