@@ -16,21 +16,17 @@ const Home = (props) => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const [movies, setMovies] = useState(null);
-  const [currUser, setUser] = useState(props.userInfo);
 
-  useEffect(() => {
-    // var token = localStorage.getItem('token')
-    // var user = {}
-    // if (token) {
-    //   user = jwtDecode(token)
-    // }
-    // var user = localStorage.getItem('user')
-    // setUser(user);
-    // console.log("Home getting user", user)
-    console.log(props.userInfo)
-    setUser(props.userInfo)
-    console.log("new State", currUser)
-  }, []);
+  //IMPORTANT: user info is passed down from App.js in props.userInfo
+
+  // useEffect(() => {
+  //   // var token = localStorage.getItem('token')
+  //   // var user = {}
+  //   // if (token) {
+  //   //   user = jwtDecode(token)
+  //   // }
+  //   // console.log("Home getting user", user)
+  // }, []);
 
   useEffect(() => {
     (async () => {

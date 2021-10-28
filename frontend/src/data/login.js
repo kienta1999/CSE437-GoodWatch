@@ -14,6 +14,7 @@ const login = async (username, password) => {
             username: username,
             password: password,
         }, axiosConfig)
+        
         console.log("Middleware Login res", res)
      
         return res;

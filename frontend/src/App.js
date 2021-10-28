@@ -13,26 +13,25 @@ import getUser from "./data/otherRequests";
 function App() {
   const [currUser, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   var user = localStorage.getItem('user')
-  //   setUser(user);
-  //   console.log("App.js getting user", user)
-  //   console.log("new State", currUser)
-  // }, []);
-
   useEffect(() => {
     (async () => {
+
+      //Request user information from backend
+      //Will only work if logged in and token cookie exists
       let res = await getUser();
       console.log("APP GET USER RES", res)
+
       var user = {}
       if (res.data.user) {
-        // localStorage.setItem('user', res.data.user)
+        //logged in, token exists
         user = res.data.user
-        // console.log(localStorage)
       }
       else {
+        //not logged in, token does not exist
         user = null
       }
+      
+      //Set user state
       setUser(user);
       console.log("new State", currUser)
     })();

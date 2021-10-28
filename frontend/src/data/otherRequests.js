@@ -2,7 +2,6 @@ import axios from "axios";
 import keys from "../keys.js";
 
 const getUser = async () => {
-    // const url = `${keys.apiHost}/current-session`;
     const url = `${keys.apiHost}/get-user`;
     let axiosConfig = {
         withCredentials: true,

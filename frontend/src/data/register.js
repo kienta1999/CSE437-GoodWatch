@@ -18,6 +18,7 @@ const register = async (firstName, lastName, username, password, email, history)
             password: password,
             email: email,
         }, axiosConfig)
+        
         console.log("Middleware Register res", res)
         return res;
     } catch (err) {

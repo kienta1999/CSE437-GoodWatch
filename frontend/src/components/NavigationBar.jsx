@@ -4,12 +4,16 @@ import jwtDecode from 'jwt-decode'
 import { useRef, useState, useEffect } from "react";
 
 const NavigationBar = ({ history, setUser, userInfo, handleSubmit, query }) => {
-  // const profileUrl = `/profile/${movie.imdbID}`;
+
+  //IMPORTANT: user info is passed down from App.js in userInfo
 
   const handleLogout = async () => {
     try {
         const res = await logout(history);
+
+        //callback to App.js, set user state to null
         setUser(null)
+
         if(parseInt(res.status) <= 299){
           history.push("/login");
         }

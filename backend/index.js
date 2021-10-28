@@ -47,6 +47,7 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
 
+//---------------------------- Authentication Middleware ----------------------------
 function withToken(req, res, next) {
     const token = req.cookies.access_token;
     console.log("token", token)
@@ -107,9 +108,9 @@ app.post("/register", (req, res) => {
                         res.header("authtoken", jwtoken)
                         .cookie("access_token", jwtoken, {
                             httpOnly: true,
-                            // secure: process.env.NODE_ENV === "production",
-                            // //secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
-                            // sameSite: 'none',
+                            sameSite: 'none',
+                            secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+                            expire : new Date() + 9999
                         }).status(200).json({
                             type: "Success",
                             message: "User registered",
@@ -157,9 +158,9 @@ app.post("/login", (req, res) => {
                         res.header("authtoken", jwtoken)
                         .cookie("access_token", jwtoken, {
                             httpOnly: true,
-                            // secure: process.env.NODE_ENV === "production",
-                            // //secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
-                            // sameSite: 'none',
+                            sameSite: 'none',
+                            secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+                            expire : new Date() + 9999
                         }).status(200).json({
                             type: "Success",
                             message: "User logged in",
@@ -188,12 +189,7 @@ app.post("/login", (req, res) => {
 //---------------------------- Logout ----------------------------
 app.post('/logout', withToken, (req,res)=> {
     return res
-    .clearCookie("access_token", {
-        httpOnly: true,
-        // secure: process.env.NODE_ENV === "production",
-        // //secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
-        // sameSite: 'none'
-    })
+    .clearCookie("access_token")
     .status(200)
     .json({ message: "Successfully logged out"})
 });
