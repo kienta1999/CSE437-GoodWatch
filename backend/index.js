@@ -52,7 +52,8 @@ app.listen(port, () => {
 
 function withToken(req, res, next) {
     //const authHeader = req.headers['authorization']
-    const token = req.body.token;
+    // const token = req.body.token;
+    const token = req.cookies.access_token;
     console.log("token", token)
     if (token == null) {
         return res.sendStatus(401)
@@ -63,7 +64,7 @@ function withToken(req, res, next) {
         }
         else {
             req.user = user
-            next() 
+            return next() 
         }    
     })
 }
@@ -71,6 +72,7 @@ function withToken(req, res, next) {
 //---------------------------- GetUser ----------------------------
 app.get('/get-user', withToken, (req,res)=> {
     console.log("get user", req)
+    return res.json({user: req.user})
 });
 
 //--------------------------- Register ---------------------------
@@ -104,7 +106,11 @@ app.post("/register", (req, res) => {
                             secret, {expiresIn: '1d'}
                         );
                         //assign token
-                        res.header("authtoken", jwtoken).status(200).json({
+                        res.header("authtoken", jwtoken)
+                        .cookie("access_token", jwtoken, {
+                            httpOnly: true,
+                            secure: process.env.NODE_ENV === "production",
+                        }).status(200).json({
                             type: "Success",
                             message: "User registered",
                             authtoken: jwtoken,
@@ -176,8 +182,11 @@ app.post("/login", (req, res) => {
 });
 
 //---------------------------- Logout ----------------------------
-app.get('/logout',(req,res)=> {
+app.get('/logout',withToken,(req,res)=> {
     // req.session.destroy((err)=>{})
-    res.status(200).json({ message: "Successfully logged out"})
+    return res
+    .clearCookie("access_token")
+    .status(200)
+    .json({ message: "Successfully logged out"})
 });
 
