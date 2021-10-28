@@ -3,10 +3,10 @@ const cors = require('cors');
 const moment = require('moment');
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
-const jwt = require("jsonwebtoken");
-const secret = 'fshkhfksjkjsfkjd';
 const cookieParser = require('cookie-parser');
 var session = require('express-session');
+const jwt = require("jsonwebtoken");
+const secret = 'fshkhfksjkjsfkjd';
 
 const app = express();
 const port = 3001;
@@ -14,14 +14,14 @@ const saltRounds = 10;
 app.use(cors());
 app.use(cookieParser());
 
-app.use(session({
-    key: 'userId',
-    name: 'userId',
-    secret: 'goodwatch',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: true }
-}))
+// app.use(session({
+//     key: 'userId',
+//     name: 'userId',
+//     secret: 'goodwatch',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: { secure: true }
+// }))
 
 app.use(express.urlencoded({extended : true}));
 app.use(express.json());
@@ -67,6 +67,11 @@ function withToken(req, res, next) {
         }    
     })
 }
+
+//---------------------------- GetUser ----------------------------
+app.get('/get-user', withToken, (req,res)=> {
+    console.log("get user", req)
+});
 
 //--------------------------- Register ---------------------------
 app.post("/register", (req, res) => {
@@ -141,7 +146,11 @@ app.post("/login", (req, res) => {
                             secret, {expiresIn: '1d'}
                         );
                         //assign token
-                        res.header("authtoken", jwtoken).status(200).json({
+                        res.header("authtoken", jwtoken)
+                        .cookie("access_token", jwtoken, {
+                            httpOnly: true,
+                            secure: process.env.NODE_ENV === "production",
+                        }).status(200).json({
                             type: "Success",
                             message: "User logged in",
                             authtoken: jwtoken,
@@ -168,7 +177,7 @@ app.post("/login", (req, res) => {
 
 //---------------------------- Logout ----------------------------
 app.get('/logout',(req,res)=> {
-    req.session.destroy((err)=>{})
+    // req.session.destroy((err)=>{})
     res.status(200).json({ message: "Successfully logged out"})
 });
 

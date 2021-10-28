@@ -1,5 +1,6 @@
 import React from "react";
 import { useRef, useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Login from "./components/route/Login.jsx";
 import Register from "./components/route/Register.jsx";
@@ -7,7 +8,7 @@ import Profile from "./components/route/Profile.jsx";
 import Home from "./components/route/Home.jsx";
 import MoviePage from "./components/route/MoviePage.jsx";
 import jwtDecode from 'jwt-decode'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import getUser from "./data/otherRequests";
 
 function App() {
   const [currUser, setUser] = useState({authToken: "", user: {}});
@@ -27,6 +28,13 @@ function App() {
     console.log("App.js getting user", user)
     console.log("new State", currUser)
   }, []);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     let res = await getUser(localStorage.getItem('token'));
+  //     console.log("APP GET USER RES", res)
+  //   })();
+  // }, []);
 
   return (
     <Router>
