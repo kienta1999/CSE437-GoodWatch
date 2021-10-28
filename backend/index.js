@@ -57,10 +57,8 @@ app.listen(port, () => {
 });
 
 function withToken(req, res, next) {
-    //const authHeader = req.headers['authorization']
     // const token = req.body.token;
     const token = req.cookies.access_token;
-    console.log(req.cookies)
     console.log("token", token)
     if (token == null) {
         return res.sendStatus(401)
@@ -77,9 +75,9 @@ function withToken(req, res, next) {
 }
 
 //---------------------------- GetUser ----------------------------
-app.get('/get-user', withToken, (req,res)=> {
+app.post('/get-user', withToken, (req,res)=> {
     console.log("get user", req)
-    return res.json({user: req.user})
+    return res.status(200).json({user: req.user})
 });
 
 //--------------------------- Register ---------------------------

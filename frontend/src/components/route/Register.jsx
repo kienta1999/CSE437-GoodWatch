@@ -1,6 +1,7 @@
 import { useState } from "react";
 import register from "../../data/register";
 import background from '../../background.jpeg';
+import jwtDecode from 'jwt-decode'
 
 function Register (props) {
     const [firstName, setFirstName] = useState("");
@@ -15,11 +16,14 @@ function Register (props) {
         try {
             const res = await register(firstName, lastName, username, password, email, props.history);
             setRegisterMsg(res.data.message);
-            console.log(res.data.user.id)
-            console.log(res.data.authtoken)
 
             // store token in localStorage
-            localStorage.setItem('token', res.data.authtoken)
+            // localStorage.setItem('token', res.data.authtoken)
+            var user = {}
+            if (res.data.authtoken) {
+              user = jwtDecode(res.data.authtoken)
+            }
+            localStorage.setItem('user', user)
             console.log(localStorage)
 
             if(parseInt(res.status) <= 299){

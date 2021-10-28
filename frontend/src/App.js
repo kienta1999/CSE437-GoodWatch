@@ -11,30 +11,28 @@ import jwtDecode from 'jwt-decode'
 import getUser from "./data/otherRequests";
 
 function App() {
-  const [currUser, setUser] = useState({authToken: "", user: {}});
+  const [currUser, setUser] = useState({user: {}});
 
   useEffect(() => {
-    var token = localStorage.getItem('token')
-    var user = {}
-    if (token) {
-      user = jwtDecode(token)
-    }
-    var newState = {
-      authToken: token,
-      user: user
-    }
-    setUser(newState);
-    console.log("App.js getting token", token)
+    var user = localStorage.getItem('user')
+    setUser(user);
     console.log("App.js getting user", user)
     console.log("new State", currUser)
   }, []);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     let res = await getUser(localStorage.getItem('token'));
-  //     console.log("APP GET USER RES", res)
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      let res = await getUser();
+      console.log("APP GET USER RES", res)
+      var user = {}
+      if (res.data.user) {
+        localStorage.setItem('user', res.data.user)
+        user = res.data.user
+        console.log(localStorage)
+      }
+      setUser(user);
+    })();
+  }, []);
 
   return (
     <Router>

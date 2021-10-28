@@ -19,17 +19,13 @@ const Home = (props) => {
   const [currUser, setUser] = useState(props.userInfo);
 
   useEffect(() => {
-    var token = localStorage.getItem('token')
-    var user = {}
-    if (token) {
-      user = jwtDecode(token)
-    }
-    var newState = {
-      authToken: token,
-      user: user
-    }
-    setUser(newState);
-    console.log("Home getting token", token)
+    // var token = localStorage.getItem('token')
+    // var user = {}
+    // if (token) {
+    //   user = jwtDecode(token)
+    // }
+    var user = localStorage.getItem('user')
+    setUser(user);
     console.log("Home getting user", user)
     console.log("new State", currUser)
   }, []);

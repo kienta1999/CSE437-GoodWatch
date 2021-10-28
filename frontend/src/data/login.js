@@ -1,7 +1,7 @@
 import axios from "axios";
 import keys from "../keys.js";
 
-const login = async (username, password, history) => {
+const login = async (username, password) => {
     const url = `${keys.apiHost}/login`;
 
     let axiosConfig = {

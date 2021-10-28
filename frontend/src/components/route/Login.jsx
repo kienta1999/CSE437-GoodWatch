@@ -1,6 +1,7 @@
 import { useState } from "react";
 import login from "../../data/login";
 import background from '../../background.jpeg';
+import jwtDecode from 'jwt-decode'
 
 function Login (props) {
     const [username, setUsername] = useState("");
@@ -9,13 +10,16 @@ function Login (props) {
 
     const handleLoginUser = async () => {
         try {
-            const res = await login(username, password, props.history);
+            const res = await login(username, password);
             setLoginMsg(res.data.message);
-            console.log(res.data.user.id)
-            console.log(res.data.authtoken)
 
             // store token in localStorage
-            localStorage.setItem('token', res.data.authtoken)
+            // localStorage.setItem('token', res.data.authtoken)
+            var user = {}
+            if (res.data.authtoken) {
+              user = jwtDecode(res.data.authtoken)
+            }
+            localStorage.setItem('user', user)
             console.log(localStorage)
 
             if(parseInt(res.status) <= 299){

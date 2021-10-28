@@ -14,8 +14,8 @@ const logout = async (history) => {
      
         if(parseInt(res.status) <= 299){
             console.log(res)
-            //actually delete token to log out
-            localStorage.removeItem('token')
+            //actually delete local storage to log out
+            localStorage.removeItem('user')
             history.push("/login");
         }
         return res;

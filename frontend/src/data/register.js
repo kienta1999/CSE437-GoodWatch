@@ -5,6 +5,11 @@ let registerMsg = ""
 const register = async (firstName, lastName, username, password, email, history) => {
     const url = `${keys.apiHost}/register`;
 
+    let axiosConfig = {
+        withCredentials: true,
+        headers: {"Content-Type":"application/json"}
+    }
+
     try {
         const res = await axios.post(url, {
             firstName: firstName,
@@ -12,11 +17,7 @@ const register = async (firstName, lastName, username, password, email, history)
             username: username,
             password: password,
             email: email,
-        })
-
-        // if(parseInt(res.status) <= 299){
-        //     history.push("/");
-        // }
+        }, axiosConfig)
         console.log("Middleware Register res", res)
         return res;
     } catch (err) {
