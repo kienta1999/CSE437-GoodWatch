@@ -72,6 +72,40 @@ app.post('/get-user', withToken, (req,res)=> {
     return res.status(200).json({user: req.user})
 });
 
+//---------------------------- CreateList ----------------------------
+app.post('/create-list', withToken, (req,res)=> {
+    console.log("create list", req)
+    let listName = req.body.listName;
+    let userId = req.user._id;
+    if (listName) {
+        db.query("INSERT INTO lists (`listName`, `userId`) VALUES (?,?)",[listName, userId], function(error, user) {
+            if(error){ 
+                res.json(error);
+            }
+            else {
+                res.status(200).json({ message: "Successfully Added List!"})
+            }
+        });
+    }
+});
+
+//---------------------------- GetLists ----------------------------
+app.post('/get-lists', withToken, (req,res)=> {
+    let userId = req.user._id;
+    db.query('SELECT * FROM lists WHERE userId = ?', [userId], function(error, results) {
+        if(error){ 
+            res.json(error);
+        }
+        else {
+            res.status(200).json({ 
+                message: "Successfully got lists",
+                type: "Success",
+                listInfo: results
+            })
+        }
+    });
+});
+
 //--------------------------- Register ---------------------------
 app.post("/register", (req, res) => {
     let firstName = req.body.firstName;

@@ -2,6 +2,7 @@ import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import logout from "../data/logout";
 import jwtDecode from 'jwt-decode'
 import { useRef, useState, useEffect } from "react";
+import "./components.css";
 
 const NavigationBar = ({ history, setUser, userInfo, handleSubmit, query }) => {
 
@@ -28,7 +29,7 @@ const NavigationBar = ({ history, setUser, userInfo, handleSubmit, query }) => {
     </form>
   );
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar className="mb-4" bg="light" expand="lg">
       <Container>
         <Navbar.Brand href="/">GoodWatch</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -49,6 +50,7 @@ const NavigationBar = ({ history, setUser, userInfo, handleSubmit, query }) => {
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
+
         {userInfo &&(
               <button onClick={handleLogout} className="nav_button" id="logout_btn">Log Out</button>
         )} 

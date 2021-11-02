@@ -256,10 +256,10 @@ const Home = (props) => {
 
             </Col>
             
-            <Col>
+            {/* <Col>
               <br/>
               <MyList/>
-            </Col>
+            </Col> */}
           </Row>
           
         </Container>  

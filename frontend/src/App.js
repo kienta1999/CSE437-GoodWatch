@@ -8,7 +8,7 @@ import Profile from "./components/route/Profile.jsx";
 import Home from "./components/route/Home.jsx";
 import MoviePage from "./components/route/MoviePage.jsx";
 import jwtDecode from 'jwt-decode'
-import getUser from "./data/otherRequests";
+import getUser from "./data/getUser";
 
 function App() {
   const [currUser, setUser] = useState(null);

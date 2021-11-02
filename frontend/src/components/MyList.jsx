@@ -1,16 +1,36 @@
 import { Container, ListGroup } from "react-bootstrap";
+import { useState, useEffect } from "react";
 
-const MyList = () => {
+import { getLists } from "../data/lists";
+
+const MyList = (props) => {
+    const [listInfo, setListInfo] = useState([]);
+     //IMPORTANT: user info is passed down from App.js in props.userInfo
+
+     useEffect(() => {
+        (async () => {
+    
+          let res = await getLists();
+          console.log("Getting list info in MyList", res)
+          setListInfo(res.data.listInfo);
+        })();
+      }, []);
+
     return (
         <Container>
             <h4>
-                MY LISTS
+                My Lists
                 <hr></hr>
             </h4>
             <ListGroup>
-                <ListGroup.Item action href="helo">Want To Watch</ListGroup.Item>
-                <ListGroup.Item action href="#link2">Currently Watching</ListGroup.Item>
-                <ListGroup.Item action href="#link3">Watched</ListGroup.Item>
+                <ListGroup.Item action key='0123' href="helo">Want To Watch</ListGroup.Item>
+                <ListGroup.Item action key='112' href="#link2">Currently Watching</ListGroup.Item>
+                <ListGroup.Item action key='234' href="#link3">Watched</ListGroup.Item>
+                {listInfo && (
+                    listInfo.map(function(li, index){
+                        return <ListGroup.Item action key={li.id} href="#link4">{li.listName}</ListGroup.Item>
+                    })
+                )}
             </ListGroup>
         </Container>
 
