@@ -50,7 +50,6 @@ app.listen(port, () => {
 //---------------------------- Authentication Middleware ----------------------------
 function withToken(req, res, next) {
     const token = req.cookies.access_token;
-    console.log("token", token)
     if (token == null) {
         console.log("not logged in/not auth")
         return res.sendStatus(401)
@@ -68,7 +67,6 @@ function withToken(req, res, next) {
 
 //---------------------------- GetUser ----------------------------
 app.post('/get-user', withToken, (req,res)=> {
-    console.log("get user", req)
     return res.status(200).json({user: req.user})
 });
 
@@ -78,12 +76,29 @@ app.post('/create-list', withToken, (req,res)=> {
     let listName = req.body.listName;
     let userId = req.user._id;
     if (listName) {
-        db.query("INSERT INTO lists (`listName`, `userId`) VALUES (?,?)",[listName, userId], function(error, user) {
+        db.query("INSERT INTO lists (`listName`, `userId`) VALUES (?,?)",[listName, userId], function(error, data) {
             if(error){ 
                 res.json(error);
             }
             else {
                 res.status(200).json({ message: "Successfully Added List!"})
+            }
+        });
+    }
+});
+
+//---------------------------- AddToList ----------------------------
+app.post('/add-to-list', withToken, (req,res)=> {
+    console.log("add to list", req)
+    let listId = req.body.listId;
+    let movieId = req.body.movieId;
+    if (listId && movieId) {
+        db.query("INSERT INTO listItems (`listId`, `imdbId`) VALUES (?,?)",[listId, movieId], function(error, data) {
+            if(error){ 
+                res.json(error);
+            }
+            else {
+                res.status(200).json({ message: "Successfully Added to List!"})
             }
         });
     }

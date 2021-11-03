@@ -65,7 +65,11 @@ function App() {
           <Home {...props} setUser={setUser} userInfo={currUser} />
           )}
         /> 
-        <Route path="/movie/:movieid" exact component={MoviePage} />
+        <Route path="/movie/:movieid" exact 
+        render={props=> (
+          <MoviePage {...props} setUser={setUser} userInfo={currUser} />
+          )}
+        />
       </Switch>
     </Router>
   );

@@ -33,7 +33,6 @@ const MyList = (props) => {
                 )}
             </ListGroup>
         </Container>
-
     );
 }
 

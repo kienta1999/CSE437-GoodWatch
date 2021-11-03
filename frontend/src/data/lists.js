@@ -21,6 +21,27 @@ const createList = async (listName) => {
     }
 };
 
+const addToList = async (selectedlist, movieid) => {
+    const url = `${keys.apiHost}/add-to-list`;
+
+    let axiosConfig = {
+        withCredentials: true,
+        headers: {"Content-Type":"application/json"}
+    }
+
+    try {
+        const res = await axios.post(url, {
+            listId: selectedlist,
+            movieId: movieid
+        }, axiosConfig)
+        
+        console.log("Middleware add to list res", res)
+        return res;
+    } catch (err) {
+        return err.response;
+    }
+};
+
 const getLists = async () => {
     const url = `${keys.apiHost}/get-lists`;
 
@@ -40,4 +61,4 @@ const getLists = async () => {
 };
 
 export default createList;
-export { getLists };
+export { addToList, getLists };
