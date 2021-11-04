@@ -1,27 +1,29 @@
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import logout from "../data/logout";
-import jwtDecode from 'jwt-decode'
+import { useContext } from "react";
+import jwtDecode from "jwt-decode";
 import { useRef, useState, useEffect } from "react";
 import "./components.css";
+import UserContext from "../context/UserContext";
 
-const NavigationBar = ({ history, setUser, userInfo, handleSubmit, query }) => {
-
+const NavigationBar = ({ history, handleSubmit, query }) => {
   //IMPORTANT: user info is passed down from App.js in userInfo
+  const { currUser, setUser } = useContext(UserContext);
 
   const handleLogout = async () => {
     try {
-        const res = await logout(history);
+      const res = await logout(history);
 
-        //callback to App.js, set user state to null
-        setUser(null)
+      //callback to App.js, set user state to null
+      setUser(null);
 
-        if(parseInt(res.status) <= 299){
-          history.push("/login");
-        }
+      if (parseInt(res.status) <= 299) {
+        history.push("/login");
+      }
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-  }
+  };
 
   const form = handleSubmit && (
     <form onSubmit={handleSubmit}>
@@ -39,8 +41,8 @@ const NavigationBar = ({ history, setUser, userInfo, handleSubmit, query }) => {
             <Nav.Link href="#link">Link</Nav.Link> */}
             <NavDropdown title="Menu" id="basic-nav-dropdown">
               <NavDropdown.Item href="/">Home</NavDropdown.Item>
-              {userInfo && (
-              <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+              {currUser && (
+                <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
               )}
               {/* <NavDropdown.Item href="#action/3.3">Movie List</NavDropdown.Item> */}
               {/* <NavDropdown.Divider /> */}
@@ -51,14 +53,17 @@ const NavigationBar = ({ history, setUser, userInfo, handleSubmit, query }) => {
           </Nav>
         </Navbar.Collapse>
 
-        {userInfo &&(
-              <button onClick={handleLogout} className="nav_button" id="logout_btn">Log Out</button>
-        )} 
-        {!userInfo && (
-              <a href="/login" className="nav_button" id="logout_btn">Log In</a>
-        )} 
+        {currUser && (
+          <button onClick={handleLogout} className="nav_button" id="logout_btn">
+            Log Out
+          </button>
+        )}
+        {!currUser && (
+          <a href="/login" className="nav_button" id="logout_btn">
+            Log In
+          </a>
+        )}
         {form}
-        
       </Container>
     </Navbar>
   );

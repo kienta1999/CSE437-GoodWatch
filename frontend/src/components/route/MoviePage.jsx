@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getMovieData } from "../../data/movie.js";
 import { getLists, addToList } from "../../data/lists";
 import NavigationBar from "../NavigationBar.jsx";
 import { Container } from "react-bootstrap";
+import UserContext from "../../context/UserContext.js";
 
 const MoviePage = (props) => {
   const { movieid } = useParams();
@@ -11,13 +12,13 @@ const MoviePage = (props) => {
   const [selectedlist, setSelectedList] = useState("1");
   const [addToListMsg, setAddToListMsg] = useState("");
   const [listInfo, setListInfo] = useState([]);
-
   //IMPORTANT: user info is passed down from App.js in props.userInfo
-
+  const { currUser, setUser } = useContext(UserContext);
+  console.log(currUser);
   useEffect(() => {
     (async () => {
       let res = await getLists();
-      console.log("Getting list info in MoviePage", res)
+      console.log("Getting list info in MoviePage", res);
       setListInfo(res.data.listInfo);
     })();
   }, []);
@@ -34,9 +35,9 @@ const MoviePage = (props) => {
       const res = await addToList(selectedlist, movieid);
       setAddToListMsg(res.data.message);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-  }
+  };
 
   const body = data ? (
     <Container>
@@ -45,13 +46,25 @@ const MoviePage = (props) => {
         {data.Title}, {data.Year}
       </p>
       {listInfo && (
-        <select name="userLists" onChange={(e) => {setSelectedList(e.target.value);setAddToListMsg("");}}>
-          {listInfo.map(function(li, index){
-              return <option value={li.id}>{li.listName}</option>
+        <select
+          name="userLists"
+          onChange={(e) => {
+            setSelectedList(e.target.value);
+            setAddToListMsg("");
+          }}
+        >
+          {listInfo.map(function (li, index) {
+            return <option value={li.id}>{li.listName}</option>;
           })}
         </select>
       )}
-      <button onClick={handleAddToList} className="main_button" id="add-to-list-btn">Add to List</button>
+      <button
+        onClick={handleAddToList}
+        className="main_button"
+        id="add-to-list-btn"
+      >
+        Add to List
+      </button>
       <br />
       <p className="message">{addToListMsg}</p>
       <p>
@@ -74,7 +87,6 @@ const MoviePage = (props) => {
   ) : (
     <div>Loading...</div>
   );
-
 
   return (
     <div>
