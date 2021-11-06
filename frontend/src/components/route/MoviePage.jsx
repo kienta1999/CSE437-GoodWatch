@@ -5,6 +5,7 @@ import { getLists, addToList } from "../../data/lists";
 import NavigationBar from "../NavigationBar.jsx";
 import { Container } from "react-bootstrap";
 import UserContext from "../../context/UserContext.js";
+import StarRating from "../StarRating.jsx";
 
 const MoviePage = (props) => {
   const { movieid } = useParams();
@@ -14,7 +15,6 @@ const MoviePage = (props) => {
   const [listInfo, setListInfo] = useState([]);
   //IMPORTANT: user info is passed down from App.js in props.userInfo
   const { currUser, setUser } = useContext(UserContext);
-  console.log(currUser);
   useEffect(() => {
     (async () => {
       let res = await getLists();
@@ -83,6 +83,23 @@ const MoviePage = (props) => {
         <strong>Plot: </strong>
         {data.Plot}
       </p>
+      <div className="review form-group">
+        <h3>Review</h3>
+        <StarRating numberOfStars="5" currentRating="0" onClick={() => {}} />
+        <label for="comment">Comment</label>
+
+        <textarea
+          class="form-control"
+          id="comment"
+          name="comment"
+          rows="4"
+          cols="50"
+          placeholder="Is the movie good?"
+        ></textarea>
+        <button type="button" class="btn btn-primary">
+          Submit
+        </button>
+      </div>
     </Container>
   ) : (
     <div>Loading...</div>
