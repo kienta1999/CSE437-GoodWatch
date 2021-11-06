@@ -1,20 +1,25 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { getMovieData } from "../../data/movie.js";
-import { getLists, addToList } from "../../data/lists";
-import NavigationBar from "../NavigationBar.jsx";
 import { Container } from "react-bootstrap";
+
 import UserContext from "../../context/UserContext.js";
+import NavigationBar from "../NavigationBar.jsx";
+import StarRating from "../StarRating.jsx";
+
+import { getMovieData } from "../../data/movie.js";
+import submitReview from "../../data/submitReview";
+import { getLists, addToList } from "../../data/lists";
 
 const MoviePage = (props) => {
   const { movieid } = useParams();
   const [data, setData] = useState(null);
   const [selectedlist, setSelectedList] = useState("1");
   const [addToListMsg, setAddToListMsg] = useState("");
+  const [star, setStar] = useState(0);
+  const commentRef = useRef("");
   const [listInfo, setListInfo] = useState([]);
   //IMPORTANT: user info is passed down from App.js in props.userInfo
   const { currUser, setUser } = useContext(UserContext);
-  console.log(currUser);
   useEffect(() => {
     (async () => {
       let res = await getLists();
@@ -36,6 +41,16 @@ const MoviePage = (props) => {
       setAddToListMsg(res.data.message);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleSubmitReview = async () => {
+    if (!currUser) {
+      alert("Please login to submit a review");
+    } else {
+      const comment = commentRef.current.value;
+      const userid = currUser._id;
+      await submitReview(userid, movieid, star, comment);
     }
   };
 
@@ -83,6 +98,34 @@ const MoviePage = (props) => {
         <strong>Plot: </strong>
         {data.Plot}
       </p>
+      <div className="review form-group">
+        <h3>Review</h3>
+        <StarRating
+          numberOfStars="5"
+          currentRating="0"
+          onClick={(s) => {
+            setStar(+s);
+          }}
+        />
+        <label for="comment">Comment</label>
+
+        <textarea
+          className="form-control"
+          id="comment"
+          name="comment"
+          rows="4"
+          cols="50"
+          placeholder="Is the movie good?"
+          ref={commentRef}
+        ></textarea>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleSubmitReview}
+        >
+          Submit
+        </button>
+      </div>
     </Container>
   ) : (
     <div>Loading...</div>
