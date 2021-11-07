@@ -87,6 +87,53 @@ app.post('/create-list', withToken, (req,res)=> {
     }
 });
 
+//---------------------------- user's movie rating & review ----------------------------
+app.post('/user/:uid/movie/:mid/review', withToken, (req,res)=> {
+    let userId = req.params.uid;
+    let movieId = req.params.mid;
+    let rating = req.body.rating;
+    let comment = req.body.comment;
+
+    if (userId && movieId && rating) {
+        db.query('SELECT * FROM movieRating WHERE userId = ? AND movieId = ?', [userId, movieId], function(error, results) {
+            if(error){ 
+                res.json(error);
+            }
+            if(results.length > 0) {
+                db.query("SELECT comment from movieRating WHERE (userId = ? AND movieId = ?)", [userId, movieId], function(error, previousComment) {
+                    if(error){ 
+                        res.json(error);
+                    }
+                    else {
+                        comment = comment || previousComment[0].comment;
+                        db.query("UPDATE movieRating SET rating = ?, comment = ? WHERE (userId = ? AND movieId = ?)", [rating, comment, userId, movieId], function(error, data) {
+                            if(error){ 
+                                res.json(error);
+                            }
+                            else {
+                                res.status(200).json({ message: "Successfully Update User Review"})
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                db.query("INSERT INTO movieRating (`userId`, `movieId`, `rating`, `comment`) VALUES (?,?,?,?)", [userId, movieId, rating, comment], function(error, data) {
+                    if(error){ 
+                        res.json(error);
+                    }
+                    else {
+                        res.status(200).json({ message: "Successfully Insert a New User Review"})
+                    }
+                });
+            }   
+        });
+    } 
+    else {
+        res.status(404).json({ message: "Invalid"});
+    }
+});
+
 //---------------------------- AddToList ----------------------------
 app.post('/add-to-list', withToken, (req,res)=> {
     console.log("add to list", req)

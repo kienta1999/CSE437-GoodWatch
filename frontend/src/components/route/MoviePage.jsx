@@ -110,7 +110,7 @@ const MoviePage = (props) => {
         <label for="comment">Comment</label>
 
         <textarea
-          class="form-control"
+          className="form-control"
           id="comment"
           name="comment"
           rows="4"
@@ -120,7 +120,7 @@ const MoviePage = (props) => {
         ></textarea>
         <button
           type="button"
-          class="btn btn-primary"
+          className="btn btn-primary"
           onClick={handleSubmitReview}
         >
           Submit
