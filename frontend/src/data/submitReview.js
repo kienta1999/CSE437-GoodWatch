@@ -9,7 +9,7 @@ const submitReview = async (userid, movieid, rating, comment) => {
   };
 
   try {
-    const url = `${keys.apiHost}/user/${userid}/movie/${movieid}/rating`;
+    const url = `${keys.apiHost}/user/${userid}/movie/${movieid}/review`;
     await axios.post(
       url,
       {
