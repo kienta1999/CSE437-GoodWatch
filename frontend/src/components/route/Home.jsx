@@ -1,10 +1,11 @@
 import NavigationBar from "../NavigationBar.jsx";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import getMoviesFromQuery from "../../data/movie.js";
 import getMoviePoster from "../../data/image.js";
 import MovieList from "../MovieList.jsx";
 import ReactPaginate from "react-paginate";
 import MyList from "../MyList.jsx";
+import UserContext from "../../context/UserContext";
 import keys from "../../keys.js";
 import jwtDecode from "jwt-decode";
 
@@ -18,6 +19,7 @@ const Home = (props) => {
   const [movies, setMovies] = useState(null);
 
   //IMPORTANT: user info is passed down from App.js in props.userInfo
+  const { userInfo } = useContext(UserContext);
 
   // useEffect(() => {
   // var token = localStorage.getItem('token')

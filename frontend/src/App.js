@@ -7,6 +7,7 @@ import Register from "./components/route/Register.jsx";
 import Profile from "./components/route/Profile.jsx";
 import Home from "./components/route/Home.jsx";
 import MoviePage from "./components/route/MoviePage.jsx";
+import ListPage from "./components/route/ListPage.jsx";
 import jwtDecode from "jwt-decode";
 import UserContext from "./context/UserContext";
 import getUser from "./data/getUser";
@@ -50,6 +51,11 @@ function App() {
             path="/profile"
             exact
             render={(props) => <Profile {...props} />}
+          />
+          <Route
+            path="/profile/list/:listid"
+            exact
+            render={(props) => <ListPage {...props} />}
           />
           <Route path="/" exact render={(props) => <Home {...props} />} />
           <Route

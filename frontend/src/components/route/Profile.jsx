@@ -29,6 +29,7 @@ const Profile = (props) => {
       const res = await createList(listName);
       setListMsg(res.data.message);
     } catch (error) {
+      //GET LISTS TO RELOAD
       console.log(error);
     }
   };
@@ -74,3 +75,34 @@ const Profile = (props) => {
 };
 
 export default Profile;
+
+  //   return (
+  //     <div>
+  //       <NavigationBar history={props.history} setUser={props.setUser} userInfo={props.userInfo}/>
+  //       <Container>
+  //         <Row>
+  //           <Col>
+  //             {props.userInfo && (
+  //               <div>
+  //                 <h4>Welcome, {props.userInfo.username}!</h4>
+  //                 <strong>Name: </strong>{props.userInfo.firstName} {props.userInfo.lastName}<br></br>
+  //                 <strong>Add New List:</strong>
+  //                 <input type="text"
+  //                     onChange={(e) => {setListName(e.target.value);}}
+  //                     id="new-list-input"
+  //                     placeholder="New List Name"
+  //                 />
+  //                 <button onClick={handleAddList} className="main_button" id="new-list-btn">Add</button>
+  //                 <br />
+  //                 <p className="message">{listMsg}</p>
+  //               </div>
+  //             )}
+  //           </Col>
+  //         </Row>
+  //       </Container>
+  //       <MyList userInfo={props.userInfo}/>
+  //     </div>
+  //   );
+  // };
+  
+  // export default Profile;

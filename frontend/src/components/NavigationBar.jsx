@@ -1,10 +1,10 @@
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
-import logout from "../data/logout";
 import { useContext } from "react";
+import UserContext from "../context/UserContext";
+import logout from "../data/logout";
 import jwtDecode from "jwt-decode";
 import { useRef, useState, useEffect } from "react";
 import "./components.css";
-import UserContext from "../context/UserContext";
 
 const NavigationBar = ({ history, handleSubmit, query }) => {
   //IMPORTANT: user info is passed down from App.js in userInfo

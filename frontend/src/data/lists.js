@@ -60,5 +60,25 @@ const getLists = async () => {
     }
 };
 
+const getListContent = async (selectedlist) => {
+    const url = `${keys.apiHost}/get-list-content`;
+
+    let axiosConfig = {
+        withCredentials: true,
+        headers: {"Content-Type":"application/json"}
+    }
+
+    try {
+        const res = await axios.post(url, {
+            listId: selectedlist,
+        }, axiosConfig)
+        
+        console.log("Middleware get list content res", res)
+        return res;
+    } catch (err) {
+        return err.response;
+    }
+};
+
 export default createList;
-export { addToList, getLists };
+export { addToList, getLists, getListContent };
