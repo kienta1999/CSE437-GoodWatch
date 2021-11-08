@@ -7,7 +7,9 @@ import Register from "./components/route/Register.jsx";
 import Profile from "./components/route/Profile.jsx";
 import Home from "./components/route/Home.jsx";
 import MoviePage from "./components/route/MoviePage.jsx";
-import jwtDecode from 'jwt-decode'
+import ListPage from "./components/route/ListPage.jsx";
+import jwtDecode from "jwt-decode";
+import UserContext from "./context/UserContext";
 import getUser from "./data/getUser";
 
 function App() {
@@ -38,40 +40,34 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Switch>
-        <Route 
-        path="/login" 
-        exact 
-        render={props=> (
-          <Login {...props} setUser={setUser} userInfo={currUser} />
-          )}
-        />
-        <Route path="/register" 
-        exact 
-        render={props=> (
-          <Register {...props} setUser={setUser} userInfo={currUser} />
-          )}
-        />
-        <Route 
-        path="/profile" 
-        exact 
-        render={props=> (
-          <Profile {...props} setUser={setUser} userInfo={currUser} />
-          )}
-        />
-        <Route path="/" exact 
-        render={props=> (
-          <Home {...props} setUser={setUser} userInfo={currUser} />
-          )}
-        /> 
-        <Route path="/movie/:movieid" exact 
-        render={props=> (
-          <MoviePage {...props} setUser={setUser} userInfo={currUser} />
-          )}
-        />
-      </Switch>
-    </Router>
+    <UserContext.Provider value={{ currUser, setUser }}>
+      <Router>
+        <Switch>
+          <Route path="/login" exact render={(props) => <Login {...props} />} />
+          <Route
+            path="/register"
+            exact
+            render={(props) => <Register {...props} />}
+          />
+          <Route
+            path="/profile"
+            exact
+            render={(props) => <Profile {...props} />}
+          />
+          <Route
+            path="/profile/list/:listid"
+            exact
+            render={(props) => <ListPage {...props} />}
+          />
+          <Route path="/" exact render={(props) => <Home {...props} />} />
+          <Route
+            path="/movie/:movieid"
+            exact
+            render={(props) => <MoviePage {...props} />}
+          />
+        </Switch>
+      </Router>
+    </UserContext.Provider>
   );
 }
 

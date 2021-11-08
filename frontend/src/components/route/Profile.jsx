@@ -22,17 +22,16 @@ const Profile = (props) => {
       }
     }, []);
 
+
     const handleAddList = async () => {
       try {
-          const res = await createList(listName);
-          setListMsg(res.data.message);
-
+        const res = await createList(listName);
+        setListMsg(res.data.message);
       } catch (error) {
-          console.log(error);
+        //GET LISTS TO RELOAD
+        console.log(error);
       }
     }
-
-
 
     return (
       <div>

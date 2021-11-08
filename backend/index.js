@@ -121,6 +121,24 @@ app.post('/get-lists', withToken, (req,res)=> {
     });
 });
 
+//---------------------------- GetListContent ----------------------------
+app.post('/get-list-content', withToken, (req,res)=> {
+    let userId = req.user._id;
+    let listId = req.body.listId;
+    db.query('SELECT * FROM listItems WHERE listId = ?', [listId], function(error, results) {
+        if(error){ 
+            res.json(error);
+        }
+        else {
+            res.status(200).json({ 
+                message: "Successfully got list content",
+                type: "Success",
+                listContent: results
+            })
+        }
+    });
+});
+
 //--------------------------- Register ---------------------------
 app.post("/register", (req, res) => {
     let firstName = req.body.firstName;
@@ -141,32 +159,45 @@ app.post("/register", (req, res) => {
                         res.json(error);
                     }
                     if (user.length > 0) {
-                        //create token
-                        const jwtoken = jwt.sign({
-                            _id: user[0].id,
-                            username: user[0].username,
-                            firstName: user[0].first_name,
-                            lastName: user[0].last_name
-                            //add expiration time 
-                            }, 
-                            secret, {expiresIn: '1d'}
-                        );
-                        //headers and assign cookie
-                        res.header('Content-Type', 'application/json;charset=UTF-8')
-                        res.header('Access-Control-Allow-Credentials', true)
-                        res.header("authtoken", jwtoken)
-                        .cookie("access_token", jwtoken, {
-                            httpOnly: true,
-                            sameSite: 'none',
-                            secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
-                            expire : new Date() + 9999
-                        }).status(200).json({
-                            type: "Success",
-                            message: "User registered",
-                            authtoken: jwtoken,
-                            user: {
-                                id: user[0].id,
-                                username: user[0].username
+                        userId = user[0].id;
+                        userName = user[0].username;
+                        first_name = user[0].first_name;
+                        last_name = user[0].last_name;
+                        db.query("INSERT INTO lists (`listName`, `userId`) VALUES (?,?)",["Want to Watch", userId]);
+                        db.query("INSERT INTO lists (`listName`, `userId`) VALUES (?,?)",["Currently Watching", userId]);
+                        db.query("INSERT INTO lists (`listName`, `userId`) VALUES (?,?)",["Watched", userId], function(error, data) {
+                            if(error){ 
+                                res.json(error);
+                            }
+                            else {
+                                //create token
+                                const jwtoken = jwt.sign({
+                                    _id: userId,
+                                    username: userName,
+                                    firstName: first_name,
+                                    lastName: last_name
+                                    //add expiration time 
+                                    }, 
+                                    secret, {expiresIn: '1d'}
+                                );
+                                //headers and assign cookie
+                                res.header('Content-Type', 'application/json;charset=UTF-8')
+                                res.header('Access-Control-Allow-Credentials', true)
+                                res.header("authtoken", jwtoken)
+                                .cookie("access_token", jwtoken, {
+                                    httpOnly: true,
+                                    sameSite: 'none',
+                                    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+                                    expire : new Date() + 9999
+                                }).status(200).json({
+                                    type: "Success",
+                                    message: "User registered",
+                                    authtoken: jwtoken,
+                                    user: {
+                                        id: userId,
+                                        username: userName
+                                    }
+                                });
                             }
                         });
                     } 

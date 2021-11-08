@@ -19,9 +19,6 @@ function Login (props) {
             if (res.data.authtoken) {
               user = jwtDecode(res.data.authtoken)
             }
-            
-            //callback to App.js
-            props.setUser(user)
 
             if(parseInt(res.status) <= 299){
                 props.history.push("/");

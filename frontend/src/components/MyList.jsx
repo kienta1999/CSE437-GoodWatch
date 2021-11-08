@@ -16,24 +16,24 @@ const MyList = (props) => {
         })();
       }, []);
 
-    return (
-        <Container>
-            <h4>
-                My Lists
-                <hr></hr>
-            </h4>
-            <ListGroup>
-                <ListGroup.Item action key='0123' href="helo">Want To Watch</ListGroup.Item>
-                <ListGroup.Item action key='112' href="#link2">Currently Watching</ListGroup.Item>
-                <ListGroup.Item action key='234' href="#link3">Watched</ListGroup.Item>
-                {listInfo && (
-                    listInfo.map(function(li, index){
-                        return <ListGroup.Item action key={li.id} href="#link4">{li.listName}</ListGroup.Item>
-                    })
-                )}
-            </ListGroup>
-        </Container>
-    );
-}
+  return (
+    <Container>
+      <h4>
+        My Lists
+        <hr></hr>
+      </h4>
+      <ListGroup>
+        {listInfo &&
+          listInfo.map(function (li, index) {
+            return (
+              <ListGroup.Item action key={li.id} href={`/profile/list/${li.id}`}>
+                {li.listName}
+              </ListGroup.Item>
+            );
+          })}
+      </ListGroup>
+    </Container>
+  );
+};
 
 export default MyList;
