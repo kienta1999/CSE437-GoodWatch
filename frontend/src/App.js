@@ -7,6 +7,7 @@ import Register from "./components/route/Register.jsx";
 import Profile from "./components/route/Profile.jsx";
 import Home from "./components/route/Home.jsx";
 import MoviePage from "./components/route/MoviePage.jsx";
+import UserPage from "./components/route/UserPage.jsx";
 import jwtDecode from "jwt-decode";
 import UserContext from "./context/UserContext";
 import getUser from "./data/getUser";
@@ -56,6 +57,11 @@ function App() {
             path="/movie/:movieid"
             exact
             render={(props) => <MoviePage {...props} />}
+          />
+          <Route
+            path="/user/:userid"
+            exact
+            render={(props) => <UserPage {...props} />}
           />
         </Switch>
       </Router>

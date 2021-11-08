@@ -290,3 +290,81 @@ app.post('/logout', withToken, (req,res)=> {
     .json({ message: "Successfully logged out"})
 });
 
+//---------------------------- CheckUser ----------------------------
+app.get('/user/:userid', (req,res)=> {
+    userID = req.params.userid;
+    db.query('SELECT * FROM user WHERE id = ?', [userID], function(error, results) {
+        if (error) return res.status(404).json(error);
+        if (results.length == 0) {
+            console.log("User Not Exist");
+            return res.status(404).json({ message: "User Not Exist"});
+        } else {
+            console.log("User Found");
+            return res.status(200).json(results[0]);
+        }
+    });
+});
+
+//---------------------------- Follow ----------------------------
+app.post("follow", (req,res)=> {
+    curr_userID = req.body.curr_userid;
+    userID = req.body.userid;
+    db.query("SELECT * FROM friends WHERE followed = ? AND follower = ?", [userID, curr_userID], (error, results) => {
+        if (error) return res.status(404).json(error);
+        if (results.length > 0) {
+            console.log("Already Followed");
+            return res.status(404).json({ message: "Already Followed" });
+        }
+        else {
+            db.query("INSERT INTO friends (`followed`, `follower`) VALUES (?,?)",[userID, curr_userID], (error, data) => {
+                if (error) return res.status(404).json(error);
+                else {
+                    console.log("Successfully Follow");
+                    return res.status(200).json({ message: "Successfully Follow" });
+                }
+            });
+        }
+    });
+    
+});
+
+//---------------------------- Unfollow ----------------------------
+app.post("unfollow", (req,res)=> {
+    curr_userID = req.body.curr_userid;
+    userID = req.body.userid;
+    db.query("SELECT * FROM friends WHERE followed = ? AND follower = ?", [userID, curr_userID], (error, results) => {
+        if (error) return res.status(404).json(error);
+        if (results.length == 0) {
+            console.log("Not Yet Followed");
+            return res.status(404).json({ message: "Not Yet Followed" });
+        }
+        else {
+            db.query("DELETE FROM friends WHERE followed = ? AND follower = ?", [userID, curr_userID], (error, data) => {
+                if (error) return res.status(404).json(error);
+                else {
+                    console.log("Successfully Unfollow");
+                    return res.status(200).json({ message: "Successfully Unfollow" });
+                }
+            });
+        }
+    });
+    
+});
+
+//---------------------------- Check-Follow ----------------------------
+app.get("check-follow", (req,res)=> {
+    curr_userID = req.body.curr_userid;
+    userID = req.body.userid;
+    db.query("SELECT * FROM friends WHERE followed = ? AND follower = ?", [userID, curr_userID], (error, results) => {
+        if (error) return res.status(404).json(error);
+        if (results.length > 0) {
+            console.log("Already Followed");
+            return res.status(200).json({ followed: true });
+        }
+        else {
+            console.log("Not Yet Followed");
+            return res.status(200).json({ followed: false });
+        }
+    });
+    
+});
