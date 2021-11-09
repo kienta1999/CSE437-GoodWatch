@@ -5,13 +5,15 @@ import NavigationBar from "../NavigationBar.jsx";
 import MyList from "../MyList.jsx";
 import jwtDecode from "jwt-decode";
 import UserContext from "../../context/UserContext.js";
-
-// import { getMovieData } from "../../data/movie.js";
+import { countFollowers, countFollowing } from "../../data/follow";
 import createList from "../../data/lists";
+
 
 const Profile = (props) => {
   const [listName, setListName] = useState("");
   const [listMsg, setListMsg] = useState("");
+  const [ followers, setFollowers ] = useState(0);
+  const [ following, setFollowing ] = useState(0);
 
   //IMPORTANT: user info is passed down from App.js in props.userInfo
   const { currUser, setUser } = useContext(UserContext);
@@ -23,6 +25,35 @@ const Profile = (props) => {
       // props.history.push("/"); TODO: NOT WORKING
     }
   }, []);
+
+  useEffect(() => {
+    (async () => {
+        try {
+            let res = await countFollowers(0);
+            if (res.status===200){
+                console.log("Count Followers", res.data.count);
+                setFollowers(res.data.count);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    })();
+  });
+  
+  useEffect(() => {
+    (async () => {
+        try {
+            let res = await countFollowing(0);
+            if (res.status===200){
+                console.log("Count Following", res.data.count);
+                setFollowing(res.data.count);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    })();
+  });
+
 
   const handleAddList = async () => {
     try {
@@ -42,11 +73,16 @@ const Profile = (props) => {
           <Col>
             {currUser && (
               <div>
-                <h4>Welcome, {currUser.username}!</h4>
+                <h4>Welcome, <em><u>{currUser.username}</u></em>!</h4>
                 <strong>Name: </strong>
                 {currUser.firstName} {currUser.lastName}
-                <br></br>
-                <strong>Add New List:</strong>
+                <br/>
+                <strong>Followers: </strong> {followers}
+                <br/>
+                <strong>Following: </strong> {following}
+                <br/>
+                <br/>
+                <strong>Add New List: </strong>
                 <input
                   type="text"
                   onChange={(e) => {
@@ -55,12 +91,14 @@ const Profile = (props) => {
                   id="new-list-input"
                   placeholder="New List Name"
                 />
+                <br/>
+                <br/>
                 <button
                   onClick={handleAddList}
                   className="main_button"
                   id="new-list-btn"
                 >
-                  Add
+                  Create A New List
                 </button>
                 <br />
                 <p className="message">{listMsg}</p>

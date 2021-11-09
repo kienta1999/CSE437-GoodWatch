@@ -20,16 +20,20 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
       if (parseInt(res.status) <= 299) {
         history.push("/login");
       }
+
     } catch (error) {
       console.log(error);
     }
   };
+
+  
 
   const form = handleSubmit && (
     <form onSubmit={handleSubmit}>
       <input type="text" placeholder="Search" ref={query} />
     </form>
   );
+
   return (
     <Navbar className="mb-4" bg="light" expand="lg">
       <Container>
@@ -54,16 +58,19 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
           </Nav>
         </Navbar.Collapse>
 
+        {!currUser  && (
+          <a href="/login">
+            <button className="nav_button" id="login_btn">
+              Log In
+            </button>
+          </a>
+        )}
         {currUser && (
           <button onClick={handleLogout} className="nav_button" id="logout_btn">
             Log Out
           </button>
         )}
-        {!currUser && (
-          <a href="/login" className="nav_button" id="logout_btn">
-            Log In
-          </a>
-        )}
+        
         {form}
       </Container>
     </Navbar>

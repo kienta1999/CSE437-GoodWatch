@@ -27,7 +27,7 @@ function Register(props) {
       setRegisterMsg(res.data.message);
 
       // store token in localStorage
-      // localStorage.setItem('token', res.data.authtoken)
+      localStorage.setItem('authtoken', res.data.authtoken)
       var user = {};
       if (res.data.authtoken) {
         user = jwtDecode(res.data.authtoken);

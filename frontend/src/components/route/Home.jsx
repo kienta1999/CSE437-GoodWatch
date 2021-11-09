@@ -30,15 +30,6 @@ const Home = (props) => {
   const [latestPlot, setLatestPlot] = useState([]);
   const [latestID, setLatestID] = useState([]);
 
-  // useEffect(() => {
-  // var token = localStorage.getItem('authtoken')
-  // var user = {}
-  // if (token) {
-  //   user = jwtDecode(token)
-  // }
-  // console.log("Home getting user", user)
-  // }, []);
-
   useEffect(() => {
     (async () => {
       if (queryState !== null) {

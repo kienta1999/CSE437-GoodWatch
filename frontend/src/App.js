@@ -5,6 +5,7 @@ import "./App.css";
 import Login from "./components/route/Login.jsx";
 import Register from "./components/route/Register.jsx";
 import Profile from "./components/route/Profile.jsx";
+import UserPage from "./components/route/UserPage.jsx";
 import Home from "./components/route/Home.jsx";
 import MoviePage from "./components/route/MoviePage.jsx";
 import ListPage from "./components/route/ListPage.jsx";
@@ -22,7 +23,7 @@ function App() {
       // let res = await getUser();
       // console.log("APP GET USER RES", res);
 
-      var user = {};
+      var user = null;
       // if (res.data.user) {
       //   //logged in, token exists
       //   user = res.data.user;
@@ -66,6 +67,11 @@ function App() {
             path="/movie/:movieid"
             exact
             render={(props) => <MoviePage {...props} />}
+          />
+          <Route
+            path="/user/:userid"
+            exact
+            render={(props) => <UserPage {...props} />}
           />
         </Switch>
       </Router>
