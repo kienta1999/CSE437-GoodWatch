@@ -58,7 +58,13 @@ const MoviePage = (props) => {
         await submitReview(userid, movieid, star, comment);
         commentRef.current.value = "";
         setReviewMsg("Review submitted successfully");
-      } catch (error) {}
+      } catch (error) {
+        if (error.response.status === 404) {
+          setReviewMsg("Please leave a rating");
+        } else {
+          setReviewMsg("Something wrong with the server");
+        }
+      }
     }
   };
 
@@ -105,7 +111,7 @@ const MoviePage = (props) => {
       </p>
       {goodwatchScore > 0 ? (
         <p>
-          <strong>GoodWatch Ratings:</strong> {goodwatchScore} / 5
+          <strong>GoodWatch Ratings:</strong> {goodwatchScore.toFixed(2)} / 5
         </p>
       ) : (
         <p>
