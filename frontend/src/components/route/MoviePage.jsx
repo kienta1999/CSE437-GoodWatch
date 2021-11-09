@@ -7,7 +7,7 @@ import NavigationBar from "../NavigationBar.jsx";
 import StarRating from "../StarRating.jsx";
 
 import { getMovieData } from "../../data/movie.js";
-import submitReview from "../../data/submitReview";
+import { submitReview } from "../../data/review";
 import { getLists, addToList } from "../../data/lists";
 
 const MoviePage = (props) => {
@@ -18,6 +18,7 @@ const MoviePage = (props) => {
   const [star, setStar] = useState(0);
   const commentRef = useRef("");
   const [listInfo, setListInfo] = useState([]);
+  const [reviewMsg, setReviewMsg] = useState(null);
   //IMPORTANT: user info is passed down from App.js in props.userInfo
   const { currUser, setUser } = useContext(UserContext);
   useEffect(() => {
@@ -50,7 +51,11 @@ const MoviePage = (props) => {
     } else {
       const comment = commentRef.current.value;
       const userid = currUser._id;
-      await submitReview(userid, movieid, star, comment);
+      try {
+        await submitReview(userid, movieid, star, comment);
+        commentRef.current.value = "";
+        setReviewMsg("Review submitted successfully");
+      } catch (error) {}
     }
   };
 
@@ -125,6 +130,7 @@ const MoviePage = (props) => {
         >
           Submit
         </button>
+        {reviewMsg && <p style={{ color: "red" }}>{reviewMsg}</p>}
       </div>
     </Container>
   ) : (
