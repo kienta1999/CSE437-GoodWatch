@@ -14,14 +14,13 @@ const Profile = (props) => {
   const [followers, setFollowers] = useState(0);
   const [following, setFollowing] = useState(0);
 
-  //IMPORTANT: user info is passed down from App.js in props.userInfo
   const { currUser, setUser } = useContext(UserContext);
 
   useEffect(() => {
     var user = currUser;
     if (!user) {
       //not logged in, redirect to home
-      // props.history.push("/"); TODO: NOT WORKING
+      props.history.push("/");
     }
   }, []);
 
