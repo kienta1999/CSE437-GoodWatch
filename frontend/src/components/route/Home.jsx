@@ -1,10 +1,11 @@
 import NavigationBar from "../NavigationBar.jsx";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import getMoviesFromQuery from "../../data/movie.js";
 import getMoviePoster from "../../data/image.js";
 import MovieList from "../MovieList.jsx";
 import ReactPaginate from "react-paginate";
 import MyList from "../MyList.jsx";
+import UserContext from "../../context/UserContext";
 import keys from "../../keys.js";
 import jwtDecode from "jwt-decode";
 
@@ -29,17 +30,14 @@ const Home = (props) => {
   const [latestPlot, setLatestPlot] = useState([]);
   const [latestID, setLatestID] = useState([]);
 
-
-  // IMPORTANT: user info is passed down from App.js in props.userInfo
-
-  useEffect(() => {
-  var token = localStorage.getItem('token')
-  var user = {}
-  if (token) {
-    user = jwtDecode(token)
-  }
-  console.log("Home getting user", user)
-  }, []);
+  // useEffect(() => {
+  // var token = localStorage.getItem('authtoken')
+  // var user = {}
+  // if (token) {
+  //   user = jwtDecode(token)
+  // }
+  // console.log("Home getting user", user)
+  // }, []);
 
   useEffect(() => {
     (async () => {

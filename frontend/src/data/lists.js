@@ -4,9 +4,11 @@ import keys from "../keys.js";
 const createList = async (listName) => {
     const url = `${keys.apiHost}/create-list`;
 
+    var authtoken = localStorage.getItem('authtoken')
+
     let axiosConfig = {
         withCredentials: true,
-        headers: {"Content-Type":"application/json"}
+        headers: {"Content-Type":"application/json", "authtoken":authtoken}
     }
 
     try {
@@ -24,9 +26,11 @@ const createList = async (listName) => {
 const addToList = async (selectedlist, movieid) => {
     const url = `${keys.apiHost}/add-to-list`;
 
+    var authtoken = localStorage.getItem('authtoken')
+
     let axiosConfig = {
         withCredentials: true,
-        headers: {"Content-Type":"application/json"}
+        headers: {"Content-Type":"application/json", "authtoken":authtoken}
     }
 
     try {
@@ -42,12 +46,37 @@ const addToList = async (selectedlist, movieid) => {
     }
 };
 
-const getLists = async () => {
-    const url = `${keys.apiHost}/get-lists`;
+const removeFromList = async (selectedlist, movieid) => {
+    const url = `${keys.apiHost}/remove-from-list`;
+
+    var authtoken = localStorage.getItem('authtoken')
 
     let axiosConfig = {
         withCredentials: true,
-        headers: {"Content-Type":"application/json"}
+        headers: {"Content-Type":"application/json", "authtoken":authtoken}
+    }
+
+    try {
+        const res = await axios.post(url, {
+            listId: selectedlist,
+            movieId: movieid
+        }, axiosConfig)
+        
+        console.log("Middleware remove from list res", res)
+        return res;
+    } catch (err) {
+        return err.response;
+    }
+};
+
+const getLists = async () => {
+    const url = `${keys.apiHost}/get-lists`;
+
+    var authtoken = localStorage.getItem('authtoken')
+
+    let axiosConfig = {
+        withCredentials: true,
+        headers: {"Content-Type":"application/json", "authtoken":authtoken}
     }
 
     try {
@@ -60,5 +89,27 @@ const getLists = async () => {
     }
 };
 
+const getListContent = async (selectedlist) => {
+    const url = `${keys.apiHost}/get-list-content`;
+
+    var authtoken = localStorage.getItem('authtoken')
+
+    let axiosConfig = {
+        withCredentials: true,
+        headers: {"Content-Type":"application/json", "authtoken":authtoken}
+    }
+
+    try {
+        const res = await axios.post(url, {
+            listId: selectedlist,
+        }, axiosConfig)
+        
+        console.log("Middleware get list content res", res)
+        return res;
+    } catch (err) {
+        return err.response;
+    }
+};
+
 export default createList;
-export { addToList, getLists };
+export { addToList, removeFromList, getLists, getListContent };
