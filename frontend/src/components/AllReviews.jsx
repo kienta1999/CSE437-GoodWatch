@@ -22,6 +22,7 @@ const AllReview = ({ movieid, getGoodWatchAverageRating }) => {
     reviews &&
     reviews.map((review) => {
       const {
+        id: userid,
         first_name: firstName,
         last_name: lastName,
         rating,
@@ -31,17 +32,19 @@ const AllReview = ({ movieid, getGoodWatchAverageRating }) => {
       return (
         <div className="all-reviews">
           <h5>
-              <div className="row">
-                <div className="col">{fullName}</div>
-                <div className="col">
-                    <StarRating
-                        numberOfStars="5"
-                        currentRating={rating}
-                        fontSize="1.5rem"
-                        mutable={false}
-                    />
-                </div>
+            <div className="row">
+              <div className="col">
+                <a href={`/user/${userid}`}> {fullName}</a>
               </div>
+              <div className="col">
+                <StarRating
+                  numberOfStars="5"
+                  currentRating={rating}
+                  fontSize="1.5rem"
+                  mutable={false}
+                />
+              </div>
+            </div>
           </h5>
           <p>{comment}</p>
           <hr />
