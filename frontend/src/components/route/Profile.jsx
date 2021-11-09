@@ -8,12 +8,11 @@ import UserContext from "../../context/UserContext.js";
 import { countFollowers, countFollowing } from "../../data/follow";
 import createList from "../../data/lists";
 
-
 const Profile = (props) => {
   const [listName, setListName] = useState("");
   const [listMsg, setListMsg] = useState("");
-  const [ followers, setFollowers ] = useState(0);
-  const [ following, setFollowing ] = useState(0);
+  const [followers, setFollowers] = useState(0);
+  const [following, setFollowing] = useState(0);
 
   //IMPORTANT: user info is passed down from App.js in props.userInfo
   const { currUser, setUser } = useContext(UserContext);
@@ -28,37 +27,37 @@ const Profile = (props) => {
 
   useEffect(() => {
     (async () => {
-        try {
-            let res = await countFollowers(0);
-            if (res.status===200){
-                console.log("Count Followers", res.data.count);
-                setFollowers(res.data.count);
-            }
-        } catch (error) {
-            console.log(error);
+      try {
+        let res = await countFollowers(0);
+        if (res.status === 200) {
+          console.log("Count Followers", res.data.count);
+          setFollowers(res.data.count);
         }
-    })();
-  });
-  
-  useEffect(() => {
-    (async () => {
-        try {
-            let res = await countFollowing(0);
-            if (res.status===200){
-                console.log("Count Following", res.data.count);
-                setFollowing(res.data.count);
-            }
-        } catch (error) {
-            console.log(error);
-        }
+      } catch (error) {
+        console.log(error);
+      }
     })();
   });
 
+  useEffect(() => {
+    (async () => {
+      try {
+        let res = await countFollowing(0);
+        if (res.status === 200) {
+          console.log("Count Following", res.data.count);
+          setFollowing(res.data.count);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  });
 
   const handleAddList = async () => {
     try {
       const res = await createList(listName);
       setListMsg(res.data.message);
+      window.location.reload();
     } catch (error) {
       //GET LISTS TO RELOAD
       console.log(error);
@@ -73,15 +72,21 @@ const Profile = (props) => {
           <Col>
             {currUser && (
               <div>
-                <h4>Welcome, <em><u>{currUser.username}</u></em>!</h4>
+                <h4>
+                  Welcome,{" "}
+                  <em>
+                    <u>{currUser.username}</u>
+                  </em>
+                  !
+                </h4>
                 <strong>Name: </strong>
                 {currUser.firstName} {currUser.lastName}
-                <br/>
+                <br />
                 <strong>Followers: </strong> {followers}
-                <br/>
+                <br />
                 <strong>Following: </strong> {following}
-                <br/>
-                <br/>
+                <br />
+                <br />
                 <strong>Add New List: </strong>
                 <input
                   type="text"
@@ -91,8 +96,8 @@ const Profile = (props) => {
                   id="new-list-input"
                   placeholder="New List Name"
                 />
-                <br/>
-                <br/>
+                <br />
+                <br />
                 <button
                   onClick={handleAddList}
                   className="main_button"
@@ -107,40 +112,40 @@ const Profile = (props) => {
           </Col>
         </Row>
       </Container>
-      <MyList message={listMsg}/>
+      <MyList message={listMsg} />
     </div>
   );
 };
 
 export default Profile;
 
-  //   return (
-  //     <div>
-  //       <NavigationBar history={props.history} setUser={props.setUser} userInfo={props.userInfo}/>
-  //       <Container>
-  //         <Row>
-  //           <Col>
-  //             {props.userInfo && (
-  //               <div>
-  //                 <h4>Welcome, {props.userInfo.username}!</h4>
-  //                 <strong>Name: </strong>{props.userInfo.firstName} {props.userInfo.lastName}<br></br>
-  //                 <strong>Add New List:</strong>
-  //                 <input type="text"
-  //                     onChange={(e) => {setListName(e.target.value);}}
-  //                     id="new-list-input"
-  //                     placeholder="New List Name"
-  //                 />
-  //                 <button onClick={handleAddList} className="main_button" id="new-list-btn">Add</button>
-  //                 <br />
-  //                 <p className="message">{listMsg}</p>
-  //               </div>
-  //             )}
-  //           </Col>
-  //         </Row>
-  //       </Container>
-  //       <MyList userInfo={props.userInfo}/>
-  //     </div>
-  //   );
-  // };
-  
-  // export default Profile;
+//   return (
+//     <div>
+//       <NavigationBar history={props.history} setUser={props.setUser} userInfo={props.userInfo}/>
+//       <Container>
+//         <Row>
+//           <Col>
+//             {props.userInfo && (
+//               <div>
+//                 <h4>Welcome, {props.userInfo.username}!</h4>
+//                 <strong>Name: </strong>{props.userInfo.firstName} {props.userInfo.lastName}<br></br>
+//                 <strong>Add New List:</strong>
+//                 <input type="text"
+//                     onChange={(e) => {setListName(e.target.value);}}
+//                     id="new-list-input"
+//                     placeholder="New List Name"
+//                 />
+//                 <button onClick={handleAddList} className="main_button" id="new-list-btn">Add</button>
+//                 <br />
+//                 <p className="message">{listMsg}</p>
+//               </div>
+//             )}
+//           </Col>
+//         </Row>
+//       </Container>
+//       <MyList userInfo={props.userInfo}/>
+//     </div>
+//   );
+// };
+
+// export default Profile;
