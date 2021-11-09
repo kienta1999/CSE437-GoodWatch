@@ -19,6 +19,14 @@ const UserPage = (props) => {
 
     //IMPORTANT: user info is passed down from App.js in props.userInfo
     const { currUser, setUser } = useContext(UserContext);
+
+    useEffect(() => {
+        var user = currUser;
+        if (!user) {
+          //not logged in, redirect to login
+          props.history.push("/");
+        }
+      }, []);
  
     useEffect(() => {
         (async () => {
