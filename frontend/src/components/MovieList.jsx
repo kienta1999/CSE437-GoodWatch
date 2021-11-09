@@ -20,7 +20,7 @@ const MovieList = ({ movies, row }) => {
     allMoviesComponent.push(generateMovieRow(index));
   }
   console.log(allMoviesComponent)
-  return <Container>HELLO{allMoviesComponent}</Container>;
+  return <Container>{allMoviesComponent}</Container>;
 };
 
 export default MovieList;

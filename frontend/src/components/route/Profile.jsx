@@ -69,7 +69,7 @@ const Profile = (props) => {
           </Col>
         </Row>
       </Container>
-      <MyList />
+      <MyList message={listMsg}/>
     </div>
   );
 };

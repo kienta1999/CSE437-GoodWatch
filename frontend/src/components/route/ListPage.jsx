@@ -7,7 +7,7 @@ import NavigationBar from "../NavigationBar.jsx";
 import MovieList from "../MovieList.jsx";
 
 
-import { getListContent } from "../../data/lists";
+import { getListContent, removeFromList } from "../../data/lists";
 import { getMovieData } from "../../data/movie.js";
 
 const ListPage = (props) => {
@@ -27,41 +27,56 @@ const ListPage = (props) => {
   }, []);
 
   useEffect(() => {
-    var listContentInfo = []
-    listContent.map((movie) => {
-      (async () => {
+    (async () => {
+    // var listContentInfo = []
+    const allFn = listContent
+      .map((movie) => movie.imdbId)
+      .map((id) => {
+        return async () => {
+          return await getMovieData(id);
+        };
+      });
+    const listContentInfo = await Promise.all(allFn.map((fn) => fn()));
+
+    // listContent.map((movie) => {
+    //   (async () => {
         //MAYBE USE A DIFFERENT FUNCTION SO WE ARE NOT GETTING SOOO MUCH DATA EACH TIME
-        const result = await getMovieData(movie.imdbId);
-        if (result) {
-          listContentInfo.push(result)
-        }
-      })();
-    });
+        // const responses = await Promise.all(listContent.map((movie) => {
+        //   const result = await getMovieData(movie.imdbId);
+        //   if (result) {
+        //     listContentInfo.push(result)
+        //   }
+        // }));
+    //   })();
+    // });
+    console.log(listContentInfo)
     setListContentDetails(listContentInfo)
+    })();
   }, [listContent]);
 
   const handleRemove = async (event) => {
     event.preventDefault();
     console.log(event.target.parentNode.className)
     let itemId = event.target.parentNode.className
-    // try {
-    //   const res = await logout(history);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await removeFromList(listid, itemId);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
     <div>
-      <NavigationBar />
+      <NavigationBar history={props.history}/>
       {
-        listContent.length > 0 ? (
+        listContentDetails.length > 0 ? (
           <Container>
-            {listContent.map((movie) => {
+            Hello
+            {listContentDetails.map((movie) => {
               console.log(movie)
               return (
-                <div key={movie['imdbId']} className={movie['imdbId']}>
-                  {movie['imdbId']}
+                <div key={movie['imdbID']} className={movie['imdbID']}>
+                  <p>{movie['Title']}</p>
                   <button onClick={handleRemove}>Remove From List</button>
                 </div>
               );

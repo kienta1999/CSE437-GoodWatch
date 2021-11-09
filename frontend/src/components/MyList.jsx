@@ -6,10 +6,10 @@ import UserContext from "../context/UserContext.js";
 
 const MyList = (props) => {
   const [listInfo, setListInfo] = useState([]);
+  const [message, setMessage] = useState(props.message)
   
   const { currUser, setUser } = useContext(UserContext);
-  //IMPORTANT: user info is passed down from App.js in props.userInfo
-
+  
   useEffect(() => {
     (async () => {
       let res = await getLists();

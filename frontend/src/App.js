@@ -19,16 +19,20 @@ function App() {
     (async () => {
       //Request user information from backend
       //Will only work if logged in and token cookie exists
-      let res = await getUser();
-      console.log("APP GET USER RES", res);
+      // let res = await getUser();
+      // console.log("APP GET USER RES", res);
 
       var user = {};
-      if (res.data.user) {
-        //logged in, token exists
-        user = res.data.user;
-      } else {
-        //not logged in, token does not exist
-        user = null;
+      // if (res.data.user) {
+      //   //logged in, token exists
+      //   user = res.data.user;
+      // } else {
+      //   //not logged in, token does not exist
+      //   user = null;
+      // }
+      var authtoken = localStorage.getItem('authtoken')
+      if (authtoken) {
+        user = jwtDecode(authtoken);
       }
 
       //Set user state

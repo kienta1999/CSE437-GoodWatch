@@ -49,7 +49,9 @@ app.listen(port, () => {
 
 //---------------------------- Authentication Middleware ----------------------------
 function withToken(req, res, next) {
-    const token = req.cookies.access_token;
+    //const token = req.cookies.access_token;
+    const token = req.headers.authtoken
+    console.log("HEADERS", req.headers)
     if (token == null) {
         console.log("not logged in/not auth")
         return res.sendStatus(401)
@@ -146,6 +148,23 @@ app.post('/add-to-list', withToken, (req,res)=> {
             }
             else {
                 res.status(200).json({ message: "Successfully Added to List!"})
+            }
+        });
+    }
+});
+
+//---------------------------- RemoveFromList ----------------------------
+app.post('/remove-from-list', withToken, (req,res)=> {
+    console.log("remove from list", req)
+    let listId = req.body.listId;
+    let movieId = req.body.movieId;
+    if (listId && movieId) {
+        db.query("DELETE FROM listItems WHERE (listId = ?) AND (imdbId = ?)",[listId, movieId], function(error, data) {
+            if(error){ 
+                res.json(error);
+            }
+            else {
+                res.status(200).json({ message: "Successfully removed from List!"})
             }
         });
     }

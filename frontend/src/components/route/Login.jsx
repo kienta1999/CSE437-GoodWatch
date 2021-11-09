@@ -15,8 +15,8 @@ function Login(props) {
       const res = await login(username, password);
       setLoginMsg(res.data.message);
 
-      // store token in localStorage
-      // localStorage.setItem('token', res.data.authtoken)
+      //store token in localStorage
+      localStorage.setItem('authtoken', res.data.authtoken)
       var user = {};
       if (res.data.authtoken) {
         user = jwtDecode(res.data.authtoken);

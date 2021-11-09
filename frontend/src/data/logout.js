@@ -4,9 +4,11 @@ import keys from "../keys.js";
 const logout = async (history) => {
     const url = `${keys.apiHost}/logout`;
 
+    var authtoken = localStorage.getItem('authtoken')
+
     let axiosConfig = {
         withCredentials: true,
-        headers: {"Content-Type":"application/json"}
+        headers: {"Content-Type":"application/json", "authtoken":authtoken}
     }
 
     try {
@@ -15,7 +17,7 @@ const logout = async (history) => {
         if(parseInt(res.status) <= 299){
             console.log(res)
 
-            // localStorage.removeItem('user')
+            localStorage.removeItem('authtoken')
             history.push("/login");
         }
         return res;
