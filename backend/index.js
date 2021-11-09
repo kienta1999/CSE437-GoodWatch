@@ -136,6 +136,22 @@ app.post('/user/:uid/movie/:mid/review', withToken, (req,res)=> {
     }
 });
 
+//---------------------------- Display Movie's Comments ----------------------------
+app.get('/movie/:id/reviews', (req,res)=> {
+    let movieId = req.params.id;
+    if (movieId) {
+        db.query(`SELECT user.first_name, user.last_name, movieRating.rating, movieRating.comment FROM movieRating
+                INNER JOIN user ON movieRating.userId=user.id and movieRating.movieId = ?`, [movieId], function(error, reviews) {
+            if(error){ 
+                res.send(error);
+            }
+            if (reviews.length > 0) {
+                res.json(reviews)
+            }
+        });
+    }
+});
+
 //---------------------------- AddToList ----------------------------
 app.post('/add-to-list', withToken, (req,res)=> {
     console.log("add to list", req)
