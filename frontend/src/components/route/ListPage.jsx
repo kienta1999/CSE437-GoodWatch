@@ -41,27 +41,26 @@ const ListPage = (props) => {
 
   useEffect(() => {
     (async () => {
-      const allFn = [...new Set(listContent.map((movie) => movie.imdbId))].map(
-        (id) => {
-          return async () => {
-            return await getMovieData(id);
-          };
-        }
-      );
-      let listContentInfo = await Promise.all(allFn.map((fn) => fn()));
+      // const allFn = [...new Set(listContent.map((movie) => movie.imdbId))].map(
+      //   (id) => {
+      //     return async () => {
+      //       return await getMovieData(id);
+      //     };
+      //   }
+      // );
+      // let listContentInfo = await Promise.all(allFn.map((fn) => fn()));
 
-      console.log(listContentInfo);
-      setListContentDetails([...new Set(listContentInfo)]);
-    // const allFn = listContent
-    //   .map((movie) => movie.imdbId)
-    //   .map((id) => {
-    //     return async () => {
-    //       return await getMovieData(id);
-    //     };
-    //   });
-    // const listContentInfo = await Promise.all(allFn.map((fn) => fn()));
-
-    // setListContentDetails(listContentInfo)
+      // console.log(listContentInfo);
+      // setListContentDetails([...new Set(listContentInfo)]);
+    const allFn = listContent
+      .map((movie) => movie.imdbId)
+      .map((id) => {
+        return async () => {
+          return await getMovieData(id);
+        };
+      });
+    const listContentInfo = await Promise.all(allFn.map((fn) => fn()));
+    setListContentDetails(listContentInfo)
     })();
   }, [listContent]);
 
@@ -84,8 +83,8 @@ const ListPage = (props) => {
 
   const handleRemove = async (event) => {
     event.preventDefault();
-    console.log(event.target.parentNode.className);
-    let itemId = event.target.parentNode.className;
+    console.log(event.target.parentNode.classList[0]);
+    let itemId = event.target.parentNode.classList[0];
     try {
       const res = await removeFromList(listid, itemId);
       // window.location.reload();
@@ -118,7 +117,7 @@ const ListPage = (props) => {
       <Container>
         {removeMsg && (<p className="message">{removeMsg}</p>)}
         {changeListMsg && (<p className="message">{changeListMsg}</p>)}
-        {listContentDetails.length > 0 && (<button onClick={handleMove}>Move a Movie to a Different List</button>)}
+        {listContentDetails.length > 0 && (<button className="btn btn-warning" onClick={handleMove}>Move a Movie to a Different List</button>)}
         {changeListBool && (
           <div>
             <select
@@ -159,16 +158,14 @@ const ListPage = (props) => {
           <Container>
             {listContentDetails.map((movie) => {
               return (
-                <div key={movie['imdbID']} className={movie['imdbID']}>
-                  <Col>
-                    <Movie movie={movie} key={movie.imdbID} />
-                    <button className="btn btn-warning" onClick={handleRemove}>Remove From List</button>
-                  </Col>
+                <Col key={movie['imdbID']} className={movie['imdbID']}>
+                  <Movie movie={movie} key={movie.imdbID} />
+                  <button className="btn btn-warning" onClick={handleRemove}>Remove From List</button> 
                   <br />
-                </div>
+                </Col>
               );
             })}
-          {listContentDetails && (
+          {/* {listContentDetails && (
             <div>
               <MovieList
                 movies={listContentDetails}
@@ -181,7 +178,7 @@ const ListPage = (props) => {
                 </button>
               </MovieList>
             </div>
-          )}
+          )} */}
         </Container>
       ) : (
         <Container>

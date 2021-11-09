@@ -18,6 +18,7 @@ const MovieList = ({ movies, row, children }) => {
   };
   let allMoviesComponent = [];
   for (let index = 0; index < movies.length; index += row) {
+    console.log(index)
     allMoviesComponent.push(generateMovieRow(index));
   }
   console.log(allMoviesComponent)

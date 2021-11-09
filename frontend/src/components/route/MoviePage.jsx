@@ -16,7 +16,7 @@ const MoviePage = (props) => {
   const [data, setData] = useState(null);
   const [existingList, setExistingList] = useState("");
   const [listInfo, setListInfo] = useState([]);
-  const [selectedlist, setSelectedList] = useState("1");
+  const [selectedlist, setSelectedList] = useState(null);
   const [addToListMsg, setAddToListMsg] = useState("");
   const [star, setStar] = useState(0);
   const commentRef = useRef("");
@@ -41,6 +41,9 @@ const MoviePage = (props) => {
       let res = await getLists();
       console.log("Getting list info in MoviePage", res);
       setListInfo(res.data.listInfo);
+      if (res.data.listInfo.length > 0) {
+        setSelectedList(res.data.listInfo[0]['id'])
+      }
     })();
   }, []);
 
@@ -91,7 +94,10 @@ const MoviePage = (props) => {
         {data.Title}, {data.Year}
       </p>
       {existingList && (
-        <p>This movie is already in your "{existingList}" list</p>
+        <div>
+          <strong>This movie is already in your "{existingList}" list</strong>
+          <br></br><br></br>
+        </div>
       )}
       {(listInfo.length > 0 && !existingList) ? (
         <>
