@@ -5,6 +5,7 @@ import { Container } from "react-bootstrap";
 import UserContext from "../../context/UserContext.js";
 import NavigationBar from "../NavigationBar.jsx";
 import StarRating from "../StarRating.jsx";
+import AllReview from "../AllReviews.jsx";
 
 import { getMovieData } from "../../data/movie.js";
 import { submitReview, getAllReviews } from "../../data/review";
@@ -104,7 +105,7 @@ const MoviePage = (props) => {
         {data.Plot}
       </p>
       <div className="review form-group">
-        <h3>Review</h3>
+        <h3>Submit your review</h3>
         <StarRating
           numberOfStars="5"
           currentRating="0"
@@ -134,6 +135,7 @@ const MoviePage = (props) => {
         </button>
         {reviewMsg && <p style={{ color: "red" }}>{reviewMsg}</p>}
       </div>
+      <AllReview movieid={movieid} />
     </Container>
   ) : (
     <div>Loading...</div>
