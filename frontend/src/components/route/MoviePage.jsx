@@ -210,7 +210,7 @@ const MoviePage = (props) => {
 
   return (
     <div>
-      <NavigationBar />
+      <NavigationBar history={props.history}/>
       {body}
     </div>
   );
