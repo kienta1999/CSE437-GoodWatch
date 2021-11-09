@@ -49,7 +49,7 @@ const MoviePage = (props) => {
   };
 
   const handleSubmitReview = async () => {
-    if (!currUser) {
+    if (!currUser || JSON.stringify(currUser) === "{}") {
       alert("Please login to submit a review");
     } else {
       const comment = commentRef.current.value;
