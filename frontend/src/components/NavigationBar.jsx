@@ -33,7 +33,7 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
   return (
     <Navbar className="mb-4" bg="light" expand="lg">
       <Container>
-        <img src={require('../logo.png').default} alt="logo" width="50"/>
+        <img src={require("../logo.png").default} alt="logo" width="50" />
         <Navbar.Brand href="/">GoodWatch</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -54,15 +54,14 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
           </Nav>
         </Navbar.Collapse>
 
-        {currUser && (
-          <button onClick={handleLogout} className="nav_button" id="logout_btn">
-            Log Out
-          </button>
-        )}
-        {!currUser && (
+        {!currUser || JSON.stringify(currUser) === "{}" ? (
           <a href="/login" className="nav_button" id="logout_btn">
             Log In
           </a>
+        ) : (
+          <button onClick={handleLogout} className="nav_button" id="logout_btn">
+            Log Out
+          </button>
         )}
         {form}
       </Container>

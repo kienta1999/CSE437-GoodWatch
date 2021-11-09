@@ -1,15 +1,9 @@
 import axios from "axios";
 import keys from "../keys.js";
+import axiosConfig from "./axiosConfig";
 
-const submitReview = async (userid, movieid, rating, comment) => {
+export const submitReview = async (userid, movieid, rating, comment) => {
   console.log(`Submitting review star ${rating} & comment ${comment}`);
-  
-  var authtoken = localStorage.getItem('authtoken')
-
-    let axiosConfig = {
-        withCredentials: true,
-        headers: {"Content-Type":"application/json", "authtoken":authtoken}
-    }
 
   try {
     const url = `${keys.apiHost}/user/${userid}/movie/${movieid}/review`;
@@ -26,4 +20,11 @@ const submitReview = async (userid, movieid, rating, comment) => {
   }
 };
 
-export default submitReview;
+export const getAllReviews = async (movieid) => {
+  try {
+    const url = `${keys.apiHost}/movie/${movieid}/reviews`;
+    return await axios.get(url, axiosConfig);
+  } catch (err) {
+    throw err;
+  }
+};

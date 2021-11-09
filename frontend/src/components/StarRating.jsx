@@ -5,7 +5,13 @@ import "./StarRating.css";
 // The idea for star component comes from
 // https://scotch.io/tutorials/build-a-star-rating-component-for-react
 
-const StarRatingFunc = ({ numberOfStars, onClick, currentRating }) => {
+const StarRating = ({
+  numberOfStars,
+  onClick,
+  currentRating,
+  mutable,
+  fontSize,
+}) => {
   const [ratingState, setRatingState] = useState(+currentRating || 0);
   const ratingRef = useRef(null);
 
@@ -31,13 +37,18 @@ const StarRatingFunc = ({ numberOfStars, onClick, currentRating }) => {
       onClick(rating); // emit the event up to the parent
     }
   };
+  const doNothing = () => {};
+  const getStyle = (n) => {
+    const color = n < ratingState ? "yellow" : "gray";
+    return { color, fontSize };
+  };
 
   return (
     <div
       className="rating"
       ref={ratingRef}
       data-rating={ratingState}
-      onMouseOut={mouseOutRating}
+      onMouseOut={mutable ? mouseOutRating : doNothing}
     >
       {Array(+numberOfStars)
         .fill(0)
@@ -47,8 +58,9 @@ const StarRatingFunc = ({ numberOfStars, onClick, currentRating }) => {
               className="star"
               key={n + 1}
               data-value={n + 1}
-              onMouseOver={hoverHandler}
-              onClick={starClickHandler}
+              onMouseOver={mutable ? hoverHandler : doNothing}
+              onClick={mutable ? starClickHandler : doNothing}
+              style={getStyle(n)}
             >
               &#9733;
             </span>
@@ -58,4 +70,4 @@ const StarRatingFunc = ({ numberOfStars, onClick, currentRating }) => {
   );
 };
 
-export default StarRatingFunc;
+export default StarRating;

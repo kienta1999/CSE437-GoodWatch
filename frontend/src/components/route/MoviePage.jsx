@@ -5,9 +5,10 @@ import { Container } from "react-bootstrap";
 import UserContext from "../../context/UserContext.js";
 import NavigationBar from "../NavigationBar.jsx";
 import StarRating from "../StarRating.jsx";
+import AllReview from "../AllReviews.jsx";
 
 import { getMovieData } from "../../data/movie.js";
-import submitReview from "../../data/submitReview";
+import { submitReview, getAllReviews } from "../../data/review";
 import { getLists, addToList } from "../../data/lists";
 
 const MoviePage = (props) => {
@@ -18,6 +19,9 @@ const MoviePage = (props) => {
   const [star, setStar] = useState(0);
   const commentRef = useRef("");
   const [listInfo, setListInfo] = useState([]);
+  const [reviewMsg, setReviewMsg] = useState(null);
+  const [goodwatchScore, setGoodwatchScore] = useState(null);
+
   //IMPORTANT: user info is passed down from App.js in props.userInfo
   const { currUser, setUser } = useContext(UserContext);
   useEffect(() => {
@@ -45,13 +49,21 @@ const MoviePage = (props) => {
   };
 
   const handleSubmitReview = async () => {
-    if (!currUser) {
+    if (!currUser || JSON.stringify(currUser) === "{}") {
       alert("Please login to submit a review");
     } else {
       const comment = commentRef.current.value;
       const userid = currUser._id;
-      await submitReview(userid, movieid, star, comment);
+      try {
+        await submitReview(userid, movieid, star, comment);
+        commentRef.current.value = "";
+        setReviewMsg("Review submitted successfully");
+      } catch (error) {}
     }
+  };
+
+  const getGoodWatchAverageRating = (averageScore) => {
+    setGoodwatchScore(averageScore);
   };
 
   const body = data ? (
@@ -89,8 +101,13 @@ const MoviePage = (props) => {
         <strong>Gerne:</strong> {data.Genre}
       </p>
       <p>
-        <strong>Ratings:</strong> {data.imdbRating}
+        <strong>IMDB Ratings:</strong> {data.imdbRating} / 10
       </p>
+      {goodwatchScore && (
+        <p>
+          <strong>GoodWatch Ratings:</strong> {goodwatchScore} / 5
+        </p>
+      )}
       <p>
         <strong>Votes:</strong> {data.imdbVotes}
       </p>
@@ -99,13 +116,15 @@ const MoviePage = (props) => {
         {data.Plot}
       </p>
       <div className="review form-group">
-        <h3>Review</h3>
+        <h3>Submit your review</h3>
         <StarRating
           numberOfStars="5"
           currentRating="0"
           onClick={(s) => {
             setStar(+s);
           }}
+          fontSize="4rem"
+          mutable
         />
         <label for="comment">Comment</label>
 
@@ -125,7 +144,12 @@ const MoviePage = (props) => {
         >
           Submit
         </button>
+        {reviewMsg && <p style={{ color: "red" }}>{reviewMsg}</p>}
       </div>
+      <AllReview
+        movieid={movieid}
+        getGoodWatchAverageRating={getGoodWatchAverageRating}
+      />
     </Container>
   ) : (
     <div>Loading...</div>
