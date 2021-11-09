@@ -30,35 +30,37 @@ const MoviePage = (props) => {
   
   useEffect(() => {
     (async () => {
-      let res = await checkList(movieid, possibleListIds);
-      console.log("Checking list info in MoviePage", res);
-      if (res.data.existingList) {
-        if (res.data.existingList.length > 0) {
-          setExistingList(res.data.existingList[0].listName);
-        } 
-      }
-      
+      if (currUser && JSON.stringify(currUser) !== "{}") {
+        let res = await checkList(movieid, possibleListIds);
+        console.log("Checking list info in MoviePage", res);
+        if (res.data.existingList) {
+          if (res.data.existingList.length > 0) {
+            setExistingList(res.data.existingList[0].listName);
+          } 
+        }
+      } 
     })();
   }, [addToListMsg]);
 
   useEffect(() => {
     (async () => {
-      let res = await getLists();
-      console.log("Getting list info in MoviePage", res);
-      setListInfo(res.data.listInfo);
-      if (res.data.listInfo) {
-        if (res.data.listInfo.length > 0) {
-          setSelectedList(res.data.listInfo[0]['id'])
-
-          let possibleListIdsTemp = []
-          res.data.listInfo.map((list) => {
-            console.log(list)
-            possibleListIdsTemp.push(list['id'])
-          });
-          setPossibleListIds(possibleListIdsTemp)
-        }
+      if (currUser && JSON.stringify(currUser) !== "{}") {
+        let res = await getLists();
+        console.log("Getting list info in MoviePage", res);
+        setListInfo(res.data.listInfo);
+        if (res.data.listInfo) {
+          if (res.data.listInfo.length > 0) {
+            setSelectedList(res.data.listInfo[0]['id'])
+  
+            let possibleListIdsTemp = []
+            res.data.listInfo.map((list) => {
+              console.log(list)
+              possibleListIdsTemp.push(list['id'])
+            });
+            setPossibleListIds(possibleListIdsTemp)
+          }
+        }  
       }
-
     })();
   }, []);
 
@@ -70,11 +72,15 @@ const MoviePage = (props) => {
   }, [movieid]);
 
   const handleAddToList = async () => {
-    try {
-      const res = await addToList(selectedlist, movieid);
-      setAddToListMsg(res.data.message);
-    } catch (error) {
-      console.log(error);
+    if (!currUser || JSON.stringify(currUser) === "{}") {
+      alert("Please login to submit a review");
+    } else {
+      try {
+        const res = await addToList(selectedlist, movieid);
+        setAddToListMsg(res.data.message);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -139,7 +145,7 @@ const MoviePage = (props) => {
         </>
       ):(<></>)}
 
-      {(listInfo.length == 0) ? 
+      {(listInfo.length == 0) && (currUser) && (JSON.stringify(currUser) !== "{}") ? 
       (<p>You don't have any lists yet! Make one in your profile page first to add this movie to a list.</p>)
       :(<></>)}
       

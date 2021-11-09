@@ -19,7 +19,7 @@ const Profile = (props) => {
   useEffect(() => {
     var user = currUser;
     if (!user) {
-      //not logged in, redirect to home
+      //not logged in, redirect to login
       props.history.push("/");
     }
   }, []);
