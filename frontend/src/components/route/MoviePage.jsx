@@ -7,7 +7,7 @@ import NavigationBar from "../NavigationBar.jsx";
 import StarRating from "../StarRating.jsx";
 
 import { getMovieData } from "../../data/movie.js";
-import { submitReview } from "../../data/review";
+import { submitReview, getAllReviews } from "../../data/review";
 import { getLists, addToList } from "../../data/lists";
 
 const MoviePage = (props) => {
@@ -111,6 +111,8 @@ const MoviePage = (props) => {
           onClick={(s) => {
             setStar(+s);
           }}
+          fontSize="4rem"
+          mutable
         />
         <label for="comment">Comment</label>
 
