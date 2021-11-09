@@ -8,7 +8,7 @@ import StarRating from "../StarRating.jsx";
 import AllReview from "../AllReviews.jsx";
 
 import { getMovieData } from "../../data/movie.js";
-import { submitReview, getAllReviews } from "../../data/review";
+import { submitReview } from "../../data/review";
 import { getLists, addToList } from "../../data/lists";
 
 const MoviePage = (props) => {
@@ -103,9 +103,13 @@ const MoviePage = (props) => {
       <p>
         <strong>IMDB Ratings:</strong> {data.imdbRating} / 10
       </p>
-      {goodwatchScore && (
+      {goodwatchScore > 0 ? (
         <p>
           <strong>GoodWatch Ratings:</strong> {goodwatchScore} / 5
+        </p>
+      ) : (
+        <p>
+          <strong>GoodWatch Ratings:</strong> N/A
         </p>
       )}
       <p>
