@@ -20,6 +20,8 @@ const MoviePage = (props) => {
   const commentRef = useRef("");
   const [listInfo, setListInfo] = useState([]);
   const [reviewMsg, setReviewMsg] = useState(null);
+  const [goodwatchScore, setGoodwatchScore] = useState(null);
+
   //IMPORTANT: user info is passed down from App.js in props.userInfo
   const { currUser, setUser } = useContext(UserContext);
   useEffect(() => {
@@ -60,6 +62,10 @@ const MoviePage = (props) => {
     }
   };
 
+  const getGoodWatchAverageRating = (averageScore) => {
+    setGoodwatchScore(averageScore);
+  };
+
   const body = data ? (
     <Container>
       <img src={data.Poster} alt={data.Title} />
@@ -95,8 +101,13 @@ const MoviePage = (props) => {
         <strong>Gerne:</strong> {data.Genre}
       </p>
       <p>
-        <strong>Ratings:</strong> {data.imdbRating}
+        <strong>IMDB Ratings:</strong> {data.imdbRating} / 10
       </p>
+      {goodwatchScore && (
+        <p>
+          <strong>GoodWatch Ratings:</strong> {goodwatchScore} / 5
+        </p>
+      )}
       <p>
         <strong>Votes:</strong> {data.imdbVotes}
       </p>
@@ -135,7 +146,10 @@ const MoviePage = (props) => {
         </button>
         {reviewMsg && <p style={{ color: "red" }}>{reviewMsg}</p>}
       </div>
-      <AllReview movieid={movieid} />
+      <AllReview
+        movieid={movieid}
+        getGoodWatchAverageRating={getGoodWatchAverageRating}
+      />
     </Container>
   ) : (
     <div>Loading...</div>
