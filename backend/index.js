@@ -166,7 +166,7 @@ app.post('/change-list', withToken, (req,res)=> {
     console.log("change list", req)
     let newListId = req.body.listId;
     let movieId = req.body.movieId;
-    if (listId && movieId) {
+    if (newListId && movieId) {
         db.query('SELECT * FROM listItems WHERE listId = ? AND imdbId = ?', [newListId, movieId], function(error, results) {
             if(error) throw error;
             if (results.length > 0) {
