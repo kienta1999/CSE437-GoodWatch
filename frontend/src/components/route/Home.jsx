@@ -9,6 +9,7 @@ import keys from "../../keys.js";
 import jwtDecode from "jwt-decode";
 
 import { Container, Col, Row, Carousel } from "react-bootstrap";
+import { getPopularMovieData, getFanFavMovieData, getLatestMovieData, getImage, getIMDB_ID } from "../../data/movie.js";
 
 const Home = (props) => {
   const query = useRef(null);
@@ -17,16 +18,28 @@ const Home = (props) => {
   const [totalPage, setTotalPage] = useState(1);
   const [movies, setMovies] = useState(null);
 
-  //IMPORTANT: user info is passed down from App.js in props.userInfo
+  const [popularImage, setPopularImage] = useState([]);
+  const [popularID, setPopularID] = useState([]);
 
-  // useEffect(() => {
-  // var token = localStorage.getItem('token')
-  // var user = {}
-  // if (token) {
-  //   user = jwtDecode(token)
-  // }
-  // console.log("Home getting user", user)
-  // }, []);
+  const [favoriteImage, setFavoriteImage] = useState([]);
+  const [favoriteID, setFavoriteID] = useState([]);
+
+  const [latestImage, setLatestImage] = useState([]);
+  const [latestTitle, setLatestTitle] = useState([]);
+  const [latestPlot, setLatestPlot] = useState([]);
+  const [latestID, setLatestID] = useState([]);
+
+
+  // IMPORTANT: user info is passed down from App.js in props.userInfo
+
+  useEffect(() => {
+  var token = localStorage.getItem('token')
+  var user = {}
+  if (token) {
+    user = jwtDecode(token)
+  }
+  console.log("Home getting user", user)
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -47,75 +60,70 @@ const Home = (props) => {
     setMovies(res.Search);
   };
 
-  const [popularImage, setPopularImage] = useState([]);
-  const [popularID, setPopularID] = useState([]);
-
+  
   useEffect(() => {
     (async () => {
-      const res = await fetch(
-        "https://imdb-api.com/en/API/MostPopularMovies/k_ky621lt9"
-      );
-      const data = await res.json();
-      let pops = data.items.slice(0, 9);
-
-      let popi = pops.map((pop) => pop.image);
-      setPopularImage(popi);
-
-      let popd = pops.map((pop) => pop.id);
-      setPopularID(popd);
-    })();
-  }, []);
-
-  const [favoriteImage, setFavoriteImage] = useState([]);
-  const [favoriteID, setFavoriteID] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const res = await fetch(
-        "https://imdb-api.com/en/API/Top250Movies/k_ky621lt9"
-      );
-      const data = await res.json();
-      let favs = data.items.slice(0, 5);
-
-      let favi = favs.map((fav) => fav.image);
-      setFavoriteImage(favi);
-
-      let favd = favs.map((fav) => fav.id);
-      setFavoriteID(favd);
-    })();
-  }, []);
-
-  const [latestImage, setLatestImage] = useState([]);
-  const [latestTitle, setLatestTitle] = useState([]);
-  const [latestPlot, setLatestPlot] = useState([]);
-  const [latestID, setLatestID] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const res = await fetch(
-        "https://imdb-api.com/en/API/InTheaters/k_ky621lt9"
-      );
-      const data = await res.json();
-      let lats = data.items.slice(0, 3);
-      console.log(lats);
-
-      let lati = [];
-      for (let lat of lats) {
-        let res = await getMoviePoster(lat.id);
-        lati.push(res);
+      const res = await getPopularMovieData();
+      if (res) {
+        let popi = res.map((pop) => (`https://image.tmdb.org/t/p/w500${pop.poster_path}`));
+        setPopularImage(popi);
+        var popd = []
+        for (const pop of res) {
+            let id = await getIMDB_ID(pop.id);
+            if (id) {
+              popd.push(id);
+            }
+        }
+        setPopularID(popd);
       }
-      setLatestImage(lati);
-
-      let latt = lats.map((lat) => lat.title);
-      setLatestTitle(latt);
-
-      let latp = lats.map((lat) => lat.plot);
-      setLatestPlot(latp);
-
-      let latd = lats.map((lat) => lat.id);
-      setLatestID(latd);
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getFanFavMovieData();
+      if (res) {
+        let favi = res.map((fav) => (`https://image.tmdb.org/t/p/w500${fav.poster_path}`));
+        setFavoriteImage(favi);
+        var favd = []
+        for (const fav of res) {
+            let id = await getIMDB_ID(fav.id);
+            if (id) {
+              favd.push(id);
+            }
+        }
+        setFavoriteID(favd);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getLatestMovieData();
+      if (res) {
+        let latt = res.map((lat) => lat.title);
+        setLatestTitle(latt);
+        let latp = res.map((lat) => lat.overview);
+        setLatestPlot(latp);
+
+        var lati = []
+        var latd = []
+        for (const lat of res) {
+          let image = await getImage(lat.id);
+          if (image) {
+            lati.push(`https://image.tmdb.org/t/p/w500${image}`)
+          }
+          let id = await getIMDB_ID(lat.id);
+          if (id) {
+            latd.push(id);
+          }
+        }
+        setLatestImage(lati);
+        setLatestID(latd);
+      }
+    })();
+  }, []);
+
 
   return (
     <div>
