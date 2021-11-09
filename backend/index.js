@@ -155,7 +155,7 @@ app.get("/movie/:id/reviews", withToken, (req, res) => {
   let movieId = req.params.id;
   if (movieId) {
     db.query(
-      `SELECT user.first_name, user.last_name, movieRating.rating, movieRating.comment FROM movieRating
+      `SELECT user.id, user.first_name, user.last_name, movieRating.rating, movieRating.comment FROM movieRating
                 INNER JOIN user ON movieRating.userId=user.id and movieRating.movieId = ?`,
       [movieId],
       function (error, reviews) {
