@@ -4,13 +4,12 @@ const Movie = ({ movie }) => {
   return (
     <a href={url}>
       <img src={movie.Poster} alt={movie.Title} width="150px" />
-      <p
+      <div
         width="10%"
         height="10%"
-        style={{ display: "flex", justifyContent: "center" }}
       >
         {movie.Title}, {movie.Year}
-      </p>
+      </div>
     </a>
   );
 };

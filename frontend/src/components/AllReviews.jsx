@@ -30,18 +30,21 @@ const AllReview = ({ movieid, getGoodWatchAverageRating }) => {
       const fullName = `${firstName} ${lastName}`;
       return (
         <div className="all-reviews">
-          <h3>Others' review</h3>
           <h5>
-            {fullName}
-            <StarRating
-              numberOfStars="5"
-              currentRating={rating}
-              fontSize="1.5rem"
-              mutable={false}
-            />
+              <div className="row">
+                <div className="col">{fullName}</div>
+                <div className="col">
+                    <StarRating
+                        numberOfStars="5"
+                        currentRating={rating}
+                        fontSize="1.5rem"
+                        mutable={false}
+                    />
+                </div>
+              </div>
           </h5>
-
           <p>{comment}</p>
+          <hr />
         </div>
       );
     });

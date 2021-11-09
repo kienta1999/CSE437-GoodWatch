@@ -1,7 +1,7 @@
 import Movie from "./Movie.jsx";
 import { Row, Col, Container } from "react-bootstrap";
 
-const MovieList = ({ movies, row }) => {
+const MovieList = ({ movies, row, children }) => {
   const generateMovieRow = (index) => {
     const someMovies = movies.slice(index, index + row);
     console.log(movies)
@@ -10,6 +10,7 @@ const MovieList = ({ movies, row }) => {
       return (
         <Col>
           <Movie movie={movie} key={movie.imdbID} />
+          <div className={movie['imdbID']}>{children}</div>
         </Col>
       );
     });

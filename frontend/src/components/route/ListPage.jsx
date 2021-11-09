@@ -1,10 +1,12 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 
 import UserContext from "../../context/UserContext.js";
 import NavigationBar from "../NavigationBar.jsx";
 import MovieList from "../MovieList.jsx";
+import Movie from "../Movie.jsx";
 
 
 import { getListContent, removeFromList } from "../../data/lists";
@@ -28,29 +30,18 @@ const ListPage = (props) => {
 
   useEffect(() => {
     (async () => {
-    // var listContentInfo = []
-    const allFn = listContent
-      .map((movie) => movie.imdbId)
+    const allFn = [...new Set(listContent
+      .map((movie) => movie.imdbId))]
       .map((id) => {
         return async () => {
           return await getMovieData(id);
         };
       });
-    const listContentInfo = await Promise.all(allFn.map((fn) => fn()));
-
-    // listContent.map((movie) => {
-    //   (async () => {
-        //MAYBE USE A DIFFERENT FUNCTION SO WE ARE NOT GETTING SOOO MUCH DATA EACH TIME
-        // const responses = await Promise.all(listContent.map((movie) => {
-        //   const result = await getMovieData(movie.imdbId);
-        //   if (result) {
-        //     listContentInfo.push(result)
-        //   }
-        // }));
-    //   })();
-    // });
+    let listContentInfo = await Promise.all(allFn.map((fn) => fn()));
+    
     console.log(listContentInfo)
-    setListContentDetails(listContentInfo)
+
+    setListContentDetails([...new Set(listContentInfo)])
     })();
   }, [listContent]);
 
@@ -71,17 +62,25 @@ const ListPage = (props) => {
       {
         listContentDetails.length > 0 ? (
           <Container>
-            Hello
-            {listContentDetails.map((movie) => {
+            {/* {listContentDetails.map((movie) => {
               console.log(movie)
               return (
                 <div key={movie['imdbID']} className={movie['imdbID']}>
-                  <p>{movie['Title']}</p>
-                  <button onClick={handleRemove}>Remove From List</button>
+                  <Col>
+                    <Movie movie={movie} key={movie.imdbID} />
+                    <button className="btn btn-warning" onClick={handleRemove}>Remove From List</button>
+                  </Col>
+                  <br />
                 </div>
               );
-            })}
-            {/* {listContentDetails && <MovieList movies={listContentDetails} row={5} />} */}
+            })} */}
+            {listContentDetails &&
+                <div>
+                    <MovieList movies={listContentDetails} row={listContentDetails.length >= 5? 5:listContentDetails.length}>
+                        <button className="btn btn-warning" onClick={handleRemove}>Remove From List</button>
+                    </MovieList>
+                </div>
+            }
           </Container>
         ) : (
           <Container>This list doesn't have anything in it yet! Add some movies or TV shows to this list to see them here.</Container>
