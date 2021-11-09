@@ -15,7 +15,9 @@ const MoviePage = (props) => {
   const { movieid } = useParams();
   const [data, setData] = useState(null);
   const [existingList, setExistingList] = useState("");
+
   const [listInfo, setListInfo] = useState([]);
+  const [possibleListIds, setPossibleListIds] = useState([]);
   const [selectedlist, setSelectedList] = useState(null);
   const [addToListMsg, setAddToListMsg] = useState("");
   const [star, setStar] = useState(0);
@@ -28,22 +30,35 @@ const MoviePage = (props) => {
   
   useEffect(() => {
     (async () => {
-      let res = await checkList(movieid);
+      let res = await checkList(movieid, possibleListIds);
       console.log("Checking list info in MoviePage", res);
       if (res.data.existingList) {
-        setExistingList(res.data.existingList[0].listName);
-      } 
+        if (res.data.existingList.length > 0) {
+          setExistingList(res.data.existingList[0].listName);
+        } 
+      }
+      
     })();
-  }, []);
+  }, [addToListMsg]);
 
   useEffect(() => {
     (async () => {
       let res = await getLists();
       console.log("Getting list info in MoviePage", res);
       setListInfo(res.data.listInfo);
-      if (res.data.listInfo.length > 0) {
-        setSelectedList(res.data.listInfo[0]['id'])
+      if (res.data.listInfo) {
+        if (res.data.listInfo.length > 0) {
+          setSelectedList(res.data.listInfo[0]['id'])
+
+          let possibleListIdsTemp = []
+          res.data.listInfo.map((list) => {
+            console.log(list)
+            possibleListIdsTemp.push(list['id'])
+          });
+          setPossibleListIds(possibleListIdsTemp)
+        }
       }
+
     })();
   }, []);
 
@@ -95,7 +110,7 @@ const MoviePage = (props) => {
       </p>
       {existingList && (
         <div>
-          <strong>This movie is already in your "{existingList}" list</strong>
+          <strong>This movie is in your "{existingList}" list</strong>
           <br></br><br></br>
         </div>
       )}
@@ -109,7 +124,7 @@ const MoviePage = (props) => {
           }}
         >
           {listInfo.map(function (li, index) {
-            return <option value={li.id}>{li.listName}</option>;
+            return <option key={li.id} value={li.id}>{li.listName}</option>;
           })}
         </select>
         <button

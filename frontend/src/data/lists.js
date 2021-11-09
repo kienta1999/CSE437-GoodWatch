@@ -97,7 +97,7 @@ const getLists = async () => {
   }
 };
 
-const checkList = async (movieid) => {
+const checkList = async (movieid, possibleListIds) => {
     const url = `${keys.apiHost}/check-list`;
 
     var authtoken = localStorage.getItem('authtoken')
@@ -109,7 +109,8 @@ const checkList = async (movieid) => {
 
     try {
         const res = await axios.post(url, {
-            movieId: movieid
+            movieId: movieid,
+            possibleListIds: possibleListIds
         }, axiosConfig)
         
         console.log("Middleware check list res", res)

@@ -168,26 +168,6 @@ app.get("/movie/:id/reviews", withToken, (req, res) => {
   }
 });
 
-//---------------------------- AddToList ----------------------------
-app.post("/add-to-list", withToken, (req, res) => {
-  console.log("add to list", req);
-  let listId = req.body.listId;
-  let movieId = req.body.movieId;
-  if (listId && movieId) {
-    db.query(
-      "INSERT INTO listItems (`listId`, `imdbId`) VALUES (?,?)",
-      [listId, movieId],
-      function (error, data) {
-        if (error) {
-          res.json(error);
-        } else {
-          res.status(200).json({ message: "Successfully Added to List!" });
-        }
-      }
-    );
-  }
-});
-
 //---------------------------- RemoveFromList ----------------------------
 app.post("/remove-from-list", withToken, (req, res) => {
   console.log("remove from list", req);
@@ -257,7 +237,7 @@ app.post('/add-to-list', withToken, (req,res)=> {
         db.query('SELECT * FROM listItems WHERE listId = ? AND imdbId = ?', [listId, movieId], function(error, results) {
             if(error) throw error;
             if (results.length > 0) {
-                res.status(404).json({ message: "Duplicate item"});
+                res.status(404).json({ message: "This movie is already in a list!"});
             } 
             else {
                 db.query("INSERT INTO listItems (`listId`, `imdbId`) VALUES (?,?)",[listId, movieId], function(error, data) {
@@ -301,18 +281,40 @@ app.post('/change-list', withToken, (req,res)=> {
 //---------------------------- Check if In List ----------------------------
 app.post('/check-list', withToken, (req,res)=> {
     console.log("check list", req)
+    let userId = req.user._id;
     let movieId = req.body.movieId;
-    if (movieId) {
+    let possibleLists = req.body.possibleListIds;
+    console.log("STUFF FOR CHECKING LIST", possibleLists)
+    console.log("STUFF FOR CHECKING LIST", userId, movieId)
+    if (movieId && userId) {
         db.query('SELECT * FROM listItems WHERE imdbId = ?', [movieId], function(error, results) {
             if(error) throw error;
             if (results.length > 0) {
-                db.query('SELECT * FROM lists WHERE id = ?', [results[0].listId], function(error, results) {
+                console.log("STUFF FOR CHECKING LIST",results)
+                var listIdtoUse = null;
+                for (let i=0; i<results.length; i++) {
+                    console.log(results[i].listId)
+                    if (possibleLists.includes(results[i].listId)) {
+                        listIdtoUse = results[i].listId
+                    }
+                }
+                console.log(listIdtoUse)
+                db.query('SELECT * FROM lists WHERE id = ? AND userId = ?', [listIdtoUse, userId], function(error, results) {
                     if(error) throw error;
-                    res.status(200).json({ 
-                        message: "Already in a list",
-                        type: "Success",
-                        existingList: results
-                    })
+                    if (results.length > 0) {
+                        res.status(200).json({ 
+                            message: "Already in a list",
+                            type: "Success",
+                            existingList: results
+                        })
+                    }
+                    else {
+                        res.status(200).json({ 
+                            message: "Not in a list",
+                            type: "Success",
+                            existingList: null
+                        })
+                    }
                 });
             } 
             else {
