@@ -46,6 +46,29 @@ const addToList = async (selectedlist, movieid) => {
     }
 };
 
+const changeList = async (newlist, movieid) => {
+    const url = `${keys.apiHost}/change-list`;
+
+    var authtoken = localStorage.getItem('authtoken')
+
+    let axiosConfig = {
+        withCredentials: true,
+        headers: {"Content-Type":"application/json", "authtoken":authtoken}
+    }
+
+    try {
+        const res = await axios.post(url, {
+            listId: newlist,
+            movieId: movieid
+        }, axiosConfig)
+        
+        console.log("Middleware update list res", res)
+        return res;
+    } catch (err) {
+        return err.response;
+    }
+};
+
 const removeFromList = async (selectedlist, movieid) => {
     const url = `${keys.apiHost}/remove-from-list`;
 
@@ -89,6 +112,28 @@ const getLists = async () => {
     }
 };
 
+const checkList = async (movieid) => {
+    const url = `${keys.apiHost}/check-list`;
+
+    var authtoken = localStorage.getItem('authtoken')
+
+    let axiosConfig = {
+        withCredentials: true,
+        headers: {"Content-Type":"application/json", "authtoken":authtoken}
+    }
+
+    try {
+        const res = await axios.post(url, {
+            movieId: movieid
+        }, axiosConfig)
+        
+        console.log("Middleware check list res", res)
+        return res;
+    } catch (err) {
+        return err.response;
+    }
+};
+
 const getListContent = async (selectedlist) => {
     const url = `${keys.apiHost}/get-list-content`;
 
@@ -112,4 +157,4 @@ const getListContent = async (selectedlist) => {
 };
 
 export default createList;
-export { addToList, removeFromList, getLists, getListContent };
+export { addToList, changeList, removeFromList, getLists, checkList, getListContent };

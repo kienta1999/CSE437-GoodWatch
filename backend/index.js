@@ -142,12 +142,73 @@ app.post('/add-to-list', withToken, (req,res)=> {
     let listId = req.body.listId;
     let movieId = req.body.movieId;
     if (listId && movieId) {
-        db.query("INSERT INTO listItems (`listId`, `imdbId`) VALUES (?,?)",[listId, movieId], function(error, data) {
-            if(error){ 
-                res.json(error);
-            }
+        db.query('SELECT * FROM listItems WHERE listId = ? AND imdbId = ?', [listId, movieId], function(error, results) {
+            if(error) throw error;
+            if (results.length > 0) {
+                res.status(404).json({ message: "Duplicate item"});
+            } 
             else {
-                res.status(200).json({ message: "Successfully Added to List!"})
+                db.query("INSERT INTO listItems (`listId`, `imdbId`) VALUES (?,?)",[listId, movieId], function(error, data) {
+                    if(error){ 
+                        res.json(error);
+                    }
+                    else {
+                        res.status(200).json({ message: "Successfully Added to List!"})
+                    }
+                });
+            }
+        });
+    }
+});
+
+//---------------------------- ChangeList ----------------------------
+app.post('/change-list', withToken, (req,res)=> {
+    console.log("change list", req)
+    let newListId = req.body.listId;
+    let movieId = req.body.movieId;
+    if (listId && movieId) {
+        db.query('SELECT * FROM listItems WHERE listId = ? AND imdbId = ?', [newListId, movieId], function(error, results) {
+            if(error) throw error;
+            if (results.length > 0) {
+                res.status(404).json({ message: "Duplicate item"});
+            } 
+            else {
+                db.query("UPDATE listItems SET listId = ? WHERE imdbId = ?",[newListId, movieId], function(error, data) {
+                    if(error){ 
+                        res.json(error);
+                    }
+                    else {
+                        res.status(200).json({ message: "Successfully updated to new List!"})
+                    }
+                });
+            }
+        });
+    }
+});
+
+//---------------------------- Check if In List ----------------------------
+app.post('/check-list', withToken, (req,res)=> {
+    console.log("check list", req)
+    let movieId = req.body.movieId;
+    if (movieId) {
+        db.query('SELECT * FROM listItems WHERE imdbId = ?', [movieId], function(error, results) {
+            if(error) throw error;
+            if (results.length > 0) {
+                db.query('SELECT * FROM lists WHERE id = ?', [results[0].listId], function(error, results) {
+                    if(error) throw error;
+                    res.status(200).json({ 
+                        message: "Already in a list",
+                        type: "Success",
+                        existingList: results
+                    })
+                });
+            } 
+            else {
+                res.status(200).json({ 
+                    message: "Not in a list",
+                    type: "Success",
+                    existingList: null
+                })
             }
         });
     }

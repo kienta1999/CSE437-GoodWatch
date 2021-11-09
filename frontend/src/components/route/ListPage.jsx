@@ -7,15 +7,15 @@ import NavigationBar from "../NavigationBar.jsx";
 import MovieList from "../MovieList.jsx";
 
 
-import { getListContent, removeFromList } from "../../data/lists";
+import { getListContent, removeFromList, changeList } from "../../data/lists";
 import { getMovieData } from "../../data/movie.js";
 
 const ListPage = (props) => {
   const { listid } = useParams();
   const [listContent, setListContent] = useState([]);
   const [listContentDetails, setListContentDetails] = useState([]);
+  const [removeMsg, setRemoveMsg] = useState("");
 
-  //IMPORTANT: user info is passed down from App.js in props.userInfo
   const { currUser, setUser } = useContext(UserContext);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const ListPage = (props) => {
       console.log("Getting list content in ListPage", res);
       setListContent(res.data.listContent);
     })();
-  }, []);
+  }, [removeMsg]);
 
   useEffect(() => {
     (async () => {
@@ -38,17 +38,6 @@ const ListPage = (props) => {
       });
     const listContentInfo = await Promise.all(allFn.map((fn) => fn()));
 
-    // listContent.map((movie) => {
-    //   (async () => {
-        //MAYBE USE A DIFFERENT FUNCTION SO WE ARE NOT GETTING SOOO MUCH DATA EACH TIME
-        // const responses = await Promise.all(listContent.map((movie) => {
-        //   const result = await getMovieData(movie.imdbId);
-        //   if (result) {
-        //     listContentInfo.push(result)
-        //   }
-        // }));
-    //   })();
-    // });
     console.log(listContentInfo)
     setListContentDetails(listContentInfo)
     })();
@@ -60,10 +49,25 @@ const ListPage = (props) => {
     let itemId = event.target.parentNode.className
     try {
       const res = await removeFromList(listid, itemId);
+      console.log(res)
+      setRemoveMsg(res.data.message)
     } catch (error) {
       console.log(error);
     }
   }
+
+  // const changeList = async (event) => {
+  //   event.preventDefault();
+  //   console.log(event.target.parentNode.className)
+  //   let itemId = event.target.parentNode.className
+  //   try {
+  //     const res = await changeList(listid, itemId);
+  //     console.log(res)
+  //     setChangeListMsg(res.data.message)
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   return (
     <div>
@@ -71,7 +75,6 @@ const ListPage = (props) => {
       {
         listContentDetails.length > 0 ? (
           <Container>
-            Hello
             {listContentDetails.map((movie) => {
               console.log(movie)
               return (
@@ -81,6 +84,7 @@ const ListPage = (props) => {
                 </div>
               );
             })}
+            {removeMsg && (<p className="message">{removeMsg}</p>)}
             {/* {listContentDetails && <MovieList movies={listContentDetails} row={5} />} */}
           </Container>
         ) : (

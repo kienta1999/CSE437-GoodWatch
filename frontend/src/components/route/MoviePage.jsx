@@ -8,18 +8,30 @@ import StarRating from "../StarRating.jsx";
 
 import { getMovieData } from "../../data/movie.js";
 import submitReview from "../../data/submitReview";
-import { getLists, addToList } from "../../data/lists";
+import { getLists, addToList, checkList} from "../../data/lists";
 
 const MoviePage = (props) => {
   const { movieid } = useParams();
   const [data, setData] = useState(null);
+  const [existingList, setExistingList] = useState("");
+  const [listInfo, setListInfo] = useState([]);
   const [selectedlist, setSelectedList] = useState("1");
   const [addToListMsg, setAddToListMsg] = useState("");
   const [star, setStar] = useState(0);
   const commentRef = useRef("");
-  const [listInfo, setListInfo] = useState([]);
-  //IMPORTANT: user info is passed down from App.js in props.userInfo
+  
   const { currUser, setUser } = useContext(UserContext);
+  
+  useEffect(() => {
+    (async () => {
+      let res = await checkList(movieid);
+      console.log("Checking list info in MoviePage", res);
+      if (res.data.existingList) {
+        setExistingList(res.data.existingList[0].listName);
+      } 
+    })();
+  }, []);
+
   useEffect(() => {
     (async () => {
       let res = await getLists();
@@ -60,7 +72,11 @@ const MoviePage = (props) => {
       <p>
         {data.Title}, {data.Year}
       </p>
-      {listInfo && (
+      {existingList && (
+        <p>This movie is already in your "{existingList}" list</p>
+      )}
+      {(listInfo.length > 0 && !existingList) ? (
+        <>
         <select
           name="userLists"
           onChange={(e) => {
@@ -72,16 +88,22 @@ const MoviePage = (props) => {
             return <option value={li.id}>{li.listName}</option>;
           })}
         </select>
-      )}
-      <button
+        <button
         onClick={handleAddToList}
         className="main_button"
         id="add-to-list-btn"
-      >
-        Add to List
-      </button>
-      <br />
-      <p className="message">{addToListMsg}</p>
+        >
+          Add to List
+        </button>
+        <br />
+        <p className="message">{addToListMsg}</p>
+        </>
+      ):(<></>)}
+
+      {(listInfo.length == 0) ? 
+      (<p>You don't have any lists yet! Make one in your profile page first to add this movie to a list.</p>)
+      :(<></>)}
+      
       <p>
         <strong>Actors:</strong> {data.Actors}
       </p>
