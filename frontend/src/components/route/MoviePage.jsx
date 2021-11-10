@@ -9,7 +9,7 @@ import AllReview from "../AllReviews.jsx";
 
 import { getMovieData } from "../../data/movie.js";
 import { submitReview } from "../../data/review";
-import { getLists, addToList, checkList} from "../../data/lists";
+import { getLists, addToList, checkList } from "../../data/lists";
 
 const MoviePage = (props) => {
   const { movieid } = useParams();
@@ -22,44 +22,44 @@ const MoviePage = (props) => {
   const [addToListMsg, setAddToListMsg] = useState("");
   const [star, setStar] = useState(0);
   const commentRef = useRef("");
- 
+
   const [reviewMsg, setReviewMsg] = useState(null);
   const [goodwatchScore, setGoodwatchScore] = useState(null);
-  
+
   const { currUser, setUser } = useContext(UserContext);
-  
+
   useEffect(() => {
     (async () => {
       // if (currUser && JSON.stringify(currUser) !== "{}") {
-        let res = await checkList(movieid, possibleListIds);
-        console.log("Checking list info in MoviePage", res);
-        if (res.data.existingList) {
-          if (res.data.existingList.length > 0) {
-            setExistingList(res.data.existingList[0].listName);
-          } 
+      let res = await checkList(movieid, possibleListIds);
+      console.log("Checking list info in MoviePage", res);
+      if (res.data.existingList) {
+        if (res.data.existingList.length > 0) {
+          setExistingList(res.data.existingList[0].listName);
         }
-      // } 
+      }
+      // }
     })();
   }, [addToListMsg, possibleListIds]);
 
   useEffect(() => {
     (async () => {
       // if (currUser && JSON.stringify(currUser) !== "{}") {
-        let res = await getLists();
-        console.log("Getting list info in MoviePage", res);
-        setListInfo(res.data.listInfo);
-        if (res.data.listInfo) {
-          if (res.data.listInfo.length > 0) {
-            setSelectedList(res.data.listInfo[0]['id'])
-  
-            let possibleListIdsTemp = []
-            res.data.listInfo.map((list) => {
-              console.log(list)
-              possibleListIdsTemp.push(list['id'])
-            });
-            setPossibleListIds(possibleListIdsTemp)
-          }
-        }  
+      let res = await getLists();
+      console.log("Getting list info in MoviePage", res);
+      setListInfo(res.data.listInfo);
+      if (res.data.listInfo) {
+        if (res.data.listInfo.length > 0) {
+          setSelectedList(res.data.listInfo[0]["id"]);
+
+          let possibleListIdsTemp = [];
+          res.data.listInfo.map((list) => {
+            console.log(list);
+            possibleListIdsTemp.push(list["id"]);
+          });
+          setPossibleListIds(possibleListIdsTemp);
+        }
+      }
       // }
     })();
   }, []);
@@ -117,38 +117,53 @@ const MoviePage = (props) => {
       {existingList && (
         <div>
           <strong>This movie is in your "{existingList}" list</strong>
-          <br></br><br></br>
+          <br></br>
+          <br></br>
         </div>
       )}
-      {(listInfo.length > 0 && !existingList) ? (
+      {listInfo && listInfo.length > 0 && !existingList ? (
         <>
-        <select
-          name="userLists"
-          onChange={(e) => {
-            setSelectedList(e.target.value);
-            setAddToListMsg("");
-          }}
-        >
-          {listInfo.map(function (li, index) {
-            return <option key={li.id} value={li.id}>{li.listName}</option>;
-          })}
-        </select>
-        <button
-        onClick={handleAddToList}
-        className="main_button"
-        id="add-to-list-btn"
-        >
-          Add to List
-        </button>
-        <br />
-        <p className="message">{addToListMsg}</p>
+          <select
+            name="userLists"
+            onChange={(e) => {
+              setSelectedList(e.target.value);
+              setAddToListMsg("");
+            }}
+          >
+            {listInfo.map(function (li, index) {
+              return (
+                <option key={li.id} value={li.id}>
+                  {li.listName}
+                </option>
+              );
+            })}
+          </select>
+          <button
+            onClick={handleAddToList}
+            className="main_button"
+            id="add-to-list-btn"
+          >
+            Add to List
+          </button>
+          <br />
+          <p className="message">{addToListMsg}</p>
         </>
-      ):(<></>)}
+      ) : (
+        <></>
+      )}
 
-      {(listInfo.length == 0) && (currUser) && (JSON.stringify(currUser) !== "{}") ? 
-      (<p>You don't have any lists yet! Make one in your profile page first to add this movie to a list.</p>)
-      :(<></>)}
-      
+      {listInfo &&
+      listInfo.length == 0 &&
+      currUser &&
+      JSON.stringify(currUser) !== "{}" ? (
+        <p>
+          You don't have any lists yet! Make one in your profile page first to
+          add this movie to a list.
+        </p>
+      ) : (
+        <></>
+      )}
+
       <p>
         <strong>Actors:</strong> {data.Actors}
       </p>
@@ -216,7 +231,7 @@ const MoviePage = (props) => {
 
   return (
     <div>
-      <NavigationBar history={props.history}/>
+      <NavigationBar history={props.history} />
       {body}
     </div>
   );
