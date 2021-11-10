@@ -30,7 +30,7 @@ const MoviePage = (props) => {
   
   useEffect(() => {
     (async () => {
-      if (currUser && JSON.stringify(currUser) !== "{}") {
+      // if (currUser && JSON.stringify(currUser) !== "{}") {
         let res = await checkList(movieid, possibleListIds);
         console.log("Checking list info in MoviePage", res);
         if (res.data.existingList) {
@@ -38,13 +38,13 @@ const MoviePage = (props) => {
             setExistingList(res.data.existingList[0].listName);
           } 
         }
-      } 
+      // } 
     })();
-  }, [addToListMsg]);
+  }, [addToListMsg, possibleListIds]);
 
   useEffect(() => {
     (async () => {
-      if (currUser && JSON.stringify(currUser) !== "{}") {
+      // if (currUser && JSON.stringify(currUser) !== "{}") {
         let res = await getLists();
         console.log("Getting list info in MoviePage", res);
         setListInfo(res.data.listInfo);
@@ -60,7 +60,7 @@ const MoviePage = (props) => {
             setPossibleListIds(possibleListIdsTemp)
           }
         }  
-      }
+      // }
     })();
   }, []);
 

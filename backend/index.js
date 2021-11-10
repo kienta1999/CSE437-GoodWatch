@@ -212,10 +212,12 @@ app.post("/get-lists", withToken, (req, res) => {
 app.post("/get-list-content", withToken, (req, res) => {
   let userId = req.user._id;
   let listId = req.body.listId;
+  console.log("GETCONTENT:", listId)
   db.query(
     "SELECT * FROM listItems WHERE listId = ?",
     [listId],
     function (error, results) {
+    console.log("GETCONTENT:", results)
       if (error) {
         res.json(error);
       } else {

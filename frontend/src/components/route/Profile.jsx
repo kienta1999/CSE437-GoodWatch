@@ -16,13 +16,13 @@ const Profile = (props) => {
 
   const { currUser, setUser } = useContext(UserContext);
 
-  useEffect(() => {
-    var user = currUser;
-    if (!user) {
-      //not logged in, redirect to login
-      props.history.push("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   var user = currUser;
+  //   if (!user) {
+  //     //not logged in, redirect to login
+  //     props.history.push("/");
+  //   }
+  // }, []);
 
   useEffect(() => {
     (async () => {
