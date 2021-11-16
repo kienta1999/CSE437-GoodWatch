@@ -9,6 +9,7 @@ import UserPage from "./components/route/UserPage.jsx";
 import Home from "./components/route/Home.jsx";
 import MoviePage from "./components/route/MoviePage.jsx";
 import ListPage from "./components/route/ListPage.jsx";
+import SearchResults from "./components/route/SearchResults.jsx";
 import jwtDecode from "jwt-decode";
 import UserContext from "./context/UserContext";
 import getUser from "./data/getUser";
@@ -62,7 +63,15 @@ function App() {
             exact
             render={(props) => <ListPage {...props} />}
           />
-          <Route path="/" exact render={(props) => <Home {...props} />} />
+          <Route 
+          path="/" 
+          exact 
+          render={(props) => <Home {...props} />} />
+          <Route
+            path="/searchresult/:query"
+            exact
+            render={(props) => <SearchResults {...props} />}
+          />
           <Route
             path="/movie/:movieid"
             exact

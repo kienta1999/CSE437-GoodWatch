@@ -7,6 +7,7 @@ import { useRef, useState, useEffect } from "react";
 import "./components.css";
 
 const NavigationBar = ({ history, handleSubmit, query }) => {
+  const [searchQuery, setQuery] = useState("");
   //IMPORTANT: user info is passed down from App.js in userInfo
   const { currUser, setUser } = useContext(UserContext);
 
@@ -26,11 +27,24 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
     }
   };
 
-  
+  const handleSearch = async (event) => {
+    event.preventDefault();
+    console.log(searchQuery);
+    var page = `/searchresult/${searchQuery}`
+    history.push(page);
+  };
 
-  const form = handleSubmit && (
+  const form = handleSubmit ? (
     <form onSubmit={handleSubmit}>
       <input type="text" placeholder="Search" ref={query} />
+    </form>
+  ) :
+  (
+    <form onSubmit={handleSearch}>
+      <input type="text" placeholder="Search" 
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }} />
     </form>
   );
 
