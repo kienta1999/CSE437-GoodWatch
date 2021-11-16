@@ -32,7 +32,8 @@ function App() {
       //   user = null;
       // }
       var authtoken = localStorage.getItem('authtoken')
-      if (authtoken) {
+      if (authtoken && authtoken != "undefined") {
+        console.log("EXISTS", authtoken)
         user = jwtDecode(authtoken);
       }
 
