@@ -187,7 +187,7 @@ const Home = (props) => {
             </Col>
             <Col>
               <h4>
-                POPULAR
+                Popular
                 <hr></hr>
               </h4>
               <Row>
@@ -277,7 +277,7 @@ const Home = (props) => {
               {/* <Container> */}
                 <br />
                 <h4>
-                  FAN FAVORITES
+                  Fan Favorites
                   <hr></hr>
                 </h4>
                 <Row>
@@ -310,10 +310,11 @@ const Home = (props) => {
               {/* </Container> */}
             </Col>
 
-            {/* <Col>
-              <br/>
-              <MyList/>
-            </Col> */}
+            <Col>
+              <Row>
+                <MyList/>
+              </Row>
+            </Col>
           </Row>
         </Container>
       )}

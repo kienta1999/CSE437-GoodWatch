@@ -2,6 +2,7 @@ import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
 import logout from "../data/logout";
+import MyList from "./MyList.jsx";
 import jwtDecode from "jwt-decode";
 import { useRef, useState, useEffect } from "react";
 import "./components.css";
@@ -56,18 +57,15 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            {/* <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link> */}
             <NavDropdown title="Menu" id="basic-nav-dropdown">
               <NavDropdown.Item href="/">Home</NavDropdown.Item>
               {currUser && (
                 <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
               )}
-              {/* <NavDropdown.Item href="#action/3.3">Movie List</NavDropdown.Item> */}
-              {/* <NavDropdown.Divider /> */}
-              {/* <NavDropdown.Item href="#action/3.4">
-                Something else
-              </NavDropdown.Item> */}
+              <NavDropdown.Divider />
+              {currUser && (
+                <MyList navList={true}/>
+              )}
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
@@ -84,7 +82,6 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
             Log Out
           </button>
         )}
-        
         {form}
       </Container>
     </Navbar>

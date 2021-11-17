@@ -14,7 +14,7 @@ import { getLists, addToList, checkList } from "../../data/lists";
 const MoviePage = (props) => {
   const { movieid } = useParams();
   const [data, setData] = useState(null);
-  const [existingList, setExistingList] = useState("");
+  const [existingList, setExistingList] = useState([]);
 
   const [listInfo, setListInfo] = useState([]);
   const [possibleListIds, setPossibleListIds] = useState([]);
@@ -35,7 +35,7 @@ const MoviePage = (props) => {
       console.log("Checking list info in MoviePage", res);
       if (res.data.existingList) {
         if (res.data.existingList.length > 0) {
-          setExistingList(res.data.existingList[0].listName);
+          setExistingList(res.data.existingList[0]);
         }
       }
       // }
@@ -118,7 +118,7 @@ const MoviePage = (props) => {
       </p>
       {existingList && (
         <div>
-          <strong>This movie is in your "{existingList}" list</strong>
+          <strong>This movie is in your <a href={`/profile/list/${existingList.id}`}>{existingList.listName}</a> list</strong>
           <br></br>
           <br></br>
         </div>
