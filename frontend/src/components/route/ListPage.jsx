@@ -119,11 +119,11 @@ const ListPage = (props) => {
   return (
     <div>
       <NavigationBar history={props.history} />
-      <Container>
+      <Container className="mb-4">
         {removeMsg && <p className="message">{removeMsg}</p>}
         {changeListMsg && <p className="message">{changeListMsg}</p>}
         {listContentDetails.length > 0 && (
-          <button className="btn btn-warning" onClick={handleMove}>
+          <button className="btn btn-primary" onClick={handleMove}>
             Move a Movie to a Different List
           </button>
         )}
@@ -144,6 +144,7 @@ const ListPage = (props) => {
                 );
               })}
             </select>
+            <br></br>
             <select
               name="userLists"
               onChange={(e) => {
@@ -161,7 +162,8 @@ const ListPage = (props) => {
                 }
               })}
             </select>
-            <button onClick={handleChangeList} className="main_button">
+            <br></br>
+            <button onClick={handleChangeList} className="btn btn-primary">
               Update List
             </button>
           </div>
@@ -169,18 +171,18 @@ const ListPage = (props) => {
       </Container>
       {listContentDetails.length > 0 ? (
         <Container>
-          {listContentDetails.map((movie) => {
+          {/* {listContentDetails.map((movie) => {
             return (
               <Col key={movie["imdbID"]} className={movie["imdbID"]}>
                 <Movie movie={movie} key={movie.imdbID} />
-                <button className="btn btn-warning" onClick={handleRemove}>
+                <button className="btn btn-primary" onClick={handleRemove}>
                   Remove From List
                 </button>
                 <br />
               </Col>
             );
-          })}
-          {/* {listContentDetails && (
+          })} */}
+          {listContentDetails && (
             <div>
               <MovieList
                 movies={listContentDetails}
@@ -188,12 +190,12 @@ const ListPage = (props) => {
                   listContentDetails.length >= 5 ? 5 : listContentDetails.length
                 }
               >
-                <button className="btn btn-warning" onClick={handleRemove}>
+                <button className="btn btn-primary" onClick={handleRemove}>
                   Remove From List
                 </button>
               </MovieList>
             </div>
-          )} */}
+          )}
         </Container>
       ) : (
         <Container>

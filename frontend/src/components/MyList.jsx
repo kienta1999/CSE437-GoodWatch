@@ -1,4 +1,4 @@
-import { Container, ListGroup } from "react-bootstrap";
+import { Container, ListGroup, Row, Col } from "react-bootstrap";
 import { useState, useEffect, useContext } from "react";
 
 import { getLists } from "../data/lists";
@@ -20,20 +20,24 @@ const MyList = (props) => {
 
   return (
     <Container>
-      <h4>
-        My Lists
-        <hr></hr>
-      </h4>
-      <ListGroup>
-        {listInfo &&
-          listInfo.map(function (li, index) {
-            return (
-              <ListGroup.Item action key={li.id} href={`/profile/list/${li.id}`}>
-                {li.listName}
-              </ListGroup.Item>
-            );
-          })}
-      </ListGroup>
+      <Row>
+        <Col>
+        <h4>
+          My Lists
+          <hr></hr>
+        </h4>
+        <ListGroup>
+          {listInfo &&
+            listInfo.map(function (li, index) {
+              return (
+                <ListGroup.Item action key={li.id} href={`/profile/list/${li.id}`}>
+                  {li.listName}
+                </ListGroup.Item>
+              );
+            })}
+        </ListGroup>
+        </Col>
+      </Row>
     </Container>
   );
 };

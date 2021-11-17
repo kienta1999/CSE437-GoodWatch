@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import NavigationBar from "../NavigationBar.jsx";
 import UserContext from "../../context/UserContext.js";
 
@@ -134,51 +134,54 @@ const UserPage = (props) => {
       <div>
         <NavigationBar history={props.history} />
         <Container>
-          {!checkedUser && (
-            <div>
-              <h4>User Not Exist</h4>
-            </div>
-          )}
-          {checkedUser && (
-            <div>
-              <h4>
-                Welcome to{" "}
-                <em>
-                  <u>{checkedUser.username}</u>
-                </em>
-                's page!
-              </h4>
-              <strong>Followers: </strong> {followers}
-              <br />
-              <strong>Following: </strong> {following}
-              <br />
-              <br />
-            </div>
-          )}
-          {checkedUser && currUser && (
-            <div>
-              {!followed ? (
-                <button
-                  onClick={handleFollow}
-                  className="main_button"
-                  id="new-list-btn"
-                >
-                  Follow
-                </button>
-              ) : (
-                <button
-                  onClick={handleUnfollow}
-                  className="main_button"
-                  id="new-list-btn"
-                >
-                  Unfollow
-                </button>
+          <Row>
+            <Col>
+              {!checkedUser && (
+                <div>
+                  <h4>User Not Exist</h4>
+                </div>
               )}
-            </div>
-          )}
-          <br></br>
+              {checkedUser && (
+                <div>
+                  <h4>
+                    Welcome to{" "}
+                    <em>
+                      <u>{checkedUser.username}</u>
+                    </em>
+                    's page!
+                  </h4>
+                  <strong>Followers: </strong> {followers}
+                  <br />
+                  <strong>Following: </strong> {following}
+                  <br />
+                  <br />
+                </div>
+              )}
+              {checkedUser && currUser && (
+                <div>
+                  {!followed ? (
+                    <button
+                      onClick={handleFollow}
+                      className="main_button"
+                      id="new-list-btn"
+                    >
+                      Follow
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleUnfollow}
+                      className="main_button"
+                      id="new-list-btn"
+                    >
+                      Unfollow
+                    </button>
+                  )}
+                </div>
+              )}
+              <br></br>
+              </Col>
+          </Row>
         </Container>
-        {/* <MyList /> */}
       </div>
     );
   }

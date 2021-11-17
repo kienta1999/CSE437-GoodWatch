@@ -113,9 +113,19 @@ input[type="password"] {
 .nav_button {
   border: none;
   outline: none;
-  height: 50px;
-  font-size: 18px;
-  border-radius: 20px;
-  width: 100px;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 10px;
   margin: auto 10px;
 }
+.btn {
+  margin: 10px 0;
+}
+/* .normal_button {
+  border: none;
+  outline: none;
+  font-size: 16px;
+  border-radius: 20px;
+  padding: 10px;
+  margin: auto 10px;
+} */

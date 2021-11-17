@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 import UserContext from "../../context/UserContext.js";
 import NavigationBar from "../NavigationBar.jsx";
@@ -110,6 +110,8 @@ const MoviePage = (props) => {
 
   const body = data ? (
     <Container>
+      <Row>
+        <Col>
       <img src={data.Poster} alt={data.Title} />
       <p>
         {data.Title}, {data.Year}
@@ -140,8 +142,7 @@ const MoviePage = (props) => {
           </select>
           <button
             onClick={handleAddToList}
-            className="main_button"
-            id="add-to-list-btn"
+            className="btn btn-primary"
           >
             Add to List
           </button>
@@ -224,6 +225,8 @@ const MoviePage = (props) => {
         movieid={movieid}
         getGoodWatchAverageRating={getGoodWatchAverageRating}
       />
+      </Col>
+      </Row>
     </Container>
   ) : (
     <div>Loading...</div>
