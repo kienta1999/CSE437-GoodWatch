@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col} from "react-bootstrap";
+import FloatingLabel from "react-bootstrap-floating-label";
+import Form from 'react-bootstrap/Form'
 
 import UserContext from "../../context/UserContext.js";
 import NavigationBar from "../NavigationBar.jsx";
@@ -123,7 +125,7 @@ const MoviePage = (props) => {
           <br></br>
         </div>
       )}
-      {listInfo && listInfo.length > 0 && !existingList ? (
+      {listInfo && listInfo.length > 0 ? (
         <>
           <select
             name="userLists"
@@ -132,6 +134,9 @@ const MoviePage = (props) => {
               setAddToListMsg("");
             }}
           >
+            <option key={existingList.id} value={existingList.id}>
+                {existingList.listName}
+            </option>
             {listInfo.map(function (li, index) {
               return (
                 <option key={li.id} value={li.id}>
@@ -140,6 +145,25 @@ const MoviePage = (props) => {
               );
             })}
           </select>
+          {/* <FloatingLabel controlId="floatingSelect" label="Current list">
+            <Form.Control aria-label="List selector"
+            onChange={(e) => {
+              setSelectedList(e.target.value);
+              setAddToListMsg("");
+            }}
+            >
+              <option key={existingList.id} value={existingList.id}>
+                {existingList.listName}
+              </option>
+              {listInfo.map(function (li, index) {
+                return (
+                  <option key={li.id} value={li.id}>
+                    {li.listName}
+                  </option>
+                );
+              })}
+            </Form.Control>
+          </FloatingLabel> */}
           <button
             onClick={handleAddToList}
             className="btn btn-primary"
