@@ -665,8 +665,7 @@ app.post("/count-following", withToken, (req, res) => {
 });
 
 //---------------------------- Get movies from followers --------------------
-// withToken,
-app.get("/following-movies", (req, res) => {
+app.get("/following-movies", withToken, (req, res) => {
   let userID = req.user?._id || 25;
   db.query(
     "SELECT followed FROM friends WHERE follower = ?",
