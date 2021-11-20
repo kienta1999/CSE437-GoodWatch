@@ -663,3 +663,34 @@ app.post("/count-following", withToken, (req, res) => {
     }
   );
 });
+
+//---------------------------- Get movies from followers --------------------
+// withToken,
+app.get("/following-movies", (req, res) => {
+  let userID = req.user?._id || 25;
+  db.query(
+    "SELECT followed FROM friends WHERE follower = ?",
+    [userID],
+    (error, result) => {
+      if (error) {
+        return res.status(404).json(error);
+      } else {
+        const follower = result.map((item) => item.followed);
+        //   .map((id) => "'" + id + "'")
+        //   .join();
+        db.query(
+          "SELECT movieId, rating FROM movieRating WHERE rating > 3 and userId IN (" +
+            db.escape(follower) +
+            ")",
+          (error2, ratings) => {
+            if (error2) {
+              return res.status(404).json(error2);
+            } else {
+              return res.status(200).json(ratings);
+            }
+          }
+        );
+      }
+    }
+  );
+});
