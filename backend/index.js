@@ -678,7 +678,7 @@ app.get("/following-movies", withToken, (req, res) => {
         //   .map((id) => "'" + id + "'")
         //   .join();
         db.query(
-          "SELECT movieId, rating FROM movieRating WHERE rating > 3 and userId IN (" +
+          "SELECT movieId, rating FROM movieRating WHERE userId IN (" +
             db.escape(follower) +
             ")",
           (error2, ratings) => {

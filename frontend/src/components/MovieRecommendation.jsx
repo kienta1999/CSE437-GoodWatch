@@ -11,7 +11,9 @@ const MovieRecommendation = (props) => {
     (async () => {
       try {
         let res = await getMovieRecommendation();
-        setMoviesRecommended(res);
+        setMoviesRecommended(
+          res.filter((movie) => movie.averageFollowingRating >= 3.5)
+        );
       } catch (error) {
         console.log(error);
       }
@@ -39,8 +41,8 @@ const MovieRecommendation = (props) => {
         Recommendations from your followers
         <hr></hr>
       </h4>
-      Either your follower does not rate any movies with score greater or equal
-      than 4 or you haven't follow anyone!
+      Either your follower does not rate any movies with average score greater
+      or equal than 3.5 or you haven't follow anyone!
     </Container>
   );
 };
