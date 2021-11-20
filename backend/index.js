@@ -212,12 +212,12 @@ app.post("/get-lists", withToken, (req, res) => {
 app.post("/get-list-content", withToken, (req, res) => {
   let userId = req.user._id;
   let listId = req.body.listId;
-  console.log("GETCONTENT:", listId)
+  console.log("GETCONTENT:", listId);
   db.query(
     "SELECT * FROM listItems WHERE listId = ?",
     [listId],
     function (error, results) {
-    console.log("GETCONTENT:", results)
+      console.log("GETCONTENT:", results);
       if (error) {
         res.json(error);
       } else {
@@ -226,108 +226,131 @@ app.post("/get-list-content", withToken, (req, res) => {
           type: "Success",
           listContent: results,
         });
-        }
-    });
+      }
+    }
+  );
 });
 
 //---------------------------- AddToList ----------------------------
-app.post('/add-to-list', withToken, (req,res)=> {
-    console.log("add to list", req)
-    let listId = req.body.listId;
-    let movieId = req.body.movieId;
-    if (listId && movieId) {
-        db.query('SELECT * FROM listItems WHERE listId = ? AND imdbId = ?', [listId, movieId], function(error, results) {
-            if(error) throw error;
-            if (results.length > 0) {
-                res.status(404).json({ message: "This movie is already in a list!"});
-            } 
-            else {
-                db.query("INSERT INTO listItems (`listId`, `imdbId`) VALUES (?,?)",[listId, movieId], function(error, data) {
-                    if(error){ 
-                        res.json(error);
-                    }
-                    else {
-                        res.status(200).json({ message: "Successfully Added to List!"})
-                    }
-                });
+app.post("/add-to-list", withToken, (req, res) => {
+  console.log("add to list", req);
+  let listId = req.body.listId;
+  let movieId = req.body.movieId;
+  if (listId && movieId) {
+    db.query(
+      "SELECT * FROM listItems WHERE listId = ? AND imdbId = ?",
+      [listId, movieId],
+      function (error, results) {
+        if (error) throw error;
+        if (results.length > 0) {
+          res.status(404).json({ message: "This movie is already in a list!" });
+        } else {
+          db.query(
+            "INSERT INTO listItems (`listId`, `imdbId`) VALUES (?,?)",
+            [listId, movieId],
+            function (error, data) {
+              if (error) {
+                res.json(error);
+              } else {
+                res
+                  .status(200)
+                  .json({ message: "Successfully Added to List!" });
+              }
             }
-        });
-    }
+          );
+        }
+      }
+    );
+  }
 });
 
 //---------------------------- ChangeList ----------------------------
-app.post('/change-list', withToken, (req,res)=> {
-    console.log("change list", req)
-    let newListId = req.body.listId;
-    let movieId = req.body.movieId;
-    if (newListId && movieId) {
-        db.query('SELECT * FROM listItems WHERE listId = ? AND imdbId = ?', [newListId, movieId], function(error, results) {
-            if(error) throw error;
-            if (results.length > 0) {
-                res.status(404).json({ message: "Duplicate item"});
-            } 
-            else {
-                db.query("UPDATE listItems SET listId = ? WHERE imdbId = ?",[newListId, movieId], function(error, data) {
-                    if(error){ 
-                        res.json(error);
-                    }
-                    else {
-                        res.status(200).json({ message: "Successfully updated to new List!"})
-                    }
-                });
+app.post("/change-list", withToken, (req, res) => {
+  console.log("change list", req);
+  let newListId = req.body.listId;
+  let movieId = req.body.movieId;
+  if (newListId && movieId) {
+    db.query(
+      "SELECT * FROM listItems WHERE listId = ? AND imdbId = ?",
+      [newListId, movieId],
+      function (error, results) {
+        if (error) throw error;
+        if (results.length > 0) {
+          res.status(404).json({ message: "Duplicate item" });
+        } else {
+          db.query(
+            "UPDATE listItems SET listId = ? WHERE imdbId = ?",
+            [newListId, movieId],
+            function (error, data) {
+              if (error) {
+                res.json(error);
+              } else {
+                res
+                  .status(200)
+                  .json({ message: "Successfully updated to new List!" });
+              }
             }
-        });
-    }
+          );
+        }
+      }
+    );
+  }
 });
 
 //---------------------------- Check if In List ----------------------------
-app.post('/check-list', withToken, (req,res)=> {
-    console.log("check list", req)
-    let userId = req.user._id;
-    let movieId = req.body.movieId;
-    let possibleLists = req.body.possibleListIds;
-    console.log("STUFF FOR CHECKING LIST", possibleLists)
-    console.log("STUFF FOR CHECKING LIST", userId, movieId)
-    if (movieId && userId) {
-        db.query('SELECT * FROM listItems WHERE imdbId = ?', [movieId], function(error, results) {
-            if(error) throw error;
-            if (results.length > 0) {
-                console.log("STUFF FOR CHECKING LIST",results)
-                var listIdtoUse = null;
-                for (let i=0; i<results.length; i++) {
-                    console.log(results[i].listId)
-                    if (possibleLists.includes(results[i].listId)) {
-                        listIdtoUse = results[i].listId
-                    }
-                }
-                console.log(listIdtoUse)
-                db.query('SELECT * FROM lists WHERE id = ? AND userId = ?', [listIdtoUse, userId], function(error, results) {
-                    if(error) throw error;
-                    if (results.length > 0) {
-                        res.status(200).json({ 
-                            message: "Already in a list",
-                            type: "Success",
-                            existingList: results
-                        })
-                    }
-                    else {
-                        res.status(200).json({ 
-                            message: "Not in a list",
-                            type: "Success",
-                            existingList: null
-                        })
-                    }
-                });
-            } 
-            else {
-                res.status(200).json({ 
-                    message: "Not in a list",
-                    type: "Success",
-                    existingList: null
-                })
+app.post("/check-list", withToken, (req, res) => {
+  console.log("check list", req);
+  let userId = req.user._id;
+  let movieId = req.body.movieId;
+  let possibleLists = req.body.possibleListIds;
+  console.log("STUFF FOR CHECKING LIST", possibleLists);
+  console.log("STUFF FOR CHECKING LIST", userId, movieId);
+  if (movieId && userId) {
+    db.query(
+      "SELECT * FROM listItems WHERE imdbId = ?",
+      [movieId],
+      function (error, results) {
+        if (error) throw error;
+        if (results.length > 0) {
+          console.log("STUFF FOR CHECKING LIST", results);
+          var listIdtoUse = null;
+          for (let i = 0; i < results.length; i++) {
+            console.log(results[i].listId);
+            if (possibleLists.includes(results[i].listId)) {
+              listIdtoUse = results[i].listId;
             }
-        });
+          }
+          console.log(listIdtoUse);
+          db.query(
+            "SELECT * FROM lists WHERE id = ? AND userId = ?",
+            [listIdtoUse, userId],
+            function (error, results) {
+              if (error) throw error;
+              if (results.length > 0) {
+                res.status(200).json({
+                  message: "Already in a list",
+                  type: "Success",
+                  existingList: results,
+                });
+              } else {
+                res.status(200).json({
+                  message: "Not in a list",
+                  type: "Success",
+                  existingList: null,
+                });
+              }
+            }
+          );
+        } else {
+          res.status(200).json({
+            message: "Not in a list",
+            type: "Success",
+            existingList: null,
+          });
+        }
       }
+    );
+  }
 });
 
 //--------------------------- Register ---------------------------
@@ -512,110 +535,161 @@ app.post("/logout", withToken, (req, res) => {
 });
 
 //---------------------------- CheckUser ----------------------------
-app.get('/user/:userid', (req,res)=> {
-    userID = req.params.userid;
-    db.query('SELECT * FROM user WHERE id = ?', [userID], function(error, results) {
-        if (error) return res.status(404).json(error);
-        if (results.length == 0) {
-            console.log("User Not Exist");
-            return res.status(404).json({ message: "User Not Exist"});
-        } else {
-            console.log("User Found");
-            return res.status(200).json(results[0]);
-        }
-    });
+app.get("/user/:userid", (req, res) => {
+  userID = req.params.userid;
+  db.query(
+    "SELECT * FROM user WHERE id = ?",
+    [userID],
+    function (error, results) {
+      if (error) return res.status(404).json(error);
+      if (results.length == 0) {
+        console.log("User Not Exist");
+        return res.status(404).json({ message: "User Not Exist" });
+      } else {
+        console.log("User Found");
+        return res.status(200).json(results[0]);
+      }
+    }
+  );
 });
 
-
 //---------------------------- Follow ----------------------------
-app.post("/follow", (req,res)=> {
-    curr_userID = req.body.curr_userid;
-    userID = req.body.userid;
-    console.log(userID, curr_userID)
-    db.query("SELECT * FROM friends WHERE followed = ? AND follower = ?", [userID, curr_userID], (error, results) => {
-        if (error) return res.status(404).json(error);
-        if (results.length > 0) {
-            console.log("Error: Already Followed");
-            return res.status(404).json({ message: "Error: Already Followed" });
-        }
-        else {
-            db.query("INSERT INTO friends (`followed`, `follower`) VALUES (?,?)",[userID, curr_userID], (error, data) => {
-                if (error) return res.status(404).json(error);
-                else {
-                    console.log("Successfully Follow");
-                    return res.status(200).json({ message: "Successfully Follow" });
-                }
-            });
-        }
-    });
-    
+app.post("/follow", (req, res) => {
+  curr_userID = req.body.curr_userid;
+  userID = req.body.userid;
+  console.log(userID, curr_userID);
+  db.query(
+    "SELECT * FROM friends WHERE followed = ? AND follower = ?",
+    [userID, curr_userID],
+    (error, results) => {
+      if (error) return res.status(404).json(error);
+      if (results.length > 0) {
+        console.log("Error: Already Followed");
+        return res.status(404).json({ message: "Error: Already Followed" });
+      } else {
+        db.query(
+          "INSERT INTO friends (`followed`, `follower`) VALUES (?,?)",
+          [userID, curr_userID],
+          (error, data) => {
+            if (error) return res.status(404).json(error);
+            else {
+              console.log("Successfully Follow");
+              return res.status(200).json({ message: "Successfully Follow" });
+            }
+          }
+        );
+      }
+    }
+  );
 });
 
 //---------------------------- Unfollow ----------------------------
-app.post("/unfollow", (req,res)=> {
-    curr_userID = req.body.curr_userid;
-    userID = req.body.userid;
-    db.query("SELECT * FROM friends WHERE followed = ? AND follower = ?", [userID, curr_userID], (error, results) => {
-        if (error) return res.status(404).json(error);
-        if (results.length == 0) {
-            console.log("Error: Not Yet Followed");
-            return res.status(404).json({ message: "Error: Not Yet Followed" });
-        }
-        else {
-            db.query("DELETE FROM friends WHERE followed = ? AND follower = ?", [userID, curr_userID], (error, data) => {
-                if (error) return res.status(404).json(error);
-                else {
-                    console.log("Successfully Unfollow");
-                    return res.status(200).json({ message: "Successfully Unfollow" });
-                }
-            });
-        }
-    });
-    
+app.post("/unfollow", (req, res) => {
+  curr_userID = req.body.curr_userid;
+  userID = req.body.userid;
+  db.query(
+    "SELECT * FROM friends WHERE followed = ? AND follower = ?",
+    [userID, curr_userID],
+    (error, results) => {
+      if (error) return res.status(404).json(error);
+      if (results.length == 0) {
+        console.log("Error: Not Yet Followed");
+        return res.status(404).json({ message: "Error: Not Yet Followed" });
+      } else {
+        db.query(
+          "DELETE FROM friends WHERE followed = ? AND follower = ?",
+          [userID, curr_userID],
+          (error, data) => {
+            if (error) return res.status(404).json(error);
+            else {
+              console.log("Successfully Unfollow");
+              return res.status(200).json({ message: "Successfully Unfollow" });
+            }
+          }
+        );
+      }
+    }
+  );
 });
 
 //---------------------------- Check-Follow ----------------------------
-app.post("/check-follow", withToken, (req,res)=> {
-    let curr_userId = req.user._id;
-    let userID = req.body.userid;
-    db.query("SELECT * FROM friends WHERE followed = ? AND follower = ?", [userID, curr_userId], (error, results) => {
-        if (error) return res.status(404).json(error);
-        if (results.length > 0) {
-            console.log("Already Followed");
-            return res.status(200).json({ followed: true });
-        }
-        else {
-            console.log("Not Yet Followed");
-            return res.status(200).json({ followed: false });
-        }
-    });
-    
+app.post("/check-follow", withToken, (req, res) => {
+  let curr_userId = req.user._id;
+  let userID = req.body.userid;
+  db.query(
+    "SELECT * FROM friends WHERE followed = ? AND follower = ?",
+    [userID, curr_userId],
+    (error, results) => {
+      if (error) return res.status(404).json(error);
+      if (results.length > 0) {
+        console.log("Already Followed");
+        return res.status(200).json({ followed: true });
+      } else {
+        console.log("Not Yet Followed");
+        return res.status(200).json({ followed: false });
+      }
+    }
+  );
 });
 
 //---------------------------- Count-Followers ----------------------------
-app.post("/count-followers", withToken, (req,res)=> {
-    let userID = req.body.userid;
-    db.query("SELECT COUNT(*) FROM friends WHERE followed = ?", [userID], (error, result) => {
-        if (error) {
-            return res.status(404).json(error);
-        }
-        else {
-            return res.status(200).json({ count: result[0]["COUNT(*)"] });
-        }
-    });
-    
+app.post("/count-followers", withToken, (req, res) => {
+  let userID = req.body.userid;
+  db.query(
+    "SELECT COUNT(*) FROM friends WHERE followed = ?",
+    [userID],
+    (error, result) => {
+      if (error) {
+        return res.status(404).json(error);
+      } else {
+        return res.status(200).json({ count: result[0]["COUNT(*)"] });
+      }
+    }
+  );
 });
 
 //---------------------------- Count-Following ----------------------------
-app.post("/count-following", withToken, (req,res)=> {
-    let userID = req.body.userid != 0 ? req.body.userid : req.user._id;
-    db.query("SELECT COUNT(*) FROM friends WHERE follower = ?", [userID], (error, result) => {
-        if (error) {
-            return res.status(404).json(error);
-        }
-        else {
-            return res.status(200).json({ count: result[0]["COUNT(*)"] });
-        }
-    });
-    
+app.post("/count-following", withToken, (req, res) => {
+  let userID = req.body.userid != 0 ? req.body.userid : req.user._id;
+  db.query(
+    "SELECT COUNT(*) FROM friends WHERE follower = ?",
+    [userID],
+    (error, result) => {
+      if (error) {
+        return res.status(404).json(error);
+      } else {
+        return res.status(200).json({ count: result[0]["COUNT(*)"] });
+      }
+    }
+  );
+});
+
+//---------------------------- Get movies from followers --------------------
+app.get("/following-movies", withToken, (req, res) => {
+  let userID = req.user?._id || 25;
+  db.query(
+    "SELECT followed FROM friends WHERE follower = ?",
+    [userID],
+    (error, result) => {
+      if (error) {
+        return res.status(404).json(error);
+      } else {
+        const follower = result.map((item) => item.followed);
+        //   .map((id) => "'" + id + "'")
+        //   .join();
+        db.query(
+          "SELECT movieId, rating FROM movieRating WHERE userId IN (" +
+            db.escape(follower) +
+            ")",
+          (error2, ratings) => {
+            if (error2) {
+              return res.status(404).json(error2);
+            } else {
+              return res.status(200).json(ratings);
+            }
+          }
+        );
+      }
+    }
+  );
 });
