@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Container, Col, Row, Carousel } from "react-bootstrap";
 import NavigationBar from "../NavigationBar.jsx";
 import MyList from "../MyList.jsx";
+import MovieRecommendation from "../MovieRecommendation.jsx";
 import jwtDecode from "jwt-decode";
 import UserContext from "../../context/UserContext.js";
 import { countFollowers, countFollowing } from "../../data/follow";
@@ -116,10 +117,7 @@ const Profile = (props) => {
                 />
                 <br />
                 <br />
-                <button
-                  onClick={handleAddList}
-                  className="btn btn-primary"
-                >
+                <button onClick={handleAddList} className="btn btn-primary">
                   Create A New List
                 </button>
                 <br />
@@ -129,7 +127,8 @@ const Profile = (props) => {
           </Col>
         </Row>
       </Container>
-      <MyList message={listMsg} />
+      {currUser && <MyList message={listMsg} />}
+      {currUser && <MovieRecommendation />}
     </div>
   );
 };
