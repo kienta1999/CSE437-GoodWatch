@@ -7,12 +7,15 @@ import jwtDecode from "jwt-decode";
 import UserContext from "../../context/UserContext.js";
 import { countFollowers, countFollowing } from "../../data/follow";
 import createList from "../../data/lists";
+import UserSearching from "../UserSearching.jsx";
+import getAllUsers from "../../data/allUsers";
 
 const Profile = (props) => {
   const [listName, setListName] = useState("");
   const [listMsg, setListMsg] = useState("");
   const [followers, setFollowers] = useState(0);
   const [following, setFollowing] = useState(0);
+  const [allUsers, setAllUsers] = useState([]);
 
   const { currUser, setUser } = useContext(UserContext);
 
@@ -52,6 +55,20 @@ const Profile = (props) => {
     })();
   });
 
+  useEffect(() => {
+    (async () => {
+      try {
+        let res = await getAllUsers();
+        if (res.status === 200) {
+          console.log("all", res.data);
+          setAllUsers(res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  },[]);
+
   const handleAddList = async () => {
     try {
       const res = await createList(listName);
@@ -85,6 +102,8 @@ const Profile = (props) => {
                 <br />
                 <strong>Following: </strong> {following}
                 <br />
+                <strong>Go and Visit Other Users: </strong> 
+                <UserSearching userList={allUsers}/>
                 <br />
                 <strong>Add New List: </strong>
                 <input

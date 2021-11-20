@@ -14,7 +14,6 @@ const follow = async (curr_userid, userid) => {
             curr_userid: curr_userid,
             userid: userid
         }, axiosConfig)
-     
         return res;
     } catch (err) {
         return err.response;
@@ -34,7 +33,6 @@ const unfollow = async (curr_userid, userid) => {
             curr_userid: curr_userid,
             userid: userid
         }, axiosConfig)
-     
         return res;
     } catch (err) {
         return err.response;
@@ -55,7 +53,6 @@ const checkFollow = async (userid) => {
         const res = await axios.post(url, {
             userid: userid
         }, axiosConfig);
-     
         return res;
     } catch (err) {
         return err.response;
@@ -76,7 +73,6 @@ const countFollowers = async (userid) => {
         const res = await axios.post(url, {
             userid: userid
         }, axiosConfig);
-     
         return res;
     } catch (err) {
         return err.response;
@@ -97,7 +93,6 @@ const countFollowing = async (userid) => {
         const res = await axios.post(url, {
             userid: userid
         }, axiosConfig);
-     
         return res;
     } catch (err) {
         return err.response;

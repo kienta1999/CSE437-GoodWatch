@@ -619,3 +619,18 @@ app.post("/count-following", withToken, (req,res)=> {
     });
     
 });
+
+//---------------------------- Get-All-Users ----------------------------
+app.post("/all-users", withToken, (req, res)=> {
+  let userID = req.user._id;
+  db.query("SELECT id, username FROM user WHERE id != ?", [userID], (error, result) => {
+      if (error) {
+          return res.status(404).json(error);
+      }
+      else {
+        console.log(result);
+        return res.status(200).json(result);
+      }
+  });
+  
+});

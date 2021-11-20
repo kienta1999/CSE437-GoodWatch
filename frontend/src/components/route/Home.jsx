@@ -140,7 +140,7 @@ const Home = (props) => {
           </Row>
           <Row>
             <Col xs={8}>
-              <Carousel>
+              <Carousel fade>
                 <Carousel.Item>
                   <a href={`/movie/${latestID[0]}`}>
                     <img

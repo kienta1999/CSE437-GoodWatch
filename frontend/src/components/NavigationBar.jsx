@@ -37,12 +37,12 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
 
   const form = handleSubmit ? (
     <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="Search" ref={query} />
+      <input type="text" placeholder="Search Movies" ref={query} />
     </form>
   ) :
   (
     <form onSubmit={handleSearch}>
-      <input type="text" placeholder="Search" 
+      <input type="text" placeholder="Search Movies" 
             onChange={(e) => {
               setQuery(e.target.value);
             }} />
