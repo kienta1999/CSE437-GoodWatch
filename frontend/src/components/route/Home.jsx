@@ -14,6 +14,9 @@ import { getPopularMovieData, getFanFavMovieData, getLatestMovieData, getImage, 
 
 const Home = (props) => {
   const query = useRef(null);
+
+  const { currUser, setUser } = useContext(UserContext);
+
   
   const [queryState, setQueryState] = useState(null);
   const [page, setPage] = useState(1);

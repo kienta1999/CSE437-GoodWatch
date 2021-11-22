@@ -16,7 +16,7 @@ const MyList = (props) => {
       console.log("Getting list info in MyList", res);
       setListInfo(res.data.listInfo);
     })();
-  }, []);
+  }, [currUser]);
 
   return (
     <>

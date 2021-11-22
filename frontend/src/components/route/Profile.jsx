@@ -102,9 +102,11 @@ const Profile = (props) => {
                 <br />
                 <br />
                 <strong>Followers: </strong>
-                <UserLabel users={followers}/>
+                {followers.length>0 && <UserLabel users={followers}/>}
+                {followers.length==0 && <p>(no followers)</p>}
                 <strong>Following: </strong>
-                <UserLabel users={following}/>
+                {following.length>0 && <UserLabel users={following}/>}
+                {following.length==0 && <p>(no following)</p>}
                 <br />
                 <strong>Go and Visit Other Users: </strong> 
                 <UserSearching userList={allUsers}/>
