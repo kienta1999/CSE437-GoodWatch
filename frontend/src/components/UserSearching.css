@@ -25,10 +25,10 @@ color: black;
 margin-left: 10px;
 }
 
-a {
+.dataResult a {
 text-decoration: none;
 }
 
-a:hover {
+.dataResult a:hover {
 background-color: lightgrey;
 }

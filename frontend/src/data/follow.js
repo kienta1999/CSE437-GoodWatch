@@ -59,6 +59,46 @@ const checkFollow = async (userid) => {
     }
 };
 
+const getFollowers = async (userid) => {
+    const url = `${keys.apiHost}/get-followers`;
+
+    var authtoken = localStorage.getItem('authtoken');
+
+    let axiosConfig = {
+        withCredentials: true,
+        headers: {"Content-Type":"application/json", "authtoken":authtoken}
+    };
+
+    try {
+        const res = await axios.post(url, {
+            userid: userid
+        }, axiosConfig);
+        return res;
+    } catch (err) {
+        return err.response;
+    }
+};
+
+const getFollowing = async (userid) => {
+    const url = `${keys.apiHost}/get-following`;
+
+    var authtoken = localStorage.getItem('authtoken');
+
+    let axiosConfig = {
+        withCredentials: true,
+        headers: {"Content-Type":"application/json", "authtoken":authtoken}
+    };
+
+    try {
+        const res = await axios.post(url, {
+            userid: userid
+        }, axiosConfig);
+        return res;
+    } catch (err) {
+        return err.response;
+    }
+};
+
 const countFollowers = async (userid) => {
     const url = `${keys.apiHost}/count-followers`;
 
@@ -100,4 +140,4 @@ const countFollowing = async (userid) => {
 };
 
 export default checkFollow;
-export {follow, unfollow, countFollowers, countFollowing};
+export {follow, unfollow, getFollowers, getFollowing, countFollowers, countFollowing};

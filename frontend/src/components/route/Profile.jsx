@@ -6,16 +6,17 @@ import MyList from "../MyList.jsx";
 import MovieRecommendation from "../MovieRecommendation.jsx";
 import jwtDecode from "jwt-decode";
 import UserContext from "../../context/UserContext.js";
-import { countFollowers, countFollowing } from "../../data/follow";
+import { getFollowers, getFollowing } from "../../data/follow";
 import createList from "../../data/lists";
 import UserSearching from "../UserSearching.jsx";
 import getAllUsers from "../../data/allUsers";
+import UserLabel from "../UserLabel.jsx";
 
 const Profile = (props) => {
   const [listName, setListName] = useState("");
   const [listMsg, setListMsg] = useState("");
-  const [followers, setFollowers] = useState(0);
-  const [following, setFollowing] = useState(0);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
 
   const { currUser, setUser } = useContext(UserContext);
@@ -31,24 +32,24 @@ const Profile = (props) => {
   useEffect(() => {
     (async () => {
       try {
-        let res = await countFollowers(0);
+        let res = await getFollowers(0);
         if (res.status === 200) {
-          console.log("Count Followers", res.data.count);
-          setFollowers(res.data.count);
+          setFollowers(res.data);
+          console.log("followers", res.data);
         }
       } catch (error) {
         console.log(error);
       }
     })();
-  });
+  }, []);
 
   useEffect(() => {
     (async () => {
       try {
-        let res = await countFollowing(0);
+        let res = await getFollowing(0);
         if (res.status === 200) {
-          console.log("Count Following", res.data.count);
-          setFollowing(res.data.count);
+          setFollowing(res.data);
+          console.log("following", res.data);
         }
       } catch (error) {
         console.log(error);
@@ -99,9 +100,11 @@ const Profile = (props) => {
                 <strong>Name: </strong>
                 {currUser.firstName} {currUser.lastName}
                 <br />
-                <strong>Followers: </strong> {followers}
                 <br />
-                <strong>Following: </strong> {following}
+                <strong>Followers: </strong>
+                <UserLabel users={followers}/>
+                <strong>Following: </strong>
+                <UserLabel users={following}/>
                 <br />
                 <strong>Go and Visit Other Users: </strong> 
                 <UserSearching userList={allUsers}/>
@@ -128,6 +131,7 @@ const Profile = (props) => {
         </Row>
       </Container>
       {currUser && <MyList message={listMsg} />}
+      <br/>
       {currUser && <MovieRecommendation />}
     </div>
   );

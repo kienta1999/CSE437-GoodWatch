@@ -1,131 +1,131 @@
 body {
-    background-color: antiquewhite;
+  background-color: antiquewhite;
 }
 
 
-   
+
 .bg_image {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 
 .main {
-  width: 320px;
-  background: #000;
-  opacity: 0.5;
-  color: #fff;
-  /* top: 50%;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%); */
-  box-sizing: border-box;
-  padding: 20px 30px;
-  text-decoration: none;
-  margin: 50px auto;
+width: 320px;
+background: #000;
+opacity: 0.5;
+color: #fff;
+/* top: 50%;
+left: 50%;
+position: absolute;
+transform: translate(-50%, -50%); */
+box-sizing: border-box;
+padding: 20px 30px;
+text-decoration: none;
+margin: 50px auto;
 }
 
 #login_header,
 #register_header {
-  margin: 0;
-  padding: 0 0 20px;
-  text-align: center;
-  font-size: 30px;
+margin: 0;
+padding: 0 0 20px;
+text-align: center;
+font-size: 30px;
 }
 
 .main p {
-  margin: 0;
-  padding: 0;
-  font-weight: bold;
+margin: 0;
+padding: 0;
+font-weight: bold;
 }
 
 .main input {
-  width: 100%;
-  margin-bottom: 20px;
+width: 100%;
+margin-bottom: 20px;
 }
 
 .main input[type="text"],
 input[type="email"],
 input[type="password"] {
-  border: none;
-  border-bottom: 1px solid white;
-  background: transparent;
-  outline: none;
-  height: 50px;
-  color: white;
-  font-size: 16px;
+border: none !important;
+border-bottom: 1px solid white;
+background: transparent;
+outline: none;
+height: 50px;
+color: white;
+font-size: 16px;
 }
 
 .main_button {
-  border: none;
-  outline: none;
-  height: 50px;
-  font-size: 18px;
-  border-radius: 20px;
-  width: 100%;
+border: none;
+outline: none;
+height: 50px;
+font-size: 18px;
+border-radius: 20px;
+width: 100%;
 }
 
 .main_button:hover {
-  cursor: pointer;
-  background-color: grey;
-  color: white;
+cursor: pointer;
+background-color: grey;
+color: white;
 }
 
 #tab_btn {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flex;
-  display: -o-flex;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  text-decoration: none;
+display: -webkit-flex;
+display: -moz-flex;
+display: -ms-flex;
+display: -o-flex;
+display: flex;
+width: 100%;
+justify-content: center;
+text-decoration: none;
 }
 
 .main a {
-  text-decoration: none;
+text-decoration: none;
 }
 
 .login_tab,
 .register_tab {
-  text-decoration: none;
-  display: block;
-  width: 100%;
-  background-color: #37474f;
-  text-align: center;
-  color: #fff;
-  font-size: 15px;
-  padding: 10px;
+text-decoration: none;
+display: block;
+width: 100%;
+background-color: #37474f;
+text-align: center;
+color: #fff;
+font-size: 15px;
+padding: 10px;
 }
 
 .active {
-  background-color: #eee;
-  color: #000;
+background-color: #eee;
+color: #000;
 }
 
 .message {
-    color: red;
+  color: red;
 }
 
 .nav_button {
-  border: none;
-  outline: none;
-  font-size: 16px;
-  border-radius: 5px;
-  padding: 10px;
-  margin: auto 10px;
+border: none;
+outline: none;
+font-size: 16px;
+border-radius: 5px;
+padding: 10px;
+margin: auto 10px;
 }
 .btn {
-  margin: 10px 0;
+margin: 10px 0;
 }
 /* .normal_button {
-  border: none;
-  outline: none;
-  font-size: 16px;
-  border-radius: 20px;
-  padding: 10px;
-  margin: auto 10px;
+border: none;
+outline: none;
+font-size: 16px;
+border-radius: 20px;
+padding: 10px;
+margin: auto 10px;
 } */

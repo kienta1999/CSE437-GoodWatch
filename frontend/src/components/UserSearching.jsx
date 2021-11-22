@@ -1,5 +1,4 @@
 /* Reference: https://github.com/machadop1407/React-Search-Bar */
-
 import { useState } from "react";
 import "./UserSearching.css"
 

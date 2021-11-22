@@ -46,6 +46,7 @@ function App() {
 
   return (
     <UserContext.Provider value={{ currUser, setUser }}>
+      
       <Router>
         <Switch>
           <Route path="/login" exact render={(props) => <Login {...props} />} />

@@ -632,9 +632,41 @@ app.post("/check-follow", withToken, (req, res) => {
   );
 });
 
+//---------------------------- Get-Followers ----------------------------
+app.post("/get-followers", withToken, (req, res) => {
+  let userID = req.body.userid != 0 ? req.body.userid : req.user._id;
+  db.query(
+    "SELECT id, username FROM user WHERE id IN (SELECT follower FROM friends WHERE followed = ?)",
+    [userID],
+    (error, result) => {
+      if (error) {
+        return res.status(404).json(error);
+      } else {
+        return res.status(200).json(result);
+      }
+    }
+  );
+});
+
+//---------------------------- Get-Following ----------------------------
+app.post("/get-following", withToken, (req, res) => {
+  let userID = req.body.userid != 0 ? req.body.userid : req.user._id;
+  db.query(
+    "SELECT id, username FROM user WHERE id IN (SELECT followed FROM friends WHERE follower = ?)",
+    [userID],
+    (error, result) => {
+      if (error) {
+        return res.status(404).json(error);
+      } else {
+        return res.status(200).json(result);
+      }
+    }
+  );
+});
+
 //---------------------------- Count-Followers ----------------------------
 app.post("/count-followers", withToken, (req, res) => {
-  let userID = req.body.userid;
+  let userID = req.body.userid != 0 ? req.body.userid : req.user._id;
   db.query(
     "SELECT COUNT(*) FROM friends WHERE followed = ?",
     [userID],
