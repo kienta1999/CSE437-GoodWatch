@@ -62,10 +62,14 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
               {currUser && (
                 <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
               )}
-              <NavDropdown.Divider />
+        
               {currUser && (
-                <MyList navList={true}/>
+                <>
+                  <NavDropdown.Divider />
+                  <MyList navList={true}/>
+                </>
               )}
+
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

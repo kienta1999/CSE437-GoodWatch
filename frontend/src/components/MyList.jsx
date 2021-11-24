@@ -21,40 +21,44 @@ const MyList = (props) => {
   return (
     <>
     {props.navList ? 
-    (
-      <>
-        {listInfo &&
-          listInfo.map(function (li, index) {
-            return (
-              <NavDropdown.Item href={`/profile/list/${li.id}`}>
-                {li.listName}
-              </NavDropdown.Item>
-            );
-        })}
-      </>
-    ) :
-    (
-      <Container>
-        <Row>
-          <Col>
-          <h4>
-            My Lists
-            <hr></hr>
-          </h4>
-          <ListGroup>
-            {listInfo &&
-              listInfo.map(function (li, index) {
-                return (
-                  <ListGroup.Item action key={li.id} href={`/profile/list/${li.id}`}>
-                    {li.listName}
-                  </ListGroup.Item>
-                );
-              })}
-          </ListGroup>
-          </Col>
-        </Row>
-      </Container>
-    )
+      (
+        <>
+          {listInfo &&
+            listInfo.map(function (li, index) {
+              return (
+                <NavDropdown.Item href={`/profile/list/${li.id}`}>
+                  {li.listName}
+                </NavDropdown.Item>
+              );
+          })}
+        </>
+      ) :
+      (
+        <Container>
+          <Row>
+            <Col>
+            <h4>
+              My Lists
+              <hr></hr>
+            </h4>
+            {listInfo ? (
+              <ListGroup>
+                {listInfo &&
+                  listInfo.map(function (li, index) {
+                    return (
+                      <ListGroup.Item action key={li.id} href={`/profile/list/${li.id}`}>
+                        {li.listName}
+                      </ListGroup.Item>
+                    );
+                  })}
+              </ListGroup>
+            ) : (
+              <div>Loading...</div>
+            )}
+            </Col>
+          </Row>
+        </Container>
+      )
     }
     </>
   );

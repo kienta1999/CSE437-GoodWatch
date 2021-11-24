@@ -315,7 +315,9 @@ const Home = (props) => {
 
             <Col>
               <Row>
-                <MyList/>
+                {currUser &&
+                  (<MyList/>)
+                }
               </Row>
             </Col>
           </Row>
