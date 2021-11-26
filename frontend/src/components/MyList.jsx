@@ -54,10 +54,6 @@ const MyList = (props) => {
         <Container>
           <Row>
             <Col>
-            <h4>
-              My Lists
-              <hr></hr>
-            </h4>
             {listInfo ? (
               <ListGroup>
                 {listInfo &&

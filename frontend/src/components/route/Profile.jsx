@@ -132,7 +132,15 @@ const Profile = (props) => {
           </Col>
         </Row>
       </Container>
-      {currUser && <MyList message={listMsg} />}
+      {currUser && 
+        <>
+          {/* <h4>
+            My Lists
+            <hr></hr>
+          </h4> */}
+          <MyList message={listMsg} />
+        </>
+      }
       <br/>
       {currUser && <MovieRecommendation />}
     </div>

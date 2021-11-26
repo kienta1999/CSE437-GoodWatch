@@ -314,6 +314,11 @@ const Home = (props) => {
             </Col>
 
             <Col>
+              <br />
+                <h4>
+                  My Lists
+                  <hr></hr>
+                </h4>
               <Row>
                 {currUser &&
                   (<MyList/>)
