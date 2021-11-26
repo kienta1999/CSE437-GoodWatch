@@ -2,7 +2,22 @@ body {
   background-color: antiquewhite;
 }
 
+.smallFont {
+  font-size: 95%;
+}
 
+.maxHeight {
+  min-height: 50px;
+  max-height: 50px;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+
+.img-grid {
+  flex-grow: unset !important;
+  min-width: unset !important;
+  margin-bottom: 20px;
+}
 
 .bg_image {
   height: 100%;
@@ -124,4 +139,9 @@ margin: 10px 0;
 
 .multi-select {
   max-width: 400px !important;
+}
+
+.deleteButton {
+  float:right;
+  margin:unset !important;
 }

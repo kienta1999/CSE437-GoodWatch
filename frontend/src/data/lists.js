@@ -69,11 +69,6 @@ const removeFromList = async (selectedlists, movieid) => {
 
   var authtoken = localStorage.getItem('authtoken')
 
-  let axiosConfig = {
-    withCredentials: true,
-    headers: {"Content-Type":"application/json", "authtoken":authtoken}
-  }
-
   try {
     const res = await axios.post(
       url,
@@ -153,5 +148,24 @@ const getListContent = async (selectedlist) => {
   }
 };
 
+const deleteList = async (listId) => {
+  const url = `${keys.apiHost}/delete-list`;
+
+  try {
+    const res = await axios.post(
+      url,
+      {
+        listId: listId,
+      },
+      axiosConfig
+    );
+
+    console.log("Middleware delete list res", res);
+    return res;
+  } catch (err) {
+    return err.response;
+  }
+};
+
 export default createList;
-export { addToList, changeList, removeFromList, getLists, checkList, getListContent };
+export { addToList, changeList, removeFromList, getLists, checkList, getListContent, deleteList };

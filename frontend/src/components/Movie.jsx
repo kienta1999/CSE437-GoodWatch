@@ -6,14 +6,14 @@ const Movie = ({ movie }) => {
   return (
     <div>
       <a href={url}>
-        <img src={movie.Poster} alt={movie.Title} width="150px" />
-        <div width="10%" height="10%">
-          {movie.Title}, {movie.Year}
+        <img src={movie.Poster} alt={movie.Title} width="150px" height="200px"/>
+        <div className="maxHeight">
+          <p className="smallFont">{movie.Title}, {movie.Year}</p>
         </div>
       </a>
       {movie.averageFollowingRating && (
         <div>
-          Followers' average rating: {movie.averageFollowingRating}
+          Followers' Average Rating: {movie.averageFollowingRating}
           <StarRating
             numberOfStars="5"
             currentRating={Math.round(movie.averageFollowingRating)}

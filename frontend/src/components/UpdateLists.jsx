@@ -59,17 +59,17 @@ const UpdateLists = ({ movieid }) => {
             let res = await checkList(movieid, possibleListIds);
             console.log("Checking list info in MoviePage", res);
             if (res.data.existingLists) {
-            if (res.data.existingLists.length > 0) {
-                var selected = []
-                res.data.existingLists.map(function (li, index) {
-                selected.push({
-                    label: li.listName,
-                    value: li.id
-                })
-                });
-                setExistingLists(selected);
-                setSelectedLists(selected)
-            }
+              if (res.data.existingLists.length > 0) {
+                  var selected = []
+                  res.data.existingLists.map(function (li, index) {
+                  selected.push({
+                      label: li.listName,
+                      value: li.id
+                  })
+                  });
+                  setExistingLists(selected);
+                  setSelectedLists(selected)
+              }
             }
         }
         })();
@@ -96,9 +96,21 @@ const UpdateLists = ({ movieid }) => {
      
     return (
       <>
+        {selectedlists && selectedlists.length==0 ? (
+          <strong>
+            Add to a List
+          </strong>
+        ) : (
+          <strong>
+            Add to a List
+          </strong>
+        )}
+        <br></br>
+        <small className="message">{addToListMsg}</small>
+
         {listInfo && listInfo.length > 0 ? (
             <>
-              <pre>{JSON.stringify(selectedlists)}</pre>
+              {/* <pre>{JSON.stringify(selectedlists)}</pre> */}
               <MultiSelect
                 options={listOptions}
                 value={selectedlists}
@@ -109,17 +121,27 @@ const UpdateLists = ({ movieid }) => {
               />
               <button
                 onClick={handleAddToList}
-                className="btn btn-primary"
+                className="btn btn-sm btn-primary"
               >
                 Update Lists
               </button>
-
-              <br />
-              <p className="message">{addToListMsg}</p>
             </>
           ) : (
             <></>
           )}
+
+          {listInfo &&
+          listInfo.length == 0 &&
+          currUser &&
+          JSON.stringify(currUser) !== "{}" ? (
+            <p>
+              You don't have any lists yet! Make one in your profile page first to
+              add this movie to a list.
+            </p>
+          ) : (
+            <></>
+          )}
+
       </>
     );
   };

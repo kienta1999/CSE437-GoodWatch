@@ -87,6 +87,35 @@ app.post("/create-list", withToken, (req, res) => {
   }
 });
 
+//---------------------------- DeleteList ----------------------------
+app.post("/delete-list", withToken, (req, res) => {
+  console.log("delete list", req);
+  let listId = req.body.listId;
+  let userId = req.user._id;
+  if (listId) {
+    db.query(
+      "DELETE FROM listItems WHERE listId=?",
+      [listId],
+      function (error, data) {
+        if (error) {
+          res.json(error);
+        } else {
+          db.query(
+            "DELETE FROM lists WHERE id=?",
+            [listId],
+            function (error, data) {
+              if (error) {
+                res.json(error);
+              } else {
+                res.status(200).json({ message: "Successfully Deleted List!" });
+              }
+          });
+        }
+      }
+    );
+  }
+});
+
 //---------------------------- User's movie rating & review ----------------------------
 app.post("/user/:uid/movie/:mid/review", withToken, (req, res) => {
   let userId = req.params.uid;
@@ -469,7 +498,7 @@ app.post("/login", (req, res) => {
         if (error) {
           res.json(error);
         }
-        if (user.length > 0) {
+        if (user && user.length > 0) {
           bcrypt.compare(password, user[0].password, function (err, result) {
             if (result) {
               db.query(

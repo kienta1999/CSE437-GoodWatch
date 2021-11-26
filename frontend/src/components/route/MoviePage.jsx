@@ -32,65 +32,6 @@ const MoviePage = (props) => {
 
   const { currUser, setUser } = useContext(UserContext);
 
-  //Get all user's lists
-  useEffect(() => {
-    (async () => {
-  
-      let res = await getLists();
-      console.log("Getting list info in MoviePage", res);
-      setListInfo(res.data.listInfo);
-
-      if (res.data.listInfo) {
-        if (res.data.listInfo.length > 0) {
-
-          let possibleListIdsTemp = [];
-          res.data.listInfo.map((list) => {
-            console.log(list);
-            possibleListIdsTemp.push(list["id"]);
-          });
-          setPossibleListIds(possibleListIdsTemp);
-        }
-      }
-
-      if (res.data.listInfo) {
-        if (res.data.listInfo.length > 0) {
-          var listOpts = []
-          res.data.listInfo.map(function (li, index) {
-            listOpts.push({
-              label: li.listName,
-              value: li.id
-            })
-          });
-          setListOptions(listOpts);
-        }
-      }
-     
-    })();
-  }, []);
-
-  //Check if movie is currently in a list
-  useEffect(() => {
-    (async () => {
-      if (possibleListIds) {
-        let res = await checkList(movieid, possibleListIds);
-        console.log("Checking list info in MoviePage", res);
-        if (res.data.existingLists) {
-          if (res.data.existingLists.length > 0) {
-            var selected = []
-            res.data.existingLists.map(function (li, index) {
-              selected.push({
-                label: li.listName,
-                value: li.id
-              })
-            });
-            setExistingLists(selected);
-            setSelectedLists(selected)
-          }
-        }
-      }
-    })();
-  }, [addToListMsg, possibleListIds]);
-
   //Get data about movie
   useEffect(() => {
     (async () => {
@@ -98,25 +39,6 @@ const MoviePage = (props) => {
       if (result) setData(result);
     })();
   }, [movieid]);
-
-  //Add movie to selected lists
-  const handleAddToList = async () => {
-    if (!currUser || JSON.stringify(currUser) === "{}") {
-      alert("Please login to add to lists");
-    } else {
-      try {
-
-        const res = await removeFromList(listInfo, movieid)
-        console.log("Remove from all lists", res)
-
-        const res2 = await addToList(selectedlists, movieid);
-        setAddToListMsg(res2.data.message);
-
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
 
   //Submit reviw
   const handleSubmitReview = async () => {
@@ -152,6 +74,7 @@ const MoviePage = (props) => {
           <p>
             {data.Title}, {data.Year}
           </p>
+
           {/* {existingLists && (
             <div>
               <strong>This movie is in your <a href={`/profile/list/${existingLists.id}`}>{existingLists.listName}</a> list</strong>
@@ -161,43 +84,6 @@ const MoviePage = (props) => {
           )} */}
           
           <UpdateLists movieid={movieid}/>
-
-          {/* {listInfo && listInfo.length > 0 ? (
-            <>
-              <pre>{JSON.stringify(selectedlists)}</pre>
-              <MultiSelect
-                options={listOptions}
-                value={selectedlists}
-                onChange={setSelectedLists}
-                labelledBy="Select"
-                hasSelectAll={false}
-                disableSearch={true}
-              />
-              <button
-                onClick={handleAddToList}
-                className="btn btn-primary"
-              >
-                Update Lists
-              </button>
-
-              <br />
-              <p className="message">{addToListMsg}</p>
-            </>
-          ) : (
-            <></>
-          )} */}
-
-          {listInfo &&
-          listInfo.length == 0 &&
-          currUser &&
-          JSON.stringify(currUser) !== "{}" ? (
-            <p>
-              You don't have any lists yet! Make one in your profile page first to
-              add this movie to a list.
-            </p>
-          ) : (
-            <></>
-          )}
 
           <p>
             <strong>Actors:</strong> {data.Actors}

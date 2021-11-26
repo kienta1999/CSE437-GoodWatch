@@ -25,12 +25,12 @@ const MovieRecommendation = (props) => {
       {moviesRecommended && (
         <div>
           <h4>
-            Recommendations from your followers
+            Recommendations From Your Followers
             <hr></hr>
           </h4>
           <MovieList
             movies={moviesRecommended}
-            row={moviesRecommended.length >= 5 ? 5 : moviesRecommended.length}
+            row={moviesRecommended.length >= 6 ? 6 : moviesRecommended.length}
           ></MovieList>
         </div>
       )}

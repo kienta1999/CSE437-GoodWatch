@@ -57,26 +57,23 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <NavDropdown title="Menu" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/">Home</NavDropdown.Item>
-              {currUser && (
-                <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-              )}
-        
-              {currUser && (
-                <>
-                  <NavDropdown.Divider />
+            <Nav.Link href="/">Home</Nav.Link>
+            {currUser && (
+              <>
+                <Nav.Link href="/profile">Profile</Nav.Link>
+                <NavDropdown title="My Lists" id="basic-nav-dropdown">
                   <MyList navList={true}/>
-                </>
-              )}
-
-            </NavDropdown>
+                </NavDropdown>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
 
+        {form}
+
         {!currUser  && (
           <a href="/login">
-            <button className="nav_button" id="login_btn">
+            <button className="btn btn-sm ml-2" id="login_btn">
               Log In
             </button>
           </a>
@@ -86,7 +83,6 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
             Log Out
           </button>
         )}
-        {form}
       </Container>
     </Navbar>
   );

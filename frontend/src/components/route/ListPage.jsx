@@ -30,13 +30,13 @@ const ListPage = (props) => {
 
   const { currUser, setUser } = useContext(UserContext);
 
+  //Get list items
   useEffect(() => {
     (async () => {
       let res = await getListContent(listid);
       console.log("Getting list content in ListPage", res);
       setListContent(res.data.listContent);
       if (res.data.listContent.length > 0) {
-        console.log(res.data.listContent[0]["imdbId"]);
         setSelectedItemtoChange(res.data.listContent[0]["imdbId"]);
       }
       setRemoveMsg("");
@@ -44,6 +44,7 @@ const ListPage = (props) => {
     })();
   }, [removeMsg, changeListMsg]);
 
+  //Get movie data for all items in list
   useEffect(() => {
     (async () => {
       // const allFn = [...new Set(listContent.map((movie) => movie.imdbId))].map(
@@ -91,7 +92,8 @@ const ListPage = (props) => {
     console.log(event.target.parentNode.classList[0]);
     let itemId = event.target.parentNode.classList[0];
     try {
-      const res = await removeFromList(listid, itemId);
+      var idList = [{id: listid}]
+      const res = await removeFromList(idList, itemId);
       // window.location.reload();
       console.log(res);
       setRemoveMsg(res.data.message);
@@ -121,13 +123,8 @@ const ListPage = (props) => {
       <NavigationBar history={props.history} />
       <Container className="mb-4">
         {removeMsg && <p className="message">{removeMsg}</p>}
-        {changeListMsg && <p className="message">{changeListMsg}</p>}
-        {listContentDetails.length > 0 && (
-          <button className="btn btn-primary" onClick={handleMove}>
-            Move a Movie to a Different List
-          </button>
-        )}
-        {changeListBool && (
+       
+        {/* {changeListBool && (
           <div>
             <select
               name="listItems"
@@ -167,7 +164,7 @@ const ListPage = (props) => {
               Update List
             </button>
           </div>
-        )}
+        )} */}
       </Container>
       {listContentDetails.length > 0 ? (
         <Container>
@@ -187,10 +184,11 @@ const ListPage = (props) => {
               <MovieList
                 movies={listContentDetails}
                 row={
-                  listContentDetails.length >= 5 ? 5 : listContentDetails.length
+                  listContentDetails.length >= 6 ? 6 : listContentDetails.length
                 }
+                multiselectBelow={true}
               >
-                <button className="btn btn-primary" onClick={handleRemove}>
+                <button className="btn btn-sm btn-primary" onClick={handleRemove}>
                   Remove From List
                 </button>
               </MovieList>
