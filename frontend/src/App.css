@@ -121,11 +121,7 @@ margin: auto 10px;
 .btn {
 margin: 10px 0;
 }
-/* .normal_button {
-border: none;
-outline: none;
-font-size: 16px;
-border-radius: 20px;
-padding: 10px;
-margin: auto 10px;
-} */
+
+.multi-select {
+  max-width: 400px !important;
+}

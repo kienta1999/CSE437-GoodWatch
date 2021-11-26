@@ -48,7 +48,6 @@ app.listen(port, () => {
 function withToken(req, res, next) {
   //const token = req.cookies.access_token;
   const token = req.headers.authtoken;
-  console.log("HEADERS", req.headers);
   if (token == null) {
     console.log("not logged in/not auth");
     return res.sendStatus(401);
@@ -88,7 +87,7 @@ app.post("/create-list", withToken, (req, res) => {
   }
 });
 
-//---------------------------- user's movie rating & review ----------------------------
+//---------------------------- User's movie rating & review ----------------------------
 app.post("/user/:uid/movie/:mid/review", withToken, (req, res) => {
   let userId = req.params.uid;
   let movieId = req.params.mid;
@@ -171,12 +170,19 @@ app.get("/movie/:id/reviews", withToken, (req, res) => {
 //---------------------------- RemoveFromList ----------------------------
 app.post("/remove-from-list", withToken, (req, res) => {
   console.log("remove from list", req);
-  let listId = req.body.listId;
+  let lists = req.body.lists;
   let movieId = req.body.movieId;
-  if (listId && movieId) {
+  if (lists && movieId && lists.length > 0) {
+
+    values = []
+    lists.map(function (li, index) {
+      values.push(li.id)
+    });
+    console.log("VALUES", values)
+
     db.query(
-      "DELETE FROM listItems WHERE (listId = ?) AND (imdbId = ?)",
-      [listId, movieId],
+      "DELETE FROM listItems WHERE (listId IN (?)) AND (imdbId = ?)",
+      [values,movieId],
       function (error, data) {
         if (error) {
           res.json(error);
@@ -233,34 +239,25 @@ app.post("/get-list-content", withToken, (req, res) => {
 
 //---------------------------- AddToList ----------------------------
 app.post("/add-to-list", withToken, (req, res) => {
-  console.log("add to list", req);
-  let listId = req.body.listId;
+  console.log("add to list", req.body.lists);
+  let lists = req.body.lists;
   let movieId = req.body.movieId;
-  if (listId && movieId) {
-    db.query(
-      "SELECT * FROM listItems WHERE listId = ? AND imdbId = ?",
-      [listId, movieId],
-      function (error, results) {
-        if (error) throw error;
-        if (results.length > 0) {
-          res.status(404).json({ message: "This movie is already in a list!" });
-        } else {
-          db.query(
-            "INSERT INTO listItems (`listId`, `imdbId`) VALUES (?,?)",
-            [listId, movieId],
-            function (error, data) {
-              if (error) {
-                res.json(error);
-              } else {
-                res
-                  .status(200)
-                  .json({ message: "Successfully Added to List!" });
-              }
-            }
-          );
+  if (lists && movieId) {
+    lists.map(function (li, index) {
+      db.query(
+        "INSERT INTO listItems (`listId`, `imdbId`) VALUES (?,?)",
+        [li.value, movieId],
+        function (error, data) {
+          console.log("INSERT", data)
+          if (error) {
+            res.json(error);
+          } else {
+            
+          }
         }
-      }
-    );
+      );
+    });
+    res.status(200).json({ message: "Successfully Updated Lists!" });
   }
 });
 
@@ -303,9 +300,11 @@ app.post("/check-list", withToken, (req, res) => {
   let userId = req.user._id;
   let movieId = req.body.movieId;
   let possibleLists = req.body.possibleListIds;
+  
   console.log("STUFF FOR CHECKING LIST", possibleLists);
   console.log("STUFF FOR CHECKING LIST", userId, movieId);
-  if (movieId && userId) {
+  
+  if (movieId && userId && possibleLists) {
     db.query(
       "SELECT * FROM listItems WHERE imdbId = ?",
       [movieId],
@@ -313,30 +312,31 @@ app.post("/check-list", withToken, (req, res) => {
         if (error) throw error;
         if (results.length > 0) {
           console.log("STUFF FOR CHECKING LIST", results);
-          var listIdtoUse = null;
+          var listIdstoUse = [];
           for (let i = 0; i < results.length; i++) {
             console.log(results[i].listId);
             if (possibleLists.includes(results[i].listId)) {
-              listIdtoUse = results[i].listId;
+              listIdstoUse.push(results[i].listId);
             }
           }
-          console.log(listIdtoUse);
+          // listIdstoUse = [3, 4, 5]
+          console.log(listIdstoUse);
           db.query(
-            "SELECT * FROM lists WHERE id = ? AND userId = ?",
-            [listIdtoUse, userId],
+            "SELECT * FROM lists WHERE id IN (?)",
+            [listIdstoUse],
             function (error, results) {
               if (error) throw error;
               if (results.length > 0) {
                 res.status(200).json({
                   message: "Already in a list",
                   type: "Success",
-                  existingList: results,
+                  existingLists: results,
                 });
               } else {
                 res.status(200).json({
                   message: "Not in a list",
                   type: "Success",
-                  existingList: null,
+                  existingLists: null,
                 });
               }
             }

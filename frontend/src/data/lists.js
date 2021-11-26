@@ -21,14 +21,14 @@ const createList = async (listName) => {
   }
 };
 
-const addToList = async (selectedlist, movieid) => {
+const addToList = async (selectedlists, movieid) => {
   const url = `${keys.apiHost}/add-to-list`;
 
   try {
     const res = await axios.post(
       url,
       {
-        listId: selectedlist,
+        lists: selectedlists,
         movieId: movieid,
       },
       axiosConfig
@@ -64,14 +64,21 @@ const changeList = async (newlist, movieid) => {
     }
 };
 
-const removeFromList = async (selectedlist, movieid) => {
+const removeFromList = async (selectedlists, movieid) => {
   const url = `${keys.apiHost}/remove-from-list`;
+
+  var authtoken = localStorage.getItem('authtoken')
+
+  let axiosConfig = {
+    withCredentials: true,
+    headers: {"Content-Type":"application/json", "authtoken":authtoken}
+  }
 
   try {
     const res = await axios.post(
       url,
       {
-        listId: selectedlist,
+        lists: selectedlists,
         movieId: movieid,
       },
       axiosConfig
@@ -86,6 +93,13 @@ const removeFromList = async (selectedlist, movieid) => {
 
 const getLists = async () => {
   const url = `${keys.apiHost}/get-lists`;
+
+  var authtoken = localStorage.getItem('authtoken')
+
+  let axiosConfig = {
+      withCredentials: true,
+      headers: {"Content-Type":"application/json", "authtoken":authtoken}
+  }
 
   try {
     const res = await axios.post(url, {}, axiosConfig);

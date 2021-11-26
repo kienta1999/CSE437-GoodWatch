@@ -1,27 +1,29 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col} from "react-bootstrap";
-import FloatingLabel from "react-bootstrap-floating-label";
-import Form from 'react-bootstrap/Form'
+import { MultiSelect } from "react-multi-select-component";
 
 import UserContext from "../../context/UserContext.js";
 import NavigationBar from "../NavigationBar.jsx";
+import UpdateLists from "../UpdateLists.jsx";
 import StarRating from "../StarRating.jsx";
 import AllReview from "../AllReviews.jsx";
 
 import { getMovieData } from "../../data/movie.js";
 import { submitReview } from "../../data/review";
-import { getLists, addToList, checkList } from "../../data/lists";
+import { getLists, addToList, checkList, removeFromList } from "../../data/lists";
 
 const MoviePage = (props) => {
   const { movieid } = useParams();
   const [data, setData] = useState(null);
-  const [existingList, setExistingList] = useState([]);
 
+  const [existingLists, setExistingLists] = useState([]);
   const [listInfo, setListInfo] = useState([]);
-  const [possibleListIds, setPossibleListIds] = useState([]);
-  const [selectedlist, setSelectedList] = useState(null);
+  const [listOptions, setListOptions] = useState([{label:"hi",value:"hi"}]);
+  const [possibleListIds, setPossibleListIds] = useState(null);
+  const [selectedlists, setSelectedLists] = useState([]);
   const [addToListMsg, setAddToListMsg] = useState("");
+
   const [star, setStar] = useState(0);
   const commentRef = useRef("");
 
@@ -30,29 +32,16 @@ const MoviePage = (props) => {
 
   const { currUser, setUser } = useContext(UserContext);
 
+  //Get all user's lists
   useEffect(() => {
     (async () => {
-      // if (currUser && JSON.stringify(currUser) !== "{}") {
-      let res = await checkList(movieid, possibleListIds);
-      console.log("Checking list info in MoviePage", res);
-      if (res.data.existingList) {
-        if (res.data.existingList.length > 0) {
-          setExistingList(res.data.existingList[0]);
-        }
-      }
-      // }
-    })();
-  }, [addToListMsg, possibleListIds]);
-
-  useEffect(() => {
-    (async () => {
-      // if (currUser && JSON.stringify(currUser) !== "{}") {
+  
       let res = await getLists();
       console.log("Getting list info in MoviePage", res);
       setListInfo(res.data.listInfo);
+
       if (res.data.listInfo) {
         if (res.data.listInfo.length > 0) {
-          setSelectedList(res.data.listInfo[0]["id"]);
 
           let possibleListIdsTemp = [];
           res.data.listInfo.map((list) => {
@@ -62,10 +51,47 @@ const MoviePage = (props) => {
           setPossibleListIds(possibleListIdsTemp);
         }
       }
-      // }
+
+      if (res.data.listInfo) {
+        if (res.data.listInfo.length > 0) {
+          var listOpts = []
+          res.data.listInfo.map(function (li, index) {
+            listOpts.push({
+              label: li.listName,
+              value: li.id
+            })
+          });
+          setListOptions(listOpts);
+        }
+      }
+     
     })();
   }, []);
 
+  //Check if movie is currently in a list
+  useEffect(() => {
+    (async () => {
+      if (possibleListIds) {
+        let res = await checkList(movieid, possibleListIds);
+        console.log("Checking list info in MoviePage", res);
+        if (res.data.existingLists) {
+          if (res.data.existingLists.length > 0) {
+            var selected = []
+            res.data.existingLists.map(function (li, index) {
+              selected.push({
+                label: li.listName,
+                value: li.id
+              })
+            });
+            setExistingLists(selected);
+            setSelectedLists(selected)
+          }
+        }
+      }
+    })();
+  }, [addToListMsg, possibleListIds]);
+
+  //Get data about movie
   useEffect(() => {
     (async () => {
       const result = await getMovieData(movieid);
@@ -73,19 +99,26 @@ const MoviePage = (props) => {
     })();
   }, [movieid]);
 
+  //Add movie to selected lists
   const handleAddToList = async () => {
     if (!currUser || JSON.stringify(currUser) === "{}") {
-      alert("Please login to submit a review");
+      alert("Please login to add to lists");
     } else {
       try {
-        const res = await addToList(selectedlist, movieid);
-        setAddToListMsg(res.data.message);
+
+        const res = await removeFromList(listInfo, movieid)
+        console.log("Remove from all lists", res)
+
+        const res2 = await addToList(selectedlists, movieid);
+        setAddToListMsg(res2.data.message);
+
       } catch (error) {
         console.log(error);
       }
     }
   };
 
+  //Submit reviw
   const handleSubmitReview = async () => {
     if (!currUser || JSON.stringify(currUser) === "{}") {
       alert("Please login to submit a review");
@@ -106,6 +139,7 @@ const MoviePage = (props) => {
     }
   };
 
+  //Get movie rating
   const getGoodWatchAverageRating = (averageScore) => {
     setGoodwatchScore(averageScore);
   };
@@ -114,146 +148,122 @@ const MoviePage = (props) => {
     <Container>
       <Row>
         <Col>
-      <img src={data.Poster} alt={data.Title} />
-      <p>
-        {data.Title}, {data.Year}
-      </p>
-      {existingList && (
-        <div>
-          <strong>This movie is in your <a href={`/profile/list/${existingList.id}`}>{existingList.listName}</a> list</strong>
-          <br></br>
-          <br></br>
-        </div>
-      )}
-      {listInfo && listInfo.length > 0 ? (
-        <>
-          <select
-            name="userLists"
-            onChange={(e) => {
-              setSelectedList(e.target.value);
-              setAddToListMsg("");
-            }}
-          >
-            <option key={existingList.id} value={existingList.id}>
-                {existingList.listName}
-            </option>
-            {listInfo.map(function (li, index) {
-              return (
-                <option key={li.id} value={li.id}>
-                  {li.listName}
-                </option>
-              );
-            })}
-          </select>
-          {/* <FloatingLabel controlId="floatingSelect" label="Current list">
-            <Form.Control aria-label="List selector"
-            onChange={(e) => {
-              setSelectedList(e.target.value);
-              setAddToListMsg("");
-            }}
+          <img src={data.Poster} alt={data.Title} />
+          <p>
+            {data.Title}, {data.Year}
+          </p>
+          {/* {existingLists && (
+            <div>
+              <strong>This movie is in your <a href={`/profile/list/${existingLists.id}`}>{existingLists.listName}</a> list</strong>
+              <br></br>
+              <br></br>
+            </div>
+          )} */}
+          
+          <UpdateLists movieid={movieid}/>
+
+          {/* {listInfo && listInfo.length > 0 ? (
+            <>
+              <pre>{JSON.stringify(selectedlists)}</pre>
+              <MultiSelect
+                options={listOptions}
+                value={selectedlists}
+                onChange={setSelectedLists}
+                labelledBy="Select"
+                hasSelectAll={false}
+                disableSearch={true}
+              />
+              <button
+                onClick={handleAddToList}
+                className="btn btn-primary"
+              >
+                Update Lists
+              </button>
+
+              <br />
+              <p className="message">{addToListMsg}</p>
+            </>
+          ) : (
+            <></>
+          )} */}
+
+          {listInfo &&
+          listInfo.length == 0 &&
+          currUser &&
+          JSON.stringify(currUser) !== "{}" ? (
+            <p>
+              You don't have any lists yet! Make one in your profile page first to
+              add this movie to a list.
+            </p>
+          ) : (
+            <></>
+          )}
+
+          <p>
+            <strong>Actors:</strong> {data.Actors}
+          </p>
+          <p>
+            <strong>Gerne:</strong> {data.Genre}
+          </p>
+          <p>
+            <strong>IMDB Ratings:</strong> {data.imdbRating} / 10
+          </p>
+          {goodwatchScore > 0 ? (
+            <p>
+              <strong>GoodWatch Ratings:</strong> {goodwatchScore.toFixed(2)} / 5
+            </p>
+          ) : (
+            <p>
+              <strong>GoodWatch Ratings:</strong> N/A
+            </p>
+          )}
+          <p>
+            <strong>Votes:</strong> {data.imdbVotes}
+          </p>
+          <p>
+            <strong>Plot: </strong>
+            {data.Plot}
+          </p>
+          <div className="review form-group">
+            <h3>Submit your review</h3>
+            <StarRating
+              numberOfStars="5"
+              currentRating="0"
+              onClick={(s) => {
+                setStar(+s);
+              }}
+              fontSize="4rem"
+              mutable
+            />
+            <label for="comment">Comment</label>
+
+            <textarea
+              className="form-control"
+              id="comment"
+              name="comment"
+              rows="4"
+              cols="50"
+              placeholder="Is the movie good?"
+              ref={commentRef}
+            ></textarea>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleSubmitReview}
             >
-              <option key={existingList.id} value={existingList.id}>
-                {existingList.listName}
-              </option>
-              {listInfo.map(function (li, index) {
-                return (
-                  <option key={li.id} value={li.id}>
-                    {li.listName}
-                  </option>
-                );
-              })}
-            </Form.Control>
-          </FloatingLabel> */}
-          <button
-            onClick={handleAddToList}
-            className="btn btn-primary"
-          >
-            Add to List
-          </button>
-          <br />
-          <p className="message">{addToListMsg}</p>
-        </>
-      ) : (
-        <></>
-      )}
-
-      {listInfo &&
-      listInfo.length == 0 &&
-      currUser &&
-      JSON.stringify(currUser) !== "{}" ? (
-        <p>
-          You don't have any lists yet! Make one in your profile page first to
-          add this movie to a list.
-        </p>
-      ) : (
-        <></>
-      )}
-
-      <p>
-        <strong>Actors:</strong> {data.Actors}
-      </p>
-      <p>
-        <strong>Gerne:</strong> {data.Genre}
-      </p>
-      <p>
-        <strong>IMDB Ratings:</strong> {data.imdbRating} / 10
-      </p>
-      {goodwatchScore > 0 ? (
-        <p>
-          <strong>GoodWatch Ratings:</strong> {goodwatchScore.toFixed(2)} / 5
-        </p>
-      ) : (
-        <p>
-          <strong>GoodWatch Ratings:</strong> N/A
-        </p>
-      )}
-      <p>
-        <strong>Votes:</strong> {data.imdbVotes}
-      </p>
-      <p>
-        <strong>Plot: </strong>
-        {data.Plot}
-      </p>
-      <div className="review form-group">
-        <h3>Submit your review</h3>
-        <StarRating
-          numberOfStars="5"
-          currentRating="0"
-          onClick={(s) => {
-            setStar(+s);
-          }}
-          fontSize="4rem"
-          mutable
-        />
-        <label for="comment">Comment</label>
-
-        <textarea
-          className="form-control"
-          id="comment"
-          name="comment"
-          rows="4"
-          cols="50"
-          placeholder="Is the movie good?"
-          ref={commentRef}
-        ></textarea>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={handleSubmitReview}
-        >
-          Submit
-        </button>
-        {reviewMsg && <p style={{ color: "red" }}>{reviewMsg}</p>}
-      </div>
-      <AllReview
-        movieid={movieid}
-        getGoodWatchAverageRating={getGoodWatchAverageRating}
-      />
-      </Col>
+              Submit
+            </button>
+            {reviewMsg && <p style={{ color: "red" }}>{reviewMsg}</p>}
+          </div>
+          <AllReview
+            movieid={movieid}
+            getGoodWatchAverageRating={getGoodWatchAverageRating}
+          />
+        </Col>
       </Row>
     </Container>
   ) : (
-    <div>Loading...</div>
+    <Container><Row><Col>Loading...</Col></Row></Container>
   );
 
   return (
