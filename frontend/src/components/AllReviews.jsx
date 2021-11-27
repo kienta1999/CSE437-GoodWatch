@@ -17,7 +17,7 @@ const AllReview = ({ movieid, getGoodWatchAverageRating }) => {
   const reducer = (previousValue, currentValue) =>
     previousValue + parseInt(currentValue.rating);
   const averageScore = reviews && reviews.reduce(reducer, 0) / reviews.length;
-  getGoodWatchAverageRating(averageScore);
+  // getGoodWatchAverageRating(averageScore);
   const reviewList =
     reviews &&
     reviews.map((review) => {

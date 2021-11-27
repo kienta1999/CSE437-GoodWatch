@@ -73,7 +73,7 @@ const MoviePage = (props) => {
           <div className="d-inline-block">
             <img src={data.Poster} alt={data.Title} />
           </div>
-          <div className="d-inline-block mx-5 mt-5" style={{width:"60%", 'vertical-align': "top"}}>
+          <div className="d-inline-block mx-5 mt-5" style={{width:"60%", 'verticalAlign': "top"}}>
             <h3>{data.Title}, {data.Year}</h3>
             <p>
               <strong>Actors:</strong> {data.Actors}<br/>
@@ -137,10 +137,10 @@ const MoviePage = (props) => {
             </button>
             {reviewMsg && <p style={{ color: "red" }}>{reviewMsg}</p>}
           </div>
-          {/* <AllReview
+          <AllReview
             movieid={movieid}
             getGoodWatchAverageRating={getGoodWatchAverageRating}
-          /> */}
+          />
         </Col>
       </Row>
     </Container>
