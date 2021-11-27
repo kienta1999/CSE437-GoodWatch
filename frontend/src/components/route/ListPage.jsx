@@ -115,7 +115,13 @@ const ListPage = (props) => {
       <Container className="mb-4">
         <Container>
           {listName && (
-            <h3>List: {listName}</h3>
+            <div>
+              <sub>
+                <a href="/profile">Back to Profile</a><br/>
+                {/* <em>My List</em> */}
+              </sub>
+              <h3>{listName}</h3>
+            </div>
           )}
           {removeMsg && <p className="message">{removeMsg}</p>}
         </Container>

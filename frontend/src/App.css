@@ -1,22 +1,13 @@
 body {
-  background-color: antiquewhite !important;
+  background-color: rgb(14, 14, 49) !important;
+  color: white;
 }
 
-.smallFont {
-  font-size: 95%;
+hr {
+  border-top: 1px solid #5e5c75 !important;
 }
-
-.maxHeight {
-  min-height: 50px;
-  max-height: 50px;
-  overflow:hidden;
-  text-overflow: ellipsis;
-}
-
-.img-grid {
-  flex-grow: unset !important;
-  min-width: unset !important;
-  margin-bottom: 20px;
+img {
+  vertical-align: unset !important;
 }
 
 .bg_image {
@@ -27,16 +18,12 @@ body {
   left: 0;
 }
 
-
-.main {
+/* login register pages */
+.main_logreg {
 width: 320px;
 background: #000;
 opacity: 0.5;
 color: #fff;
-/* top: 50%;
-left: 50%;
-position: absolute;
-transform: translate(-50%, -50%); */
 box-sizing: border-box;
 padding: 20px 30px;
 text-decoration: none;
@@ -51,18 +38,18 @@ text-align: center;
 font-size: 30px;
 }
 
-.main p {
+.main_logreg p {
 margin: 0;
 padding: 0;
 font-weight: bold;
 }
 
-.main input {
+.main_logreg input {
 width: 100%;
 margin-bottom: 20px;
 }
 
-.main input[type="text"],
+.main_logreg input[type="text"],
 input[type="email"],
 input[type="password"] {
 border: none !important;
@@ -100,7 +87,7 @@ justify-content: center;
 text-decoration: none;
 }
 
-.main a {
+.main_logreg a {
 text-decoration: none;
 }
 
@@ -125,6 +112,15 @@ color: #000;
   color: red;
 }
 
+/* home page */
+.carouselImg {
+  width: 100% !important;
+}
+.carousel-inner {
+  height: 480px !important;
+}
+
+/* buttons */
 .nav_button {
 border: none;
 outline: none;
@@ -136,11 +132,37 @@ margin: auto 10px;
 .btn {
 margin: 10px 0;
 }
-
-.multi-select {
-  max-width: 400px !important;
+.deleteButton {
+  float:right;
+  margin:unset !important;
 }
 
+/* text under movie component */
+.smallFont {
+  font-size: 95%;
+}
+
+.maxHeight {
+  min-height: 50px;
+  max-height: 50px;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+
+/* movie grid */
+.img-grid {
+  flex-grow: unset !important;
+  min-width: unset !important;
+  margin-bottom: 20px;
+}
+
+/* Hover/multiselect components */
+.max-width-400 {
+  max-width: 400px !important;
+}
+.max-width-300 {
+  max-width: 300px !important;
+}
 .tooltip-inner {
   padding: .5rem 1rem !important;
   width: 300px !important;
@@ -177,6 +199,7 @@ margin: 10px 0;
   top: -.5em;
   left: 4.75em;
 }
+
 .list-icon {
   color: white;
 }
@@ -187,9 +210,4 @@ margin: 10px 0;
 .homePageIcon {
   vertical-align: -0.125em !important;
   width: .75em !important;
-}
-
-.deleteButton {
-  float:right;
-  margin:unset !important;
 }

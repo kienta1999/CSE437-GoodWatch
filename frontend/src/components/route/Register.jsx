@@ -47,7 +47,7 @@ function Register(props) {
   return (
     <div>
       <img src={background} alt="" className="bg_image" />
-      <div className="main">
+      <div className="main_logreg">
         <div id="tab_btn">
           <a href="/login" className="login_tab">
             Login

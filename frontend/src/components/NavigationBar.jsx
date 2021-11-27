@@ -37,12 +37,12 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
 
   const form = handleSubmit ? (
     <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="Search Movies" ref={query} />
+      <input type="text" className="form-control" placeholder="Search Movies" ref={query} />
     </form>
   ) :
   (
     <form onSubmit={handleSearch}>
-      <input type="text" placeholder="Search Movies" 
+      <input type="text" className="form-control" placeholder="Search Movies" 
             onChange={(e) => {
               setQuery(e.target.value);
             }} />
@@ -50,7 +50,7 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
   );
 
   return (
-    <Navbar className="mb-4" bg="light" expand="lg">
+    <Navbar className="mb-5" bg="light" expand="lg">
       <Container>
         <img src={require("../logo.png").default} alt="logo" width="50" />
         <Navbar.Brand href="/">GoodWatch</Navbar.Brand>
@@ -73,13 +73,13 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
 
         {!currUser  && (
           <a href="/login">
-            <button className="btn btn-sm ml-2" id="login_btn">
+            <button className="btn ml-2" id="login_btn">
               Log In
             </button>
           </a>
         )}
         {currUser && (
-          <button onClick={handleLogout} className="btn btn-sm ml-2" id="logout_btn">
+          <button onClick={handleLogout} className="btn ml-2" id="logout_btn">
             Log Out
           </button>
         )}

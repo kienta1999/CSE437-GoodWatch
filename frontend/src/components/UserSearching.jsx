@@ -23,7 +23,7 @@ const UserSearching = (props) => {
 
     return (
         <div>
-            <input type="text" placeholder="Search Users" onChange={handleSearch} />
+            <input type="text" className="form-control max-width-400" placeholder="Search Users" onChange={handleSearch} />
             {shown.length != 0 && (
                 <div className="dataResult">
                     {shown.slice(0, 5).map((value) => {

@@ -126,7 +126,6 @@ const Home = (props) => {
         handleSubmit={handleSubmit}
         query={query}
       />
-      <br />
       {!movies && (
         <Container>
           <Row>
@@ -148,6 +147,7 @@ const Home = (props) => {
                 <Carousel.Item>
                   <a href={`/movie/${latestID[0]}`}>
                     <img
+                      className="carouselImg"
                       src={latestImage[0]}
                       alt="lat0"
                       width="720"
@@ -162,6 +162,7 @@ const Home = (props) => {
                 <Carousel.Item>
                   <a href={`/movie/${latestID[1]}`}>
                     <img
+                      className="carouselImg"
                       src={latestImage[1]}
                       alt="lat1"
                       width="720"
@@ -176,6 +177,7 @@ const Home = (props) => {
                 <Carousel.Item>
                   <a href={`/movie/${latestID[2]}`}>
                     <img
+                      className="carouselImg"
                       src={latestImage[2]}
                       alt="lat2"
                       width="720"
@@ -205,7 +207,9 @@ const Home = (props) => {
                         alt="pop0"
                       />
                     </a>
-                    <HoverList movieid={popularID[0]} onHomePage={true}/>
+                    {currUser && (
+                      <HoverList movieid={popularID[0]} onHomePage={true}/>
+                    )}
                   </div>
                   <div className="relativeDiv">
                     <a href={`/movie/${popularID[1]}`}>

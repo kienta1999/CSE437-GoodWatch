@@ -90,38 +90,42 @@ const Profile = (props) => {
           <Col>
             {currUser && (
               <div>
-                <h4>
+                <h3>
                   Welcome,{" "}
                   <em>
-                    <u>{currUser.username}</u>
+                    {currUser.username}
                   </em>
                   !
-                </h4>
-                <strong>Name: </strong>
-                {currUser.firstName} {currUser.lastName}
+                </h3>
+
+                <div className="mb-4">
+                  <h5>{currUser.firstName} {currUser.lastName}</h5>
+                </div>
+                
+                <div className="d-inline-block mr-5 mb-2">
+                  <h6>Followers: </h6>
+                  {followers.length>0 && <UserLabel users={followers}/>}
+                  {followers.length==0 && <p>0 Followers</p>}
+                </div>
+                <div className="d-inline-block mb-2">
+                  <h6>Following: </h6>
+                  {following.length>0 && <UserLabel users={following}/>}
+                  {following.length==0 && <p>0 Following</p>}
+                </div>
                 <br />
-                <br />
-                <strong>Followers: </strong>
-                {followers.length>0 && <UserLabel users={followers}/>}
-                {followers.length==0 && <p>(no followers)</p>}
-                <strong>Following: </strong>
-                {following.length>0 && <UserLabel users={following}/>}
-                {following.length==0 && <p>(no following)</p>}
-                <br />
-                <strong>Go and Visit Other Users: </strong> 
+                <h6>Search for Other Users: </h6> 
                 <UserSearching userList={allUsers}/>
                 <br />
-                <strong>Add New List: </strong>
+                <h6>Add a New List: </h6>
                 <input
                   type="text"
                   onChange={(e) => {
                     setListName(e.target.value);
                   }}
                   id="new-list-input"
+                  className="form-control max-width-400"
                   placeholder="New List Name"
                 />
-                <br />
-                <br />
                 <button onClick={handleAddList} className="btn btn-primary">
                   Create A New List
                 </button>

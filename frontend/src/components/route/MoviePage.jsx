@@ -70,10 +70,33 @@ const MoviePage = (props) => {
     <Container>
       <Row>
         <Col>
-          <img src={data.Poster} alt={data.Title} />
-          <p>
-            {data.Title}, {data.Year}
-          </p>
+          <div className="d-inline-block">
+            <img src={data.Poster} alt={data.Title} />
+          </div>
+          <div className="d-inline-block mx-5 mt-5" style={{width:"60%", 'vertical-align': "top"}}>
+            <h3>{data.Title}, {data.Year}</h3>
+            <p>
+              <strong>Actors:</strong> {data.Actors}<br/>
+              <strong>Gerne:</strong> {data.Genre}<br/>
+              <strong>IMDB Ratings:</strong> {data.imdbRating} / 10<br/>
+              {goodwatchScore > 0 ? (
+                <>
+                  <strong>GoodWatch Ratings:</strong> {goodwatchScore.toFixed(2)} / 5<br/>
+                </>
+              ) : (
+                <>
+                  <strong>GoodWatch Ratings:</strong> N/A<br/>
+                </>
+              )}
+              <strong>Votes:</strong> {data.imdbVotes}<br/>
+              <strong>Plot: </strong> {data.Plot}
+            </p>
+            <div className=" mt-4">
+            <UpdateLists movieid={movieid}/>
+          </div>
+          </div>
+          <br></br>
+    
 
           {/* {existingLists && (
             <div>
@@ -82,35 +105,8 @@ const MoviePage = (props) => {
               <br></br>
             </div>
           )} */}
-          
-        <UpdateLists movieid={movieid}/>
-
-          <p>
-            <strong>Actors:</strong> {data.Actors}
-          </p>
-          <p>
-            <strong>Gerne:</strong> {data.Genre}
-          </p>
-          <p>
-            <strong>IMDB Ratings:</strong> {data.imdbRating} / 10
-          </p>
-          {goodwatchScore > 0 ? (
-            <p>
-              <strong>GoodWatch Ratings:</strong> {goodwatchScore.toFixed(2)} / 5
-            </p>
-          ) : (
-            <p>
-              <strong>GoodWatch Ratings:</strong> N/A
-            </p>
-          )}
-          <p>
-            <strong>Votes:</strong> {data.imdbVotes}
-          </p>
-          <p>
-            <strong>Plot: </strong>
-            {data.Plot}
-          </p>
-          <div className="review form-group">
+      
+          <div className="review form-group mt-4">
             <h3>Submit your review</h3>
             <StarRating
               numberOfStars="5"
@@ -121,7 +117,7 @@ const MoviePage = (props) => {
               fontSize="4rem"
               mutable
             />
-            <label for="comment">Comment</label>
+            <label htmlFor="comment">Add a Comment</label>
 
             <textarea
               className="form-control"
@@ -141,10 +137,10 @@ const MoviePage = (props) => {
             </button>
             {reviewMsg && <p style={{ color: "red" }}>{reviewMsg}</p>}
           </div>
-          <AllReview
+          {/* <AllReview
             movieid={movieid}
             getGoodWatchAverageRating={getGoodWatchAverageRating}
-          />
+          /> */}
         </Col>
       </Row>
     </Container>
