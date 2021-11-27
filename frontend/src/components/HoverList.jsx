@@ -10,7 +10,7 @@ import UpdateLists from "./UpdateLists.jsx";
 import { getLists, checkList, removeFromList, addToList } from "../data/lists";
 import UserContext from "../context/UserContext.js";
 
-const HoverList = ({ movieid, style, onHomePage }) => {
+const HoverList = ({ movieid, style, setButtonStyle, onHomePage }) => {
     const { currUser, setUser } = useContext(UserContext);
 
     const [show, setShow] = useState(false);
@@ -20,6 +20,12 @@ const HoverList = ({ movieid, style, onHomePage }) => {
     const setVisibility = async (event) => {
         setShow(!show)
     };
+
+    useEffect(() => {
+        if(show) {
+            setButtonStyle({display: 'block'})
+        } 
+    }, [style]);
     
     return (
         <div>

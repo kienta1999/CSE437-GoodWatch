@@ -16,7 +16,7 @@ const Movie = ({ movie }) => {
       <a href={url}>
         <img src={movie.Poster} alt={movie.Title} width="150px" height="200px"/>
       </a>
-      <HoverList movieid={movie.imdbID} style={style}/>
+      <HoverList movieid={movie.imdbID} style={style} setButtonStyle={setButtonStyle}/>
       <div className="maxHeight">
         <a href={url}><p className="smallFont">{movie.Title}, {movie.Year}</p></a>
       </div>
