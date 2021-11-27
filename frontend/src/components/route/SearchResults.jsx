@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Container, Col } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
 
 import UserContext from "../../context/UserContext.js";
@@ -20,14 +20,18 @@ const SearchResults = (props) => {
 
     useEffect(() => {
         (async () => {
+            console.log(query)
             setQueryState(query);
             setPage(1);
             let res = await getMoviesFromQuery(query, page);
             console.log(res);
+            if (res.error) {
+              
+            }
             setTotalPage(Math.ceil(+res.totalResults / 10.0));
             setMovies(res.Search);
         })();
-      }, []);
+      }, [query]);
 
     useEffect(() => {
     (async () => {
@@ -36,7 +40,7 @@ const SearchResults = (props) => {
         setMovies(res.Search);
         }
     })();
-    }, [page]);
+    }, [page, query]);
 
   return (
     <div>
@@ -69,7 +73,11 @@ const SearchResults = (props) => {
           </>
       )
       : (
-        <div>Loading...</div>
+        <Container>
+          <Col>
+            <div>No Results Found</div>
+          </Col>
+        </Container>
       )}
     </div>
   );

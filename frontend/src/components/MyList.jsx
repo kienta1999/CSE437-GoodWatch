@@ -55,6 +55,8 @@ const MyList = (props) => {
           <Row>
             <Col>
             {listInfo ? (
+              <>
+              <small className="message">{deleteMsg}</small>
               <ListGroup>
                 {listInfo &&
                   listInfo.map(function (li, index) {
@@ -66,6 +68,7 @@ const MyList = (props) => {
                     );
                   })}
               </ListGroup>
+              </>
             ) : (
               <div>Loading...</div>
             )}

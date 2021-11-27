@@ -3,6 +3,7 @@ import { useRef, useState, useEffect, useContext } from "react";
 import getMoviesFromQuery from "../../data/movie.js";
 import getMoviePoster from "../../data/image.js";
 import MovieList from "../MovieList.jsx";
+import HoverList from "../HoverList.jsx";
 import ReactPaginate from "react-paginate";
 import MyList from "../MyList.jsx";
 import UserContext from "../../context/UserContext";
@@ -195,89 +196,115 @@ const Home = (props) => {
               </h4>
               <Row>
                 <Col>
-                  <a href={`/movie/${popularID[0]}`}>
-                    <img
-                      src={popularImage[0]}
-                      width="90"
-                      length="100"
-                      alt="pop0"
-                    />
-                  </a>
-                  <a href={`/movie/${popularID[1]}`}>
-                    <img
-                      src={popularImage[1]}
-                      width="90"
-                      length="100"
-                      alt="pop1"
-                    />
-                  </a>
-                  <a href={`/movie/${popularID[2]}`}>
-                    <img
-                      src={popularImage[2]}
-                      width="90"
-                      length="100"
-                      alt="pop2"
-                    />
-                  </a>
+                  <div className="relativeDiv">
+                    <a href={`/movie/${popularID[0]}`}>
+                      <img
+                        src={popularImage[0]}
+                        width="90"
+                        length="100"
+                        alt="pop0"
+                      />
+                    </a>
+                    <HoverList movieid={popularID[0]} onHomePage={true}/>
+                  </div>
+                  <div className="relativeDiv">
+                    <a href={`/movie/${popularID[1]}`}>
+                      <img
+                        src={popularImage[1]}
+                        width="90"
+                        length="100"
+                        alt="pop1"
+                      />
+                    </a>
+                    <HoverList movieid={popularID[1]} onHomePage={true}/>
+                  </div>
+                  <div className="relativeDiv">
+                    <a href={`/movie/${popularID[2]}`}>
+                      <img
+                        src={popularImage[2]}
+                        width="90"
+                        length="100"
+                        alt="pop2"
+                      />
+                    </a>
+                    <HoverList movieid={popularID[2]} onHomePage={true}/>
+                  </div>
                 </Col>
                 <Col>
-                  <a href={`/movie/${popularID[3]}`}>
-                    <img
-                      src={popularImage[3]}
-                      width="90"
-                      length="100"
-                      alt="pop0"
-                    />
-                  </a>
-                  <a href={`/movie/${popularID[4]}`}>
-                    <img
-                      src={popularImage[4]}
-                      width="90"
-                      length="100"
-                      alt="pop0"
-                    />
-                  </a>
-                  <a href={`/movie/${popularID[5]}`}>
-                    <img
-                      src={popularImage[5]}
-                      width="90"
-                      length="100"
-                      alt="pop0"
-                    />
-                  </a>
+                  <div className="relativeDiv">
+                    <a href={`/movie/${popularID[3]}`}>
+                      <img
+                        src={popularImage[3]}
+                        width="90"
+                        length="100"
+                        alt="pop0"
+                      />
+                    </a>
+                    <HoverList movieid={popularID[3]} onHomePage={true}/>
+                  </div>
+                  <div className="relativeDiv">
+                    <a href={`/movie/${popularID[4]}`}>
+                      <img
+                        src={popularImage[4]}
+                        width="90"
+                        length="100"
+                        alt="pop0"
+                      />
+                    </a>
+                    <HoverList movieid={popularID[4]} onHomePage={true}/>
+                  </div>
+                  <div className="relativeDiv">
+                    <a href={`/movie/${popularID[5]}`}>
+                      <img
+                        src={popularImage[5]}
+                        width="90"
+                        length="100"
+                        alt="pop0"
+                      />
+                    </a>
+                    <HoverList movieid={popularID[5]} onHomePage={true}/>
+                  </div>
                 </Col>
                 <Col>
-                  <a href={`/movie/${popularID[6]}`}>
-                    <img
-                      src={popularImage[6]}
-                      width="90"
-                      length="100"
-                      alt="pop0"
-                    />
-                  </a>
-                  <a href={`/movie/${popularID[7]}`}>
-                    <img
-                      src={popularImage[7]}
-                      width="90"
-                      length="100"
-                      alt="pop0"
-                    />
-                  </a>
-                  <a href={`/movie/${popularID[8]}`}>
-                    <img
-                      src={popularImage[8]}
-                      width="90"
-                      length="100"
-                      alt="pop0"
-                    />
-                  </a>
+                  <div className="relativeDiv">
+                    <a href={`/movie/${popularID[6]}`}>
+                      <img
+                        src={popularImage[6]}
+                        width="90"
+                        length="100"
+                        alt="pop0"
+                      />
+                    </a>
+                    <HoverList movieid={popularID[6]} onHomePage={true}/>
+                  </div>
+                  <div className="relativeDiv">
+                    <a href={`/movie/${popularID[7]}`}>
+                      <img
+                        src={popularImage[7]}
+                        width="90"
+                        length="100"
+                        alt="pop0"
+                      />
+                    </a>
+                    <HoverList movieid={popularID[7]} onHomePage={true}/>
+                  </div>
+                  <div className="relativeDiv">
+                    <a href={`/movie/${popularID[8]}`}>
+                      <img
+                        src={popularImage[8]}
+                        width="90"
+                        length="100"
+                        alt="pop0"
+                      />
+                    </a>
+                    <HoverList movieid={popularID[8]} onHomePage={true}/>
+                  </div>
                 </Col>
               </Row>
             </Col>
           </Row>
           <Row>
             <Col xs={8}>
-              {/* <Container> */}
                 <br />
                 <h4>
                   Fan Favorites
@@ -285,32 +312,46 @@ const Home = (props) => {
                 </h4>
                 <Row>
                   <Col>
-                    <a href={`/movie/${favoriteID[0]}`}>
-                      <img src={favoriteImage[0]} alt="fan0" width="90" />
-                    </a>
+                    <div className="relativeDiv">
+                      <a href={`/movie/${favoriteID[0]}`}>
+                        <img src={favoriteImage[0]} alt="fan0" width="90" length="100"/>
+                      </a>
+                      <HoverList movieid={favoriteID[0]} onHomePage={true}/>
+                    </div>
                   </Col>
                   <Col>
-                    <a href={`/movie/${favoriteID[1]}`}>
-                      <img src={favoriteImage[1]} alt="fan1" width="90" />
-                    </a>
+                    <div className="relativeDiv">
+                      <a href={`/movie/${favoriteID[1]}`}>
+                        <img src={favoriteImage[1]} alt="fan1" width="90" length="100"/>
+                      </a>
+                      <HoverList movieid={favoriteID[1]} onHomePage={true}/>
+                    </div>
                   </Col>
                   <Col>
-                    <a href={`/movie/${favoriteID[2]}`}>
-                      <img src={favoriteImage[2]} alt="fan0" width="90" />
-                    </a>
+                    <div className="relativeDiv">
+                      <a href={`/movie/${favoriteID[2]}`}>
+                        <img src={favoriteImage[2]} alt="fan0" width="90" length="100"/>
+                      </a>
+                      <HoverList movieid={favoriteID[2]} onHomePage={true}/>
+                    </div>
                   </Col>
                   <Col>
-                    <a href={`/movie/${favoriteID[3]}`}>
-                      <img src={favoriteImage[3]} alt="fan0" width="90" />
-                    </a>
+                    <div className="relativeDiv">
+                      <a href={`/movie/${favoriteID[3]}`}>
+                        <img src={favoriteImage[3]} alt="fan0" width="90" />
+                      </a>
+                      <HoverList movieid={favoriteID[3]} onHomePage={true}/>
+                    </div>
                   </Col>
                   <Col>
-                    <a href={`/movie/${favoriteID[4]}`}>
-                      <img src={favoriteImage[4]} alt="fan0" width="90" />
-                    </a>
+                    <div className="relativeDiv">
+                      <a href={`/movie/${favoriteID[4]}`}>
+                        <img src={favoriteImage[4]} alt="fan0" width="90" />
+                      </a>
+                      <HoverList movieid={favoriteID[4]} onHomePage={true}/>
+                    </div>
                   </Col>
                 </Row>
-              {/* </Container> */}
             </Col>
 
             <Col>

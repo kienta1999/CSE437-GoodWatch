@@ -1,6 +1,4 @@
 import { useState, useEffect, useContext, useRef } from "react";
-import { useParams } from "react-router-dom";
-import { Container, Row, Col} from "react-bootstrap";
 import { MultiSelect } from "react-multi-select-component";
 
 import { getLists, checkList, removeFromList, addToList } from "../data/lists";
@@ -109,7 +107,7 @@ const UpdateLists = ({ movieid }) => {
         <small className="message">{addToListMsg}</small>
 
         {listInfo && listInfo.length > 0 ? (
-            <>
+            <div className="text-dark">
               {/* <pre>{JSON.stringify(selectedlists)}</pre> */}
               <MultiSelect
                 options={listOptions}
@@ -125,7 +123,7 @@ const UpdateLists = ({ movieid }) => {
               >
                 Update Lists
               </button>
-            </>
+            </div>
           ) : (
             <></>
           )}

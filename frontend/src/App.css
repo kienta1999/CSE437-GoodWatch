@@ -1,5 +1,5 @@
 body {
-  background-color: antiquewhite;
+  background-color: antiquewhite !important;
 }
 
 .smallFont {
@@ -139,6 +139,54 @@ margin: 10px 0;
 
 .multi-select {
   max-width: 400px !important;
+}
+
+.tooltip-inner {
+  padding: .5rem 1rem !important;
+  width: 300px !important;
+  text-align: left !important;
+}
+
+.tooltip.show {
+  opacity: 1 !important;
+}
+
+.relativeDiv {
+  position: relative !important;
+}
+
+.blackCircle {
+  height: 2em;
+  width: 2em;
+  text-align: center;
+  background-color: black;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  top: .5em;
+  right: 1em;
+}
+.smallerBlackCircle {
+  height: 1.5em;
+  width: 1.5em;
+  text-align: center;
+  background-color: black;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  top: -.5em;
+  left: 4.75em;
+}
+.list-icon {
+  color: white;
+}
+
+.svg-inline--fa {
+  vertical-align: bottom !important;
+}
+.homePageIcon {
+  vertical-align: -0.125em !important;
+  width: .75em !important;
 }
 
 .deleteButton {

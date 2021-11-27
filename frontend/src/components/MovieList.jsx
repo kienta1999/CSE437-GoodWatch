@@ -1,5 +1,4 @@
 import Movie from "./Movie.jsx";
-import UpdateLists from "./UpdateLists.jsx";
 import { Row, Col, Container } from "react-bootstrap";
 
 const MovieList = ({ movies, row, multiselectBelow, children }) => {

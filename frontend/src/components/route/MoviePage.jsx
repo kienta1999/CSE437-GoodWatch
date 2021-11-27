@@ -83,7 +83,7 @@ const MoviePage = (props) => {
             </div>
           )} */}
           
-          <UpdateLists movieid={movieid}/>
+        <UpdateLists movieid={movieid}/>
 
           <p>
             <strong>Actors:</strong> {data.Actors}

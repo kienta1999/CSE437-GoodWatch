@@ -1,16 +1,26 @@
+import { useState, useEffect, useContext, useRef } from "react";
 import StarRating from "./StarRating.jsx";
+import HoverList from "./HoverList.jsx";
 
 const Movie = ({ movie }) => {
-  console.log(movie);
+  const [style, setButtonStyle] = useState({display: 'none'});
+
   const url = `/movie/${movie.imdbID}`;
   return (
-    <div>
+    <div onMouseEnter={e => {
+          setButtonStyle({display: 'block'});
+        }}
+        onMouseLeave={e => {
+          setButtonStyle({display: 'none'})
+        }}>
       <a href={url}>
         <img src={movie.Poster} alt={movie.Title} width="150px" height="200px"/>
-        <div className="maxHeight">
-          <p className="smallFont">{movie.Title}, {movie.Year}</p>
-        </div>
       </a>
+      <HoverList movieid={movie.imdbID} style={style}/>
+      <div className="maxHeight">
+        <a href={url}><p className="smallFont">{movie.Title}, {movie.Year}</p></a>
+      </div>
+
       {movie.averageFollowingRating && (
         <div>
           Followers' Average Rating: {movie.averageFollowingRating}
@@ -22,6 +32,7 @@ const Movie = ({ movie }) => {
           />
         </div>
       )}
+
     </div>
   );
 };
