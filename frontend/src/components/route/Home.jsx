@@ -315,7 +315,7 @@ const Home = (props) => {
                   <hr></hr>
                 </h4>
                 <Row>
-                  <Col>
+                  <Col className="mb-3">
                     <div className="relativeDiv">
                       <a href={`/movie/${favoriteID[0]}`}>
                         <img src={favoriteImage[0]} alt="fan0" width="90" length="100"/>
@@ -353,6 +353,64 @@ const Home = (props) => {
                         <img src={favoriteImage[4]} alt="fan0" width="90" />
                       </a>
                       <HoverList movieid={favoriteID[4]} onHomePage={true}/>
+                    </div>
+                  </Col>
+                  <Col>
+                    <div className="relativeDiv">
+                      <a href={`/movie/${favoriteID[5]}`}>
+                        <img src={favoriteImage[5]} alt="fan0" width="90" length="100"/>
+                      </a>
+                      <HoverList movieid={favoriteID[5]} onHomePage={true}/>
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <div className="relativeDiv">
+                      <a href={`/movie/${favoriteID[6]}`}>
+                        <img src={favoriteImage[6]} alt="fan1" width="90" length="100"/>
+                      </a>
+                      <HoverList movieid={favoriteID[6]} onHomePage={true}/>
+                    </div>
+                  </Col>
+                  <Col>
+                    <div className="relativeDiv">
+                      <a href={`/movie/${favoriteID[7]}`}>
+                        <img src={favoriteImage[7]} alt="fan0" width="90" length="100"/>
+                      </a>
+                      <HoverList movieid={favoriteID[7]} onHomePage={true}/>
+                    </div>
+                  </Col>
+                  <Col>
+                    <div className="relativeDiv">
+                      <a href={`/movie/${favoriteID[8]}`}>
+                        <img src={favoriteImage[8]} alt="fan0" width="90" />
+                      </a>
+                      <HoverList movieid={favoriteID[8]} onHomePage={true}/>
+                    </div>
+                  </Col>
+                  <Col>
+                    <div className="relativeDiv">
+                      <a href={`/movie/${favoriteID[9]}`}>
+                        <img src={favoriteImage[9]} alt="fan0" width="90" />
+                      </a>
+                      <HoverList movieid={favoriteID[9]} onHomePage={true}/>
+                    </div>
+                  </Col>
+                  <Col>
+                    <div className="relativeDiv">
+                      <a href={`/movie/${favoriteID[10]}`}>
+                        <img src={favoriteImage[10]} alt="fan0" width="90" />
+                      </a>
+                      <HoverList movieid={favoriteID[10]} onHomePage={true}/>
+                    </div>
+                  </Col>
+                  <Col>
+                    <div className="relativeDiv">
+                      <a href={`/movie/${favoriteID[11]}`}>
+                        <img src={favoriteImage[11]} alt="fan0" width="90" />
+                      </a>
+                      <HoverList movieid={favoriteID[11]} onHomePage={true}/>
                     </div>
                   </Col>
                 </Row>

@@ -35,7 +35,7 @@ const getFanFavMovieData = async () => {
     "https://api.themoviedb.org/3/movie/top_rated?api_key=ba49528b9403e15b24208bdec23df4b8";
   const res = await axios.get(url);
   if (res.status === 200) {
-    return res.data.results.slice(0, 5);
+    return res.data.results.slice(0, 12);
   }
   return null;
 };
