@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faList } from '@fortawesome/free-solid-svg-icons'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { OverlayTrigger, Popover, Button, Tooltip, Overlay } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 import UpdateLists from "./UpdateLists.jsx";
 
 import { getLists, checkList, removeFromList, addToList } from "../data/lists";
 import UserContext from "../context/UserContext.js";
 
-const HoverList = ({ movieid, style, setButtonStyle, onHomePage }) => {
+const HoverList = ({ movieid, style, setShow2, onHomePage, setUpdateMsg }) => {
     const { currUser, setUser } = useContext(UserContext);
 
     const [show, setShow] = useState(false);
@@ -19,13 +19,8 @@ const HoverList = ({ movieid, style, setButtonStyle, onHomePage }) => {
 
     const setVisibility = async (event) => {
         setShow(!show)
+        setShow2(!show)
     };
-
-    useEffect(() => {
-        if(show) {
-            setButtonStyle({display: 'block'})
-        } 
-    }, [style]);
     
     return (
         <div>
@@ -52,7 +47,7 @@ const HoverList = ({ movieid, style, setButtonStyle, onHomePage }) => {
         <Overlay target={target.current} show={show} placement="bottom">
             {(props) => (
             <Tooltip id="overlay-example" {...props}>
-                <UpdateLists movieid={movieid}/>
+                <UpdateLists movieid={movieid} setOverlayVisibility={setVisibility} setUpdateMsg={setUpdateMsg}/>
             </Tooltip>
             )}
         </Overlay>

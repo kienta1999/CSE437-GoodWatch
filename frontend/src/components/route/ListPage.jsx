@@ -61,6 +61,7 @@ const ListPage = (props) => {
     })();
   }, [listContent]);
 
+  //Get all list info
   useEffect(() => {
     (async () => {
       let res = await getLists();
@@ -139,7 +140,7 @@ const ListPage = (props) => {
                 row={
                   listContentDetails.length >= 6 ? 6 : listContentDetails.length
                 }
-                multiselectBelow={true}
+                setUpdateMsg={setRemoveMsg}
               >
                 <button className="btn btn-sm btn-primary" onClick={handleRemove}>
                   Remove From List
@@ -150,8 +151,10 @@ const ListPage = (props) => {
         </Container>
       ) : (
         <Container>
-          This list doesn't have anything in it yet! Add some movies or TV shows
-          to this list to see them here.
+          <Container>
+            This list doesn't have anything in it yet! Add some movies or TV shows
+            to this list to see them here.
+          </Container>
         </Container>
       )}
     </div>

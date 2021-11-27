@@ -79,7 +79,7 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
           </a>
         )}
         {currUser && (
-          <button onClick={handleLogout} className="nav_button" id="logout_btn">
+          <button onClick={handleLogout} className="btn btn-sm ml-2" id="logout_btn">
             Log Out
           </button>
         )}

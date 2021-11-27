@@ -4,7 +4,7 @@ import { MultiSelect } from "react-multi-select-component";
 import { getLists, checkList, removeFromList, addToList } from "../data/lists";
 import UserContext from "../context/UserContext.js";
 
-const UpdateLists = ({ movieid }) => {
+const UpdateLists = ({ movieid, setOverlayVisibility, setUpdateMsg }) => {
     const { currUser, setUser } = useContext(UserContext);
 
     const [existingLists, setExistingLists] = useState([]);
@@ -85,6 +85,11 @@ const UpdateLists = ({ movieid }) => {
 
                 const res2 = await addToList(selectedlists, movieid);
                 setAddToListMsg(res2.data.message);
+                setOverlayVisibility();
+
+                if(setUpdateMsg) {
+                  setUpdateMsg("List Updated!")
+                }
 
             } catch (error) {
                 console.log(error);
