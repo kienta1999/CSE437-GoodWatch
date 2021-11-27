@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import { Col } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 
 import UserContext from "../../context/UserContext.js";
 import NavigationBar from "../NavigationBar.jsx";
@@ -18,6 +18,8 @@ import { getMovieData } from "../../data/movie.js";
 
 const ListPage = (props) => {
   const { listid } = useParams();
+  const [listName, setListName] = useState("");
+
   const [listContent, setListContent] = useState([]);
   const [listContentDetails, setListContentDetails] = useState([]);
   const [removeMsg, setRemoveMsg] = useState("");
@@ -36,28 +38,17 @@ const ListPage = (props) => {
       let res = await getListContent(listid);
       console.log("Getting list content in ListPage", res);
       setListContent(res.data.listContent);
-      if (res.data.listContent.length > 0) {
-        setSelectedItemtoChange(res.data.listContent[0]["imdbId"]);
-      }
+      // if (res.data.listContent.length > 0) {
+      //   setSelectedItemtoChange(res.data.listContent[0]["imdbId"]);
+      // }
       setRemoveMsg("");
-      setChangeListMsg("");
+      // setChangeListMsg("");
     })();
-  }, [removeMsg, changeListMsg]);
+  }, [removeMsg]);
 
   //Get movie data for all items in list
   useEffect(() => {
     (async () => {
-      // const allFn = [...new Set(listContent.map((movie) => movie.imdbId))].map(
-      //   (id) => {
-      //     return async () => {
-      //       return await getMovieData(id);
-      //     };
-      //   }
-      // );
-      // let listContentInfo = await Promise.all(allFn.map((fn) => fn()));
-
-      // console.log(listContentInfo);
-      // setListContentDetails([...new Set(listContentInfo)]);
       const allFn = [...new Set(listContent.map((movie) => movie.imdbId))].map(
         (id) => {
           return async () => {
@@ -77,15 +68,14 @@ const ListPage = (props) => {
       setListInfo(res.data.listInfo);
       if (res.data.listInfo.length > 0) {
         for (var i = 0; i < res.data.listInfo.length; i++) {
-          if (res.data.listInfo[i]["id"] != listid) {
-            console.log(res.data.listInfo[i]["id"]);
-            setSelectedList(res.data.listInfo[i]["id"]);
+          if (res.data.listInfo[i]["id"] == listid) {
+            setListName(res.data.listInfo[i]["listName"]);
             break;
           }
         }
       }
     })();
-  }, [changeListBool]);
+  }, []);
 
   const handleRemove = async (event) => {
     event.preventDefault();
@@ -102,69 +92,32 @@ const ListPage = (props) => {
     }
   };
 
-  const handleMove = async (event) => {
-    setChangeListBool(!changeListBool);
-  };
+  // const handleMove = async (event) => {
+  //   setChangeListBool(!changeListBool);
+  // };
 
-  const handleChangeList = async (event) => {
-    let itemId = selectedItemtoChange;
-    try {
-      const res = await changeList(selectedlist, itemId);
-      console.log(res);
-      setChangeListMsg(res.data.message);
-      setChangeListBool(!changeListBool);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleChangeList = async (event) => {
+  //   let itemId = selectedItemtoChange;
+  //   try {
+  //     const res = await changeList(selectedlist, itemId);
+  //     console.log(res);
+  //     setChangeListMsg(res.data.message);
+  //     setChangeListBool(!changeListBool);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <div>
       <NavigationBar history={props.history} />
       <Container className="mb-4">
-        {removeMsg && <p className="message">{removeMsg}</p>}
-       
-        {/* {changeListBool && (
-          <div>
-            <select
-              name="listItems"
-              onChange={(e) => {
-                setSelectedItemtoChange(e.target.value);
-                setChangeListMsg("");
-              }}
-            >
-              {listContentDetails.map(function (movie, index) {
-                return (
-                  <option key={movie["imdbID"]} value={movie["imdbID"]}>
-                    {movie["Title"]}
-                  </option>
-                );
-              })}
-            </select>
-            <br></br>
-            <select
-              name="userLists"
-              onChange={(e) => {
-                setSelectedList(e.target.value);
-                setChangeListMsg("");
-              }}
-            >
-              {listInfo.map(function (li, index) {
-                if (li.id != listid) {
-                  return (
-                    <option key={li.id} value={li.id}>
-                      {li.listName}
-                    </option>
-                  );
-                }
-              })}
-            </select>
-            <br></br>
-            <button onClick={handleChangeList} className="btn btn-primary">
-              Update List
-            </button>
-          </div>
-        )} */}
+        <Container>
+          {listName && (
+            <h3>List: {listName}</h3>
+          )}
+          {removeMsg && <p className="message">{removeMsg}</p>}
+        </Container>
       </Container>
       {listContentDetails.length > 0 ? (
         <Container>

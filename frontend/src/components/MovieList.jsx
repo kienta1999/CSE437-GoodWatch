@@ -7,7 +7,7 @@ const MovieList = ({ movies, row, multiselectBelow, children }) => {
 
     const someMoviesComponent = someMovies.map((movie) => {
       return (
-        <Col width="200px" className="img-grid">
+        <Col width="200px" className="img-grid" key={movie.imdbID}>
           <Movie movie={movie} key={movie.imdbID} />
           <div className={movie['imdbID']}>{children}</div>
           {/* {multiselectBelow && (
