@@ -85,7 +85,7 @@ const UpdateLists = ({ movieid, setOverlayVisibility, setUpdateMsg }) => {
 
                 const res2 = await addToList(selectedlists, movieid);
                 setAddToListMsg(res2.data.message);
-                setOverlayVisibility();
+                // setOverlayVisibility();
 
                 if(setUpdateMsg) {
                   setUpdateMsg("List Updated!")

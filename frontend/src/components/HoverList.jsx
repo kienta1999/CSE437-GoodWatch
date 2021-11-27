@@ -19,7 +19,9 @@ const HoverList = ({ movieid, style, setShow2, onHomePage, setUpdateMsg }) => {
 
     const setVisibility = async (event) => {
         setShow(!show)
-        setShow2(!show)
+        if (setShow2) {
+            setShow2(!show)
+        }
     };
     
     return (
