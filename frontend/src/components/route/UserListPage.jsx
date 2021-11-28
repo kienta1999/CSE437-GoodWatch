@@ -16,8 +16,8 @@ import {
 } from "../../data/lists";
 import { getMovieData } from "../../data/movie.js";
 
-const ListPage = (props) => {
-  const { listid } = useParams();
+const UserListPage = (props) => {
+  const { userid, listid } = useParams();
   const [listName, setListName] = useState("");
 
   const [listContent, setListContent] = useState([]);
@@ -38,11 +38,6 @@ const ListPage = (props) => {
       let res = await getListContent(listid);
       console.log("Getting list content in ListPage", res);
       setListContent(res.data.listContent);
-      // if (res.data.listContent.length > 0) {
-      //   setSelectedItemtoChange(res.data.listContent[0]["imdbId"]);
-      // }
-      setRemoveMsg("");
-      // setChangeListMsg("");
     })();
   }, [removeMsg]);
 
@@ -64,8 +59,8 @@ const ListPage = (props) => {
   //Get all list info (name)
   useEffect(() => {
     (async () => {
-      let res = await getLists();
-      console.log("Getting list info in ListPage", res);
+      let res = await getLists(userid);
+      console.log("Getting other user list info in ListPage", res);
       setListInfo(res.data.listInfo);
       if (res.data.listInfo.length > 0) {
         for (var i = 0; i < res.data.listInfo.length; i++) {
@@ -78,37 +73,6 @@ const ListPage = (props) => {
     })();
   }, []);
 
-  const handleRemove = async (event) => {
-    event.preventDefault();
-    console.log(event.target.parentNode.classList[0]);
-    let itemId = event.target.parentNode.classList[0];
-    try {
-      var idList = [{id: listid}]
-      const res = await removeFromList(idList, itemId);
-      // window.location.reload();
-      console.log(res);
-      setRemoveMsg(res.data.message);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // const handleMove = async (event) => {
-  //   setChangeListBool(!changeListBool);
-  // };
-
-  // const handleChangeList = async (event) => {
-  //   let itemId = selectedItemtoChange;
-  //   try {
-  //     const res = await changeList(selectedlist, itemId);
-  //     console.log(res);
-  //     setChangeListMsg(res.data.message);
-  //     setChangeListBool(!changeListBool);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   return (
     <div>
       <NavigationBar history={props.history} />
@@ -117,12 +81,12 @@ const ListPage = (props) => {
           {listName && (
             <div>
               <sub>
-                <a href="/profile">Back to Profile</a><br/>
+                <a href={`/user/${userid}`}>Back to User Page</a><br/>
+                {/* <em>My List</em> */}
               </sub>
               <h3>{listName}</h3>
             </div>
           )}
-          {removeMsg && <p className="message">{removeMsg}</p>}
         </Container>
       </Container>
 
@@ -146,39 +110,15 @@ const ListPage = (props) => {
                 row={
                   listContentDetails.length >= 6 ? 6 : listContentDetails.length
                 }
-                setUpdateMsg={setRemoveMsg}
               >
-                <button className="btn btn-sm btn-primary" onClick={handleRemove}>
-                  Remove From List
-                </button>
               </MovieList>
             </div>
           )}
-
-          {/* {listContentDetails && (user != currUser._id) && (
-            <div>
-              <MovieList
-                movies={listContentDetails}
-                row={
-                  listContentDetails.length >= 6 ? 6 : listContentDetails.length
-                }
-                setUpdateMsg={setRemoveMsg}
-              >
-              </MovieList>
-            </div>
-          )} */}
         </Container>
       ) : (
         <Container>
           <Container>
-            {/* {(user != currUser._id) ?
-            (
               <>This list doesn't have anything in it yet!</>
-            ) :
-            ( */}
-              <>This list doesn't have anything in it yet! Add some movies or TV shows
-              to this list to see them here.</>
-            {/* )} */}
           </Container>
         </Container>
       )}
@@ -186,4 +126,4 @@ const ListPage = (props) => {
   );
 };
 
-export default ListPage;
+export default UserListPage;

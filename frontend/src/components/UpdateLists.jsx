@@ -81,11 +81,10 @@ const UpdateLists = ({ movieid, setOverlayVisibility, setUpdateMsg }) => {
             try {
 
                 const res = await removeFromList(listInfo, movieid)
-                console.log("Remove from all lists", res)
+                console.log("Remove from all my lists", res)
 
                 const res2 = await addToList(selectedlists, movieid);
                 setAddToListMsg(res2.data.message);
-                // setOverlayVisibility();
 
                 if(setUpdateMsg) {
                   setUpdateMsg("List Updated!")

@@ -5,6 +5,7 @@ import NavigationBar from "../NavigationBar.jsx";
 import UserContext from "../../context/UserContext.js";
 
 import Profile from "./Profile";
+import MyList from "../MyList.jsx";
 
 import checkUser from "../../data/checkUser";
 import checkFollow from "../../data/follow";
@@ -138,50 +139,68 @@ const UserPage = (props) => {
             <Col>
               {!checkedUser && (
                 <div>
-                  <h4>User Not Exist</h4>
+                  <h4>User Does Not Exist</h4>
                 </div>
               )}
               {checkedUser && (
                 <div>
-                  <h4>
+                  <sub>
+                    <a href="/profile">Back to Profile</a><br/>
+                  </sub>
+                  <h3>
                     Welcome to{" "}
                     <em>
-                      <u>{checkedUser.username}</u>
+                      {checkedUser.username}
                     </em>
                     's page!
-                  </h4>
-                  <strong>Followers: </strong> {followers}
+                  </h3>
+                  {/* <strong>Followers: </strong> {followers}
                   <br />
                   <strong>Following: </strong> {following}
-                  <br />
+                  <br /> */}
+                  <div className="mb-2">
+                    {checkedUser && currUser && (
+                      <div>
+                        {!followed ? (
+                          <button
+                            onClick={handleFollow}
+                            className="btn"
+                            id="new-list-btn"
+                          >
+                            Follow
+                          </button>
+                        ) : (
+                          <button
+                            onClick={handleUnfollow}
+                            className="btn"
+                            id="new-list-btn"
+                          >
+                            Unfollow
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <div className="d-inline-block mr-5 mb-2">
+                    <h6>Followers: </h6>
+                    {followers}
+                  </div>
+                  <div className="d-inline-block mb-2">
+                    <h6>Following: </h6>
+                    {following}
+                  </div>
                   <br />
                 </div>
               )}
-              {checkedUser && currUser && (
-                <div>
-                  {!followed ? (
-                    <button
-                      onClick={handleFollow}
-                      className="main_button"
-                      id="new-list-btn"
-                    >
-                      Follow
-                    </button>
-                  ) : (
-                    <button
-                      onClick={handleUnfollow}
-                      className="main_button"
-                      id="new-list-btn"
-                    >
-                      Unfollow
-                    </button>
-                  )}
-                </div>
-              )}
-              <br></br>
               </Col>
           </Row>
         </Container>
+        <br></br>
+        {checkedUser && 
+        <>
+          <MyList otherUser={userid} />
+        </>
+      }
       </div>
     );
   }

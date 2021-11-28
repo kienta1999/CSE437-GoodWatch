@@ -55,7 +55,7 @@ const Profile = (props) => {
         console.log(error);
       }
     })();
-  });
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -138,10 +138,6 @@ const Profile = (props) => {
       </Container>
       {currUser && 
         <>
-          {/* <h4>
-            My Lists
-            <hr></hr>
-          </h4> */}
           <MyList message={listMsg} />
         </>
       }

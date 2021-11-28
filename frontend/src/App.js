@@ -9,6 +9,7 @@ import UserPage from "./components/route/UserPage.jsx";
 import Home from "./components/route/Home.jsx";
 import MoviePage from "./components/route/MoviePage.jsx";
 import ListPage from "./components/route/ListPage.jsx";
+import UserListPage from "./components/route/UserListPage.jsx";
 import SearchResults from "./components/route/SearchResults.jsx";
 import jwtDecode from "jwt-decode";
 import UserContext from "./context/UserContext";
@@ -83,6 +84,11 @@ function App() {
             path="/user/:userid"
             exact
             render={(props) => <UserPage {...props} />}
+          />
+          <Route
+            path="/user/list/:userid/:listid"
+            exact
+            render={(props) => <UserListPage {...props} />}
           />
         </Switch>
       </Router>

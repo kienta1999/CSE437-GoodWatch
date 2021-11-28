@@ -86,7 +86,7 @@ const removeFromList = async (selectedlists, movieid) => {
   }
 };
 
-const getLists = async () => {
+const getLists = async (otherUser) => {
   const url = `${keys.apiHost}/get-lists`;
 
   var authtoken = localStorage.getItem('authtoken')
@@ -97,7 +97,10 @@ const getLists = async () => {
   }
 
   try {
-    const res = await axios.post(url, {}, axiosConfig);
+    const res = await axios.post(url, 
+    {
+      otherUser: otherUser
+    }, axiosConfig);
 
     console.log("Middleware get lists res", res);
     return res;

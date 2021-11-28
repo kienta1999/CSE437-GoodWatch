@@ -44,7 +44,41 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
+// function filterListIds(listIds, userId) {
+//   db.query(
+//     "SELECT * FROM lists WHERE userId = ?",
+//     [userId],
+//     function (error, results) {
+//       if (error) {
+//         res.json(error);
+//       } else {
+//         if (results && results.length > 0) {
+//           //there are lists
+//           let possibleListIds = [];
+//           results.map((list) => {
+//               possibleListIds.push(list["id"]);
+//           });
+
+//           var listIdstoUse = [];
+//           for (let i = 0; i < listIds.length; i++) {
+//             if (possibleLists.includes(listIds[i])) {
+//               listIdstoUse.push(listIds[i]);
+//             }
+//           }
+//           return listIdstoUse
+//         } 
+//         else {
+//           //no lists so cannot use
+//           return ([])
+//         }     
+//       }
+//     }
+//   );
+// }
+
+
 //---------------------------- Authentication Middleware ----------------------------
+
 function withToken(req, res, next) {
   //const token = req.cookies.access_token;
   const token = req.headers.authtoken;
@@ -226,21 +260,40 @@ app.post("/remove-from-list", withToken, (req, res) => {
 //---------------------------- GetLists ----------------------------
 app.post("/get-lists", withToken, (req, res) => {
   let userId = req.user._id;
-  db.query(
-    "SELECT * FROM lists WHERE userId = ?",
-    [userId],
-    function (error, results) {
-      if (error) {
-        res.json(error);
-      } else {
-        res.status(200).json({
-          message: "Successfully got lists",
-          type: "Success",
-          listInfo: results,
-        });
+  if (req.body.otherUser) {
+    let otherUser = req.body.otherUser;
+    db.query(
+      "SELECT * FROM lists WHERE userId = ?",
+      [otherUser],
+      function (error, results) {
+        if (error) {
+          res.json(error);
+        } else {
+          res.status(200).json({
+            message: "Successfully got lists",
+            type: "Success",
+            listInfo: results,
+          });
+        }
       }
-    }
-  );
+    );
+  } else {
+    db.query(
+      "SELECT * FROM lists WHERE userId = ?",
+      [userId],
+      function (error, results) {
+        if (error) {
+          res.json(error);
+        } else {
+          res.status(200).json({
+            message: "Successfully got lists",
+            type: "Success",
+            listInfo: results,
+          });
+        }
+      }
+    );
+  }
 });
 
 //---------------------------- GetListContent ----------------------------
@@ -348,28 +401,36 @@ app.post("/check-list", withToken, (req, res) => {
               listIdstoUse.push(results[i].listId);
             }
           }
-          // listIdstoUse = [3, 4, 5]
           console.log(listIdstoUse);
-          db.query(
-            "SELECT * FROM lists WHERE id IN (?)",
-            [listIdstoUse],
-            function (error, results) {
-              if (error) throw error;
-              if (results.length > 0) {
-                res.status(200).json({
-                  message: "Already in a list",
-                  type: "Success",
-                  existingLists: results,
-                });
-              } else {
-                res.status(200).json({
-                  message: "Not in a list",
-                  type: "Success",
-                  existingLists: null,
-                });
+          if (listIdstoUse.length > 0) {
+            db.query(
+              "SELECT * FROM lists WHERE id IN (?)",
+              [listIdstoUse],
+              function (error, results) {
+                if (error) throw error;
+                if (results.length > 0) {
+                  res.status(200).json({
+                    message: "Already in a list",
+                    type: "Success",
+                    existingLists: results,
+                  });
+                } else {
+                  res.status(200).json({
+                    message: "Not in a list",
+                    type: "Success",
+                    existingLists: null,
+                  });
+                }
               }
-            }
-          );
+            );
+          }
+          else {
+            res.status(200).json({
+              message: "Not in a list",
+              type: "Success",
+              existingList: null,
+            });
+          }
         } else {
           res.status(200).json({
             message: "Not in a list",

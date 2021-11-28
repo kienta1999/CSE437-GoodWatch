@@ -14,11 +14,26 @@ const MyList = (props) => {
   //getting lists
   useEffect(() => {
     (async () => {
-      let res = await getLists();
-      console.log("Getting list info in MyList", res);
-      setListInfo(res.data.listInfo);
+      if (!props.otherUser){
+        let res = await getLists();
+        console.log("Getting list info in MyList", res);
+        setListInfo(res.data.listInfo);
+      }
     })();
   }, [currUser, deleteMsg]);
+
+  //otherUser
+
+  //getting lists
+  useEffect(() => {
+    (async () => {
+      if (props.otherUser) {
+        let res = await getLists(props.otherUser);
+        console.log("Getting other user's list info in MyList", res);
+        setListInfo(res.data.listInfo);
+      }
+    })();
+  }, [props.otherUser]);
 
   //Delete list
   const handleDelete = async (event) => {
@@ -56,18 +71,36 @@ const MyList = (props) => {
             <Col>
             {listInfo ? (
               <>
-              <small className="message">{deleteMsg}</small>
-              <ListGroup>
-                {listInfo &&
-                  listInfo.map(function (li, index) {
-                    return (
-                      <ListGroup.Item action key={li.id} href={`/profile/list/${li.id}`}>
-                        {li.listName}
-                        <button onClick={handleDelete} className={`${li.id} btn btn-sm deleteButton`}>Delete</button>
-                      </ListGroup.Item>
-                    );
-                  })}
-              </ListGroup>
+                {(!props.otherUser) && (
+                  <>
+                    <small className="message">{deleteMsg}</small>
+                    <ListGroup>
+                      {listInfo &&
+                        listInfo.map(function (li, index) {
+                          return (
+                            <ListGroup.Item action key={li.id} href={`/profile/list/${li.id}`}>
+                              {li.listName}
+                              <button onClick={handleDelete} className={`${li.id} btn btn-sm deleteButton`}>Delete</button>
+                            </ListGroup.Item>
+                          );
+                      })}
+                    </ListGroup>
+                  </>
+                )}
+                {(props.otherUser) && (
+                  <>
+                    <ListGroup>
+                      {listInfo &&
+                        listInfo.map(function (li, index) {
+                          return (
+                            <ListGroup.Item action key={li.id} href={`/user/list/${props.otherUser}/${li.id}`}>
+                              {li.listName}
+                            </ListGroup.Item>
+                          );
+                      })}
+                    </ListGroup>
+                  </>
+                )}
               </>
             ) : (
               <div>Loading...</div>
