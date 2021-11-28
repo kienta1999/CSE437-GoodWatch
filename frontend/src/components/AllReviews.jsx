@@ -1,7 +1,8 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { getAllReviews } from "../data/review";
 import StarRating from "./StarRating.jsx";
-const AllReview = ({ movieid, getGoodWatchAverageRating }) => {
+
+const AllReview = ({ movieid, getGoodWatchAverageRating, addReviewStatus }) => {
   const [reviews, setReviews] = useState(null);
 
   useEffect(() => {
@@ -13,11 +14,12 @@ const AllReview = ({ movieid, getGoodWatchAverageRating }) => {
         // fail silently
       }
     })();
-  }, [movieid]);
+  }, [movieid, addReviewStatus]);
+
   const reducer = (previousValue, currentValue) =>
     previousValue + parseInt(currentValue.rating);
   const averageScore = reviews && reviews.reduce(reducer, 0) / reviews.length;
-  // getGoodWatchAverageRating(averageScore);
+  getGoodWatchAverageRating(averageScore);
   const reviewList =
     reviews &&
     reviews.map((review) => {

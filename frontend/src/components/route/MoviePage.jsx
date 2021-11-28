@@ -27,7 +27,7 @@ const MoviePage = (props) => {
   const [star, setStar] = useState(0);
   const commentRef = useRef("");
 
-  const [reviewMsg, setReviewMsg] = useState(null);
+  const [reviewMsg, setReviewMsg] = useState("");
   const [goodwatchScore, setGoodwatchScore] = useState(null);
 
   const { currUser, setUser } = useContext(UserContext);
@@ -98,15 +98,6 @@ const MoviePage = (props) => {
           </div>
           </div>
           <br></br>
-    
-
-          {/* {existingLists && (
-            <div>
-              <strong>This movie is in your <a href={`/profile/list/${existingLists.id}`}>{existingLists.listName}</a> list</strong>
-              <br></br>
-              <br></br>
-            </div>
-          )} */}
       
           <div className="review form-group mt-4">
             <h3>Submit your review</h3>
@@ -114,12 +105,13 @@ const MoviePage = (props) => {
               numberOfStars="5"
               currentRating="0"
               onClick={(s) => {
+                setReviewMsg("")
                 setStar(+s);
               }}
               fontSize="4rem"
               mutable
             />
-            <label htmlFor="comment">Add a Comment</label>
+            {/* <label htmlFor="comment">Add a Comment</label> */}
 
             <textarea
               className="form-control"
@@ -129,6 +121,9 @@ const MoviePage = (props) => {
               cols="50"
               placeholder="Was it good?"
               ref={commentRef}
+              onChange={(s) => {
+                setReviewMsg("")
+              }}
             ></textarea>
             <button
               type="button"
@@ -141,6 +136,7 @@ const MoviePage = (props) => {
           </div>
           <AllReview
             movieid={movieid}
+            addReviewStatus={reviewMsg}
             getGoodWatchAverageRating={getGoodWatchAverageRating}
           />
         </Col>

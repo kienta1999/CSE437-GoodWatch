@@ -96,6 +96,11 @@ const UpdateLists = ({ movieid, setOverlayVisibility, setUpdateMsg }) => {
         }
     };
 
+    //Reset message when there's a change in the selected list
+    useEffect(() => {
+      setAddToListMsg("")
+  }, [selectedlists]);
+
     const customValueRenderer = (selected, _options) => {
       return selected.length
         ? selected.map(({ label }) => 
