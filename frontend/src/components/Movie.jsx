@@ -2,9 +2,13 @@ import { useState, useEffect, useContext, useRef } from "react";
 import StarRating from "./StarRating.jsx";
 import HoverList from "./HoverList.jsx";
 
+import UserContext from "../context/UserContext.js";
+
 const Movie = ({ movie, setUpdateMsg }) => {
   const [style, setButtonStyle] = useState({display: 'none'});
   const [show, setShowIcon] = useState(false);
+
+  const { currUser, setUser } = useContext(UserContext);
 
   const url = `/movie/${movie.imdbID}`;
   return (
@@ -19,7 +23,9 @@ const Movie = ({ movie, setUpdateMsg }) => {
         <a href={url}>
           <img src={movie.Poster} alt={movie.Title} width="150px" height="200px"/>
         </a>
-        <HoverList movieid={movie.imdbID} style={style} setShow2={setShowIcon} setUpdateMsg={setUpdateMsg}/>
+        {currUser && (
+          <HoverList movieid={movie.imdbID} style={style} setShow2={setShowIcon} setUpdateMsg={setUpdateMsg}/>
+        )}
         <div className="maxHeight">
           <a href={url}><p className="smallFont">{movie.Title}, {movie.Year}</p></a>
         </div>

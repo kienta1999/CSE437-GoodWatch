@@ -95,6 +95,14 @@ const UpdateLists = ({ movieid, setOverlayVisibility, setUpdateMsg }) => {
             }
         }
     };
+
+    const customValueRenderer = (selected, _options) => {
+      return selected.length
+        ? selected.map(({ label }) => 
+         <span className="listLabels">{label}</span>
+        )
+        : (<span className="text-secondary">Not in a List</span>);
+    };
      
     return (
       <>
@@ -120,6 +128,7 @@ const UpdateLists = ({ movieid, setOverlayVisibility, setUpdateMsg }) => {
                 labelledBy="Select"
                 hasSelectAll={false}
                 disableSearch={true}
+                valueRenderer={customValueRenderer}
               />
               <button
                 onClick={handleAddToList}

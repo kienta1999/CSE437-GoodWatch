@@ -92,7 +92,9 @@ const MoviePage = (props) => {
               <strong>Plot: </strong> {data.Plot}
             </p>
             <div className=" mt-4">
-            <UpdateLists movieid={movieid}/>
+            {currUser && (
+              <UpdateLists movieid={movieid}/>
+            )}
           </div>
           </div>
           <br></br>

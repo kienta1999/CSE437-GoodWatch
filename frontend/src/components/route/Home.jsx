@@ -118,7 +118,6 @@ const Home = (props) => {
     })();
   }, []);
 
-
   return (
     <div>
       <NavigationBar
@@ -197,7 +196,8 @@ const Home = (props) => {
                 <hr></hr>
               </h4>
               <Row>
-                <Col>
+                <GeneratePopular popularID={popularID} popularImage={popularImage}/>
+                {/* <Col>
                   <div className="relativeDiv">
                     <a href={`/movie/${popularID[0]}`}>
                       <img
@@ -303,7 +303,7 @@ const Home = (props) => {
                     </a>
                     <HoverList movieid={popularID[8]} onHomePage={true}/>
                   </div>
-                </Col>
+                </Col> */}
               </Row>
             </Col>
           </Row>
@@ -314,7 +314,8 @@ const Home = (props) => {
                   Fan Favorites
                   <hr></hr>
                 </h4>
-                <Row>
+                <GenerateFanPicks favoriteID={favoriteID} favoriteImage={favoriteImage}/>
+                {/* <Row>
                   <Col className="mb-3">
                     <div className="relativeDiv">
                       <a href={`/movie/${favoriteID[0]}`}>
@@ -413,20 +414,23 @@ const Home = (props) => {
                       <HoverList movieid={favoriteID[11]} onHomePage={true}/>
                     </div>
                   </Col>
-                </Row>
+                </Row> */}
             </Col>
 
             <Col>
-              <br />
-                <h4>
-                  My Lists
-                  <hr></hr>
-                </h4>
-              <Row>
-                {currUser &&
-                  (<MyList/>)
-                }
-              </Row>
+              {currUser && (
+                <>
+                  <br />
+                    <h4>
+                      My Lists
+                      <hr></hr>
+                    </h4>
+                  <Row>
+                    
+                      <MyList/>
+                  </Row>
+                </>
+              )}
             </Col>
           </Row>
         </Container>
@@ -459,4 +463,86 @@ const Home = (props) => {
   );
 };
 
+const GeneratePopular = ({popularID, popularImage}) => {
+
+  const { currUser, setUser } = useContext(UserContext);
+    
+  var indices = [0,1,2,3,4,5,6,7,8]
+  const movies = indices.map((i) => {
+    var id = popularID[i]
+    var img = popularImage[i]
+    return (
+      <div className="relativeDiv">
+        <a href={`/movie/${id}`}>
+          <img
+            src={img}
+            width="90"
+            length="100"
+            alt="pop2"
+          />
+        </a>
+        {currUser && (
+          <HoverList movieid={id} onHomePage={true}/>
+        )}
+      </div>
+    );
+  });
+  var firstCol = movies.slice(0, 3);
+  var secondCol = movies.slice(3, 6);
+  var thirdCol = movies.slice(6, 9);
+
+  var cols = [firstCol, secondCol, thirdCol]
+
+  let allMoviesComponent = [];
+  for (let i = 0; i < cols.length; i++) {
+    allMoviesComponent.push(
+      <Col>
+        {cols[i]}
+      </Col>
+    );
+  }
+
+  return allMoviesComponent;
+}
+
+const GenerateFanPicks = ({favoriteID, favoriteImage}) => {
+
+  const { currUser, setUser } = useContext(UserContext);
+    
+  var indices = [0,1,2,3,4,5,6,7,8,9,10,11]
+  const movies = indices.map((i) => {
+    var id = favoriteID[i]
+    var img = favoriteImage[i]
+    return (
+      <Col>
+        <div className="relativeDiv">
+          <a href={`/movie/${id}`}>
+            <img src={img} alt="fan0" width="90" length="100"/>
+          </a>
+          {currUser && (
+            <HoverList movieid={id} onHomePage={true}/>
+          )}
+        </div>
+      </Col>
+    );
+  });
+
+  var firstRow = movies.slice(0, 6);
+  var secondRow = movies.slice(6, 12);
+
+  var rows = [firstRow, secondRow]
+
+  let allMoviesComponent = [];
+  for (let i = 0; i < rows.length; i++) {
+    allMoviesComponent.push(
+      <Row>
+        {rows[i]}
+      </Row>
+    );
+  }
+
+  return allMoviesComponent;
+}
+
 export default Home;
+export { GeneratePopular, GenerateFanPicks };
