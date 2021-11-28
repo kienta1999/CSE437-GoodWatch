@@ -77,12 +77,13 @@ function Login(props) {
           </button>
           <br /> <br />
           <a href="/forget">Forgot password?</a>
-          <p>
-            New user? Sign Up{" "}
-            <a href="/register" id="here_btn">
-              Here
-            </a>
-          </p>
+          {/* <p> */}
+          <br/>
+          New user? Sign Up{" "}
+          <a href="/register" id="here_btn">
+            Here
+          </a>
+          {/* </p> */}
           <br />
           <p className="message">{loginMsg}</p>
         </div>
