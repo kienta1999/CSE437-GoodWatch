@@ -125,9 +125,9 @@ const MoviePage = (props) => {
               className="form-control"
               id="comment"
               name="comment"
-              rows="4"
+              rows="3"
               cols="50"
-              placeholder="Is the movie good?"
+              placeholder="Was it good?"
               ref={commentRef}
             ></textarea>
             <button

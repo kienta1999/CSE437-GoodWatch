@@ -663,8 +663,8 @@ app.post("/follow", (req, res) => {
           (error, data) => {
             if (error) return res.status(404).json(error);
             else {
-              console.log("Successfully Follow");
-              return res.status(200).json({ message: "Successfully Follow" });
+              console.log("Successfully Followed");
+              return res.status(200).json({ message: "Successfully Followed!" });
             }
           }
         );
@@ -693,7 +693,7 @@ app.post("/unfollow", (req, res) => {
             if (error) return res.status(404).json(error);
             else {
               console.log("Successfully Unfollow");
-              return res.status(200).json({ message: "Successfully Unfollow" });
+              return res.status(200).json({ message: "Successfully Unfollowed!" });
             }
           }
         );
