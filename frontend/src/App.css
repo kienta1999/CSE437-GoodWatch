@@ -1,5 +1,6 @@
 body {
-  background-color: rgb(14, 14, 49) !important;
+  /* background-color: rgb(14, 14, 49) !important; */
+  background-color: rgb(6, 32, 57)  !important;
   color: white;
 }
 
@@ -22,7 +23,7 @@ img {
 .main_logreg {
 width: 320px;
 background: #000;
-opacity: 0.5;
+opacity: 0.85;
 color: #fff;
 box-sizing: border-box;
 padding: 20px 30px;

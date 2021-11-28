@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import login from "../../data/login";
-import background from "../../background.jpeg";
+import background from "../../background3.jpg";
 import jwtDecode from "jwt-decode";
 import UserContext from "../../context/UserContext";
 
