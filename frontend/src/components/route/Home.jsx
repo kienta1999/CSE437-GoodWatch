@@ -129,7 +129,7 @@ const Home = (props) => {
         <Container>
           <Row>
             <Col>
-              <strong>Welcome to GoodWatch!</strong>
+              <h3>Welcome to GoodWatch!</h3>
               <p>
                 Search for your favorite and soon-to-be favorite movies and TV
                 shows and add them to custom lists. Browse new shows and add them
