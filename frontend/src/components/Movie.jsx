@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import StarRating from "./StarRating.jsx";
 import HoverList from "./HoverList.jsx";
+import { getIMDB_ID } from "../data/movie.js";
 
 import UserContext from "../context/UserContext.js";
 
@@ -14,14 +15,17 @@ const Movie = ({ movie, setUpdateMsg, morePage }) => {
   const url = `/movie/${movie2.imdbID}`;
 
   useEffect(() => {
-    var newMovie = {}
-    if(movie && morePage) {
-      newMovie.imdbID = movie.id
-      newMovie.Title = movie.title
-      newMovie.Year = movie.release_date.slice(0, 4)
-      newMovie.Poster = (`https://image.tmdb.org/t/p/w500${movie.poster_path}`)
-      setMovie(newMovie)
-    }
+    (async () => {
+      var newMovie = {}
+      if(movie && morePage) {
+        let id = await getIMDB_ID(movie.id);
+        newMovie.imdbID = id
+        newMovie.Title = movie.title
+        newMovie.Year = movie.release_date.slice(0, 4)
+        newMovie.Poster = (`https://image.tmdb.org/t/p/w500${movie.poster_path}`)
+        setMovie(newMovie)
+      }
+    })();
   }, [morePage]);
 
   return (

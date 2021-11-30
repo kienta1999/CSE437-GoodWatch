@@ -35,7 +35,7 @@ const MoreRecs = (props) => {
             if (res.error) {
                 
             }
-            setTotalPage(Math.ceil(+res.length / 10.0));
+            setTotalPage(5);
             setMovies(res);
         } else {
             setListName("Fan Favorite Movies")
@@ -45,7 +45,7 @@ const MoreRecs = (props) => {
             if (res.error) {
                 
             }
-            setTotalPage(Math.ceil(+res.length / 10.0));
+            setTotalPage(5);
             setMovies(res);
         }
     })();
@@ -104,9 +104,7 @@ const MoreRecs = (props) => {
         )
         : (
           <Container>
-            <Container>
               <div>No Results Found</div>
-            </Container>
           </Container>
         )}
        </Container>
