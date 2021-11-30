@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import register from "../../data/register";
-import background from "../../background.jpeg";
+import background from "../../background3.jpg";
 import jwtDecode from "jwt-decode";
 import UserContext from "../../context/UserContext";
 
@@ -80,8 +80,8 @@ function Register(props) {
             onChange={(e) => {
               setlastName(e.target.value);
             }}
-            name="first_name"
-            placeholder="First Name"
+            name="last_name"
+            placeholder="Last Name"
             required
           />
 
@@ -91,8 +91,8 @@ function Register(props) {
             onChange={(e) => {
               setUsername(e.target.value);
             }}
-            name="first_name"
-            placeholder="First Name"
+            name="username"
+            placeholder="Username"
             required
           />
 
@@ -102,8 +102,8 @@ function Register(props) {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-            name="first_name"
-            placeholder="First Name"
+            name="password"
+            placeholder="Password"
             required
           />
 
@@ -116,7 +116,7 @@ function Register(props) {
               setEmail(e.target.value);
             }}
             name="first_name"
-            placeholder="First Name"
+            placeholder="Email"
           />
           <button
             onClick={handleRegisterUser}

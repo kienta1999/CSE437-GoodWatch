@@ -9,6 +9,7 @@ import UserPage from "./components/route/UserPage.jsx";
 import Home from "./components/route/Home.jsx";
 import MoviePage from "./components/route/MoviePage.jsx";
 import ListPage from "./components/route/ListPage.jsx";
+import MoreRecs from "./components/route/MoreRecs";
 import UserListPage from "./components/route/UserListPage.jsx";
 import SearchResults from "./components/route/SearchResults.jsx";
 import jwtDecode from "jwt-decode";
@@ -67,9 +68,15 @@ function App() {
             render={(props) => <ListPage {...props} />}
           />
           <Route 
-          path="/" 
-          exact 
-          render={(props) => <Home {...props} />} />
+            path="/" 
+            exact 
+            render={(props) => <Home {...props} />} 
+          />
+          <Route
+            path="/more/:type"
+            exact
+            render={(props) => <MoreRecs {...props} />}
+          />
           <Route
             path="/searchresult/:query"
             exact

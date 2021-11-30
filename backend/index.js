@@ -82,6 +82,7 @@ app.listen(port, () => {
 function withToken(req, res, next) {
   //const token = req.cookies.access_token;
   const token = req.headers.authtoken;
+  console.log("TOKEN HERE", token)
   if (token == null) {
     console.log("not logged in/not auth");
     return res.sendStatus(401);

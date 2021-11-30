@@ -30,12 +30,34 @@ const getPopularMovieData = async () => {
   return null;
 };
 
+const getAllPopularMovieData = async (page) => {
+  const url =
+    `https://api.themoviedb.org/3/movie/popular?&page=${page}&api_key=ba49528b9403e15b24208bdec23df4b8`;
+  const res = await axios.get(url);
+  if (res.status === 200) {
+    console.log(res)
+    return res.data.results.slice(0, 100);
+  }
+  return null;
+};
+
 const getFanFavMovieData = async () => {
   const url =
     "https://api.themoviedb.org/3/movie/top_rated?api_key=ba49528b9403e15b24208bdec23df4b8";
   const res = await axios.get(url);
   if (res.status === 200) {
     return res.data.results.slice(0, 12);
+  }
+  return null;
+};
+
+const getAllFanFavMovieData = async (page) => {
+  const url =
+    `https://api.themoviedb.org/3/movie/top_rated?&page=${page}&api_key=ba49528b9403e15b24208bdec23df4b8`;
+  const res = await axios.get(url);
+  if (res.status === 200) {
+    console.log(res)
+    return res.data.results.slice(0, 100);
   }
   return null;
 };
@@ -102,4 +124,6 @@ export {
   getImage,
   getIMDB_ID,
   getMovieRecommendation,
+  getAllPopularMovieData,
+  getAllFanFavMovieData
 };

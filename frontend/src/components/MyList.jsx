@@ -55,25 +55,29 @@ const MyList = (props) => {
     {props.navList ? 
       (
         <>
-          {listInfo &&
+          {listInfo && listInfo.length > 0 ? (
             listInfo.map(function (li, index) {
               return (
                 <NavDropdown.Item key={li.id} href={`/profile/list/${li.id}`}>
                   {li.listName}
                 </NavDropdown.Item>
               );
-          })}
+          })) : (
+            <NavDropdown.Item href="/profile">
+              You don't have any lists yet! Make one in your <a href="/profile">profile</a>
+            </NavDropdown.Item>
+          )}
         </>
       ) :
       (
         <Container>
           <Row>
             <Col>
-            {listInfo ? (
+            {listInfo && listInfo.length > 0 ? (
               <>
                 {(!props.otherUser) && (
                   <>
-                    <small className="message">{deleteMsg}</small>
+                    {/* <small className="message">{deleteMsg}</small> */}
                     <ListGroup>
                       {listInfo &&
                         listInfo.map(function (li, index) {
@@ -103,7 +107,7 @@ const MyList = (props) => {
                 )}
               </>
             ) : (
-              <div>Loading...</div>
+              <div>You don't have any lists yet! Make one in your <a href="/profile">profile</a></div>
             )}
             </Col>
           </Row>

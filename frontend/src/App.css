@@ -7,8 +7,16 @@ body {
 hr {
   border-top: 1px solid #5e5c75 !important;
 }
+.homeLinks {
+  float:right;
+  margin-top:0.7rem !important;
+}
 img {
   vertical-align: unset !important;
+}
+.small {
+  font-size: 80% !important;
+  font-weight: 400 !important;
 }
 
 .bg_image {

@@ -54,8 +54,8 @@ function Login(props) {
             onChange={(e) => {
               setUsername(e.target.value);
             }}
-            name="first_name"
-            placeholder="First Name"
+            name="username"
+            placeholder="Username"
             required
           />
           <p>Password</p>
@@ -64,8 +64,8 @@ function Login(props) {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-            name="first_name"
-            placeholder="First Name"
+            name="password"
+            placeholder="Password"
             required
           />
           <button
