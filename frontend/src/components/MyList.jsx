@@ -107,7 +107,10 @@ const MyList = (props) => {
                 )}
               </>
             ) : (
-              <div>You don't have any lists yet! Make one in your <a href="/profile">profile</a></div>
+              <>
+              {!props.otherUser && (<div>You don't have any lists yet! Make one in your <a href="/profile">profile</a></div>)}
+              {props.otherUser && (<div>This user doesn't have any lists yet</div>)}
+              </>
             )}
             </Col>
           </Row>
