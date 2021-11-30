@@ -71,6 +71,9 @@ const MoreRecs = (props) => {
           <Container className="mb-4">
             {listName && (
                 <div>
+                  <sub>
+                    <a href="/">Back to Home</a><br/>
+                  </sub>
                   <h3>{listName}</h3>
                 </div>
             )}
