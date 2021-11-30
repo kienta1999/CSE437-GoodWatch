@@ -224,13 +224,31 @@ const Home = (props) => {
               {currUser && (
                 <>
                   <br />
-                    <h4>
+                    {/* <h4>
                       My Lists
                       <hr></hr>
-                    </h4>
+                    </h4> */}
+                    <div>
+                      <h4 className="d-inline">
+                        My Lists 
+                      </h4>
+                      <small className="homeLinks">
+                        {" "}<a href="/profile">Create Another</a>
+                      </small>
+                      <hr></hr>
+                    </div>
                   <Row>
                     
                       <MyList/>
+                      {/* <Container>
+                        <Row>
+                          <Col>
+                            <small>
+                              <a href="/profile">Create another list in your profile page</a><br/>
+                            </small>
+                          </Col>
+                        </Row>
+                      </Container> */}
                   </Row>
                 </>
               )}
