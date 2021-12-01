@@ -13,7 +13,7 @@ const port = 3001;
 const saltRounds = 10;
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://ec2-18-188-140-131.us-east-2.compute.amazonaws.com:3000",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
 };
