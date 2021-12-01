@@ -52,7 +52,7 @@ const NavigationBar = ({ history, handleSubmit, query }) => {
   return (
     <Navbar className="mb-5" bg="light" expand="lg">
       <Container>
-        <img src={require("../logo.png").default} alt="logo" width="50" />
+        <a href="/"><img src={require("../logo.png").default} alt="logo" width="50" /></a>
         <Navbar.Brand href="/">GoodWatch</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
