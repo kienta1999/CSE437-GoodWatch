@@ -66,23 +66,22 @@ app.listen(port, () => {
 //             }
 //           }
 //           return listIdstoUse
-//         } 
+//         }
 //         else {
 //           //no lists so cannot use
 //           return ([])
-//         }     
+//         }
 //       }
 //     }
 //   );
 // }
-
 
 //---------------------------- Authentication Middleware ----------------------------
 
 function withToken(req, res, next) {
   //const token = req.cookies.access_token;
   const token = req.headers.authtoken;
-  console.log("TOKEN HERE", token)
+  console.log("TOKEN HERE", token);
   if (token == null) {
     console.log("not logged in/not auth");
     return res.sendStatus(401);
@@ -144,7 +143,8 @@ app.post("/delete-list", withToken, (req, res) => {
               } else {
                 res.status(200).json({ message: "Successfully Deleted List!" });
               }
-          });
+            }
+          );
         }
       }
     );
@@ -237,16 +237,15 @@ app.post("/remove-from-list", withToken, (req, res) => {
   let lists = req.body.lists;
   let movieId = req.body.movieId;
   if (lists && movieId && lists.length > 0) {
-
-    values = []
+    values = [];
     lists.map(function (li, index) {
-      values.push(li.id)
+      values.push(li.id);
     });
-    console.log("VALUES", values)
+    console.log("VALUES", values);
 
     db.query(
       "DELETE FROM listItems WHERE (listId IN (?)) AND (imdbId = ?)",
-      [values,movieId],
+      [values, movieId],
       function (error, data) {
         if (error) {
           res.json(error);
@@ -331,11 +330,10 @@ app.post("/add-to-list", withToken, (req, res) => {
         "INSERT INTO listItems (`listId`, `imdbId`) VALUES (?,?)",
         [li.value, movieId],
         function (error, data) {
-          console.log("INSERT", data)
+          console.log("INSERT", data);
           if (error) {
             res.json(error);
           } else {
-            
           }
         }
       );
@@ -383,10 +381,10 @@ app.post("/check-list", withToken, (req, res) => {
   let userId = req.user._id;
   let movieId = req.body.movieId;
   let possibleLists = req.body.possibleListIds;
-  
+
   console.log("STUFF FOR CHECKING LIST", possibleLists);
   console.log("STUFF FOR CHECKING LIST", userId, movieId);
-  
+
   if (movieId && userId && possibleLists) {
     db.query(
       "SELECT * FROM listItems WHERE imdbId = ?",
@@ -424,8 +422,7 @@ app.post("/check-list", withToken, (req, res) => {
                 }
               }
             );
-          }
-          else {
+          } else {
             res.status(200).json({
               message: "Not in a list",
               type: "Success",
@@ -665,7 +662,9 @@ app.post("/follow", (req, res) => {
             if (error) return res.status(404).json(error);
             else {
               console.log("Successfully Followed");
-              return res.status(200).json({ message: "Successfully Followed!" });
+              return res
+                .status(200)
+                .json({ message: "Successfully Followed!" });
             }
           }
         );
@@ -694,7 +693,9 @@ app.post("/unfollow", (req, res) => {
             if (error) return res.status(404).json(error);
             else {
               console.log("Successfully Unfollow");
-              return res.status(200).json({ message: "Successfully Unfollowed!" });
+              return res
+                .status(200)
+                .json({ message: "Successfully Unfollowed!" });
             }
           }
         );
@@ -818,16 +819,18 @@ app.get("/following-movies", withToken, (req, res) => {
 });
 
 //---------------------------- Get-All-Users ----------------------------
-app.post("/all-users", withToken, (req, res)=> {
+app.post("/all-users", withToken, (req, res) => {
   let userID = req.user._id;
-  db.query("SELECT id, username FROM user WHERE id != ?", [userID], (error, result) => {
+  db.query(
+    "SELECT id, username FROM user WHERE id != ?",
+    [userID],
+    (error, result) => {
       if (error) {
-          return res.status(404).json(error);
-      }
-      else {
+        return res.status(404).json(error);
+      } else {
         console.log(result);
         return res.status(200).json(result);
       }
-  });
-  
+    }
+  );
 });
