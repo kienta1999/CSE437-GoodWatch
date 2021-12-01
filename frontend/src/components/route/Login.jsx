@@ -76,9 +76,8 @@ function Login(props) {
             Login
           </button>
           <br /> <br />
-          <a href="/forget">Forgot password?</a>
-          {/* <p> */}
-          <br/>
+          {/* <a href="/forget">Forgot password?</a>
+          <br/> */}
           New user? Sign Up{" "}
           <a href="/register" id="here_btn">
             Here
