@@ -51,6 +51,7 @@ const MoviePage = (props) => {
         await submitReview(userid, movieid, star, comment);
         commentRef.current.value = "";
         setReviewMsg("Review submitted successfully");
+        window.location.reload();
       } catch (error) {
         if (error.response.status === 404) {
           setReviewMsg("Please leave a rating");
